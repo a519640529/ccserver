@@ -1,0 +1,17 @@
+{
+	"GameName":"冰河世纪",
+	"GameId":304,
+	"GameMode":[0],
+	"SceneType":[1,2,3],
+	"CanForceStart":true,
+	"MinPlayerCnt":1,
+	"DefaultPlayerCnt":1,
+	"MaxIndex":0,
+	"TimeFreeStart":0,
+	"TimeFreeEnd":0,
+	"DependentPlayerCnt":true,
+	"EnterAfterStart":true,
+	"PerGameTakeCard":100,
+	"Params":[
+	]
+}

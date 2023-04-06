@@ -1,0 +1,141 @@
+syntax = "proto3";
+package shop;
+option go_package = ".;shop";
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+}
+//世界杯
+enum SPacketID {
+    PACKET_SHOP_ZERO = 0;                       // 弃用消息号
+    SHOP_CS_PAYLIST             = 2550;        //支付方式
+    SHOP_SC_PAYLIST             = 2551;        //支付方式
+    SHOP_CS_PAYORDER            = 2552;        //创建订单
+    SHOP_SC_PAYORDER            = 2553;        //创建订单
+    SHOP_CS_EXCHANGE            = 2554;        //兑换订单
+    SHOP_SC_EXCHANGE            = 2555;        //兑换订单
+    SHOP_CS_EXCHANGELIST        = 2556;        //兑换订单
+    SHOP_SC_EXCHANGELIST        = 2557;        //兑换订单
+    SHOP_CS_FLOWLIST            = 2558;        //请求获取流水列表
+    SHOP_SC_FLOWLIST            = 2559;        //返回流水列表
+    SHOP_CS_GET_EXCHANGEINFO    = 2560;        //请求兑换信息
+    SHOP_SC_GET_EXCHANGEINFO    = 2561;        //返回兑换信息
+	SHOP_CS_GET_PAYFLOWLIST     = 2562;        //请求兑换支付赠送信息
+    SHOP_SC_GET_PAYFLOWLIST     = 2563;        //返回兑换支付赠送信息
+    SHOP_SC_GIVECOIN_INFO       = 2564;        //通知赠送信息,先临时放到这个地方，其他协议需要合并
+
+}
+
+//支付方式列表
+message CSShopPayList {
+    int32 OS = 1;       //OS 操作系统 0 全部 1 android 2 ios
+}
+message SCShopPayList {
+    OpResultCode OpCode = 1;       //请求结果
+    string Data = 2; //平台数据
+}
+//创建订单
+message CSShopOrder {
+    int32 OrderId = 1;     //充值平台ID,上面platforms中的id字段
+    int32 Count = 2;       //充值数量
+    string BankerCode = 3;  //支付方式
+    string ExtCode = 4;
+    string Ip = 5;  //IP地址
+}
+message SCShopOrder{
+    string PayStr = 1;     //支付路径
+    string Error = 2;
+    OpResultCode OpCode = 3;
+}
+//创建兑换订单
+message CSShopExchange {
+    int32 ExchangeType = 1;    //兑换类型1:支付宝,2:银行卡
+    string Account = 2;        //兑换账号
+    int32 Count = 3;           //兑换金额
+    string AccountName = 4;    //账号名称
+    int32 BankID = 5;         //银行编号
+}
+message SCShopExchange {
+    OpResultCode OpCode = 1;   //请求结果
+}
+//兑换订单列表
+message CSShopExchangeList {
+	int32 PageNo = 1;           // 当前页
+}
+message SCShopExchangeList {
+    OpResultCode OpCode = 1;   // 请求结果
+    string Data = 2;           // 列表
+    int32 PageNo = 3;          // 当前页
+    int32 PageSum = 4;         // 总页数
+}
+
+//获取玩家流水列表
+message FlowListLog{
+    int32 GameId = 1;            //游戏id
+    int32 GameMode = 2;          //游戏模式
+    int32 Ts = 3;                //记录时间
+    int32 GameTiming = 4;        //本局游戏用时(mm)
+    int64 ConvertibilityFlow = 5;//当局玩家流水
+}
+message CSFlowList {
+	int32 PageNo = 1;           // 当前页
+}
+message SCFlowList {
+    OpResultCode OpCode = 1;   // 请求结果
+    repeated FlowListLog Data = 2;      // 列表
+    int32 PageNo = 3;          // 当前页
+    int32 PageSum = 4;         // 总页数
+}
+
+//获得玩家的流水信息
+message CSGetExchangeInfo {
+
+}
+
+message SCGetExchangeInfo {
+    OpResultCode OpCode = 1;   // 请求结果
+    int64 TotalFlow = 2;		//玩家流水
+    int64 NeedFlow = 3;		//自由兑换需要多少流水
+    int32 Tax = 4;				//兑换税率
+    int64 ForceTax = 5;		//强制兑换需要扣除税费
+	int64 GiveGold = 6;		//强制兑换扣除赠送金币数量	
+}
+
+//获取玩家流水兑换打码信息
+message PlayerPayFlowLog{
+    int32 PayType = 1;          	//记录类型 0 充值  1系统赠送
+    int64 PayCoin = 2;          	//充值金额
+    int64 GiveCoin = 3;          	//赠送金额
+    int64 PayNeedFlow = 4;       	//充值需要流水
+    int64 GiveNeedFlow = 5;       	//赠送需要流水
+	int64 ForceTax = 6;          	//强制扣除费用金额
+    int64 ForceGiveCoin = 7;       //赠送扣除金额
+    int32 IsPass = 8;          	//是否通过审核 1 通过 0 未通过	
+    int64 Ts = 9;                	//记录时间
+    int64 FinishFlow = 10;         //记录之间完成流水	
+    string OrderID = 11;           //订单id	
+	
+}
+
+message CSGetPlayerPayFlowList {
+	int32 PageNo = 1;           // 当前页
+}
+
+message SCGetPlayerPayFlowList {
+    OpResultCode OpCode = 1;   // 请求结果
+    repeated PlayerPayFlowLog Data = 2;      // 列表
+    int32 PageNo = 3;          // 当前页
+    int32 PageSum = 4;         // 总页数
+    int32 PageSize = 5;        // 每页记录数
+    int32 TotalNum = 6;        // 总记录数
+}
+
+message SCNotifyGiveCoinInfo {
+    int64 GiveCoin = 1;          //赠送金币 
+    int32 GiveTag = 2;           //赠送类型，需要对应关系
+}
+
+
+
+

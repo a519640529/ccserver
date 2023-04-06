@@ -1,0 +1,80 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"Type": 1,
+			"Grade": 50000
+		},
+		{
+			"Id": 2,
+			"Type": 3,
+			"Item_Id": 20002,
+			"Grade": 10
+		},
+		{
+			"Id": 3,
+			"Type": 2,
+			"Grade": 1
+		},
+		{
+			"Id": 4,
+			"Type": 1,
+			"Grade": 150000
+		},
+		{
+			"Id": 5,
+			"Type": 3,
+			"Item_Id": 10001,
+			"Grade": 10
+		},
+		{
+			"Id": 6,
+			"Type": 2,
+			"Grade": 2
+		},
+		{
+			"Id": 7,
+			"Type": 3,
+			"Item_Id": 20001,
+			"Grade": 10
+		},
+		{
+			"Id": 8,
+			"Type": 1,
+			"Grade": 250000
+		},
+		{
+			"Id": 9,
+			"Type": 3,
+			"Item_Id": 20002,
+			"Grade": 20
+		},
+		{
+			"Id": 10,
+			"Type": 2,
+			"Grade": 3
+		},
+		{
+			"Id": 11,
+			"Type": 1,
+			"Grade": 350000
+		},
+		{
+			"Id": 12,
+			"Type": 3,
+			"Item_Id": 10001,
+			"Grade": 20
+		},
+		{
+			"Id": 13,
+			"Type": 2,
+			"Grade": 5
+		},
+		{
+			"Id": 14,
+			"Type": 3,
+			"Item_Id": 20001,
+			"Grade": 15
+		}
+	]
+}

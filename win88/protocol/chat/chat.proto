@@ -1,0 +1,89 @@
+syntax = "proto3";
+package chat;
+option go_package = ".;chat";
+
+//操作结果
+enum OpResultCode {
+	OPRC_Sucess = 0; //成功
+	OPRC_Error = 1; //失败
+	OPRC_Chat_NotFriend = 1001; //不是好友无法操作
+	OPRC_Chat_IsShield = 1002; //已被对方屏蔽
+	OPRC_Chat_ReShield = 1003; //重复屏蔽
+	OPRC_Chat_ReUnShield = 1004; //重复解除
+	OPRC_Chat_Shield = 1005; //已屏蔽对方
+}
+
+//聊天消息id
+enum ChatPacketID {
+	PACKET_CHATPACKET_ZERO = 0; // 弃用消息
+	PACKET_CSChatMsg = 2720; //发消息
+	PACKET_SCChatMsg = 2721;
+	PACKET_CSGetChatLog = 2722;//获取聊天记录
+	PACKET_SCGetChatLog = 2723;
+	PACKET_CSReadChatMsg = 2724;//读消息
+	PACKET_CSShieldMsg = 2725;//屏蔽
+	PACKET_SCShieldMsg = 2726;
+}
+
+//PACKET_CSChatMsg
+message CSChatMsg{
+	int32 Msg2Snid = 1;      //接受者 0.所有人
+	string Name = 2;
+	int32 Head = 3;
+	string Content = 4;       //聊天内容
+}
+
+//PACKET_SCChatMsg
+message SCChatMsg{
+	int32 Msg2Snid = 1;      //接受者 0.所有人
+	int32 Snid = 2;       	//发送者信息
+	string Name = 3;
+	int32 Head = 4;
+	string Content = 5;     //聊天内容
+	int64 Ts = 6;						//发消息的时间
+	OpResultCode OpRetCode = 7; //获取结果
+}
+
+//PACKET_CSGetChatLog
+message CSGetChatLog{
+	int32  Snid = 1;
+}
+
+message ChatLog{
+	int32  SrcSnId = 1;
+	string SrcName = 2;
+	int32 SrcHead = 3;
+	int32  ToSnId = 4;
+	string ToName = 5;
+	int32 ToHead = 6;
+	string Content = 7;     //聊天内容
+	int64 Ts = 8;						//发消息的时间
+}
+
+//PACKET_SCGetChatLog
+message SCGetChatLog{
+	int32  Snid = 1;
+	repeated ChatLog ChatLogs = 2;
+}
+
+//PACKET_CSReadChatMsg
+message CSReadChatMsg{
+	int32  Snid = 1;
+}
+
+//PACKET_CSShieldMsg
+message CSShieldMsg{
+	int32 ShieldSnid = 1;	//玩家
+	int32 ShieldHead = 2;
+	string ShieldName = 3;
+	bool Shield = 4; 			//屏蔽、解除
+}
+
+//PACKET_SCShieldMsg
+message SCShieldMsg{
+	int32 Snid = 1;       	//发送者
+	int32 ShieldSnid = 2;   //屏蔽、解除玩家
+	bool Shield = 3; 				//屏蔽、解除
+	int64 Ts = 4;						//时间
+	OpResultCode OpRetCode = 5; //获取结果
+}

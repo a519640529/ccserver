@@ -1,0 +1,32 @@
+echo 连接服务器
+open scp://gamer:123$654@192.168.10.240
+
+cd /home/gamer/win88/mgrsrv
+put E:\gocode\trunk\src\games.yol.com\win88\mgrsrv\mgrsrv
+call mv mgrsrv win88_mgrsrv
+chmod 755 win88_mgrsrv
+
+cd /home/gamer/win88/gatesrv
+put E:\gocode\trunk\src\games.yol.com\win88\gatesrv\gatesrv
+call mv gatesrv win88_gatesrv
+chmod 755 win88_gatesrv
+
+cd /home/gamer/win88/worldsrv
+put E:\gocode\trunk\src\games.yol.com\win88\worldsrv\worldsrv
+call mv worldsrv win88_worldsrv
+chmod 755 win88_worldsrv
+
+cd /home/gamer/win88/gamesrv
+put E:\gocode\trunk\src\games.yol.com\win88\gamesrv\gamesrv
+call mv gamesrv win88_gamesrv
+chmod 755 win88_gamesrv
+
+cd /home/gamer/win88/robot
+put E:\gocode\trunk\src\games.yol.com\win88\robot\robot
+call mv robot win88_robot
+chmod 755 win88_robot
+
+cd /home/gamer/win88/dbproxy
+put E:\gocode\trunk\src\games.yol.com\win88\dbproxy\dbproxy
+call mv dbproxy win88_dbproxy
+chmod 755 win88_dbproxy

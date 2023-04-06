@@ -1,0 +1,47 @@
+echo 连接服务器
+open scp://{{.Name}}:{{.Passwd}}@{{.Addr}}
+
+cd {{.RemoteDir}}/mgrsrv
+put {{.LocalDir}}\mgrsrv\mgrsrv
+call mv mgrsrv hj_mgrsrv
+chmod 755 hj_mgrsrv
+
+cd {{.RemoteDir}}/routesrv
+put {{.LocalDir}}\routesrv\routesrv
+call mv routesrv hj_routesrv
+chmod 755 hj_routesrv
+
+cd {{.RemoteDir}}/gatesrv
+put {{.LocalDir}}\gatesrv\gatesrv
+call mv gatesrv hj_gatesrv
+chmod 755 hj_gatesrv
+
+cd {{.RemoteDir}}/worldsrv
+put {{.LocalDir}}\worldsrv\worldsrv
+call mv worldsrv hj_worldsrv
+chmod 755 hj_worldsrv
+
+cd {{.RemoteDir}}/gamesrv
+put {{.LocalDir}}\gamesrv\gamesrv
+call mv gamesrv hj_gamesrv
+chmod 755 hj_gamesrv
+
+cd {{.RemoteDir}}/robot
+put {{.LocalDir}}\robot\robot
+call mv robot hj_robot
+chmod 755 hj_robot
+
+cd {{.RemoteDir}}/schedulesrv
+put {{.LocalDir}}\schedulesrv\schedulesrv
+call mv schedulesrv hj_schedulesrv
+chmod 755 hj_schedulesrv
+
+cd {{.RemoteDir}}/logiclevelsrv
+put {{.LocalDir}}\logiclevelsrv\logiclevelsrv
+call mv logiclevelsrv hj_logicsrv
+chmod 755 hj_logicsrv
+
+cd {{.RemoteDir}}/replaysrv
+put {{.LocalDir}}\replaysrv\replaysrv
+call mv replaysrv hj_replaysrv
+chmod 755 hj_replaysrv

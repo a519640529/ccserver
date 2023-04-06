@@ -1,0 +1,103 @@
+syntax = "proto3";
+package activity;
+option go_package = ".;activity";
+
+//操作结果
+enum OpResultCode_ActLuckTurn {
+  OPRC_Sucess_ActLuckTurn = 0; //成功
+  OPRC_Error_ActLuckTurn = 1; //失败
+  OPRC_LuckyTurntable_Info_FindPlatform_Fail = 10014;
+  OPRC_LuckyTurntable_Draw_DataTrans_Fail = 10015;
+  OPRC_LuckyTurntable_Draw_DataTrans_Nil = 10016;
+  OPRC_LuckyTurntable_Draw_TurntableType_Nil = 10017;
+  OPRC_LuckyTurntable_Draw_Draw_Fail = 10018;
+}
+// 幸运转盘
+enum LuckyTurntablePacketID {
+   PACKET_LuckyTurntable_ZERO    =0;
+   PACKET_CS_LUCKYTURNTABLE_INFO         = 2650;   // 幸运转盘信息
+   PACKET_SC_LUCKYTURNTABLE_INFO         = 2651;   // 幸运转盘信息（包括平台奖励配置、大奖记录、个人抽奖记录、最新滚动记录）
+   PACKET_CS_LUCKYTURNTABLE_DRAW         = 2652;   // 抽奖
+   PACKET_SC_LUCKYTURNTABLE_DRAW         = 2653;   // 抽奖结果
+   PACKET_SC_LUCKYTURNTABLE_PRIZE        = 2654;   // 中奖信息（用于滚动播报）
+   PACKET_SC_LUCKYTURNTABLE_GRANDPRIZE   = 2655;   // 中大奖信息（用于大奖记录展示）
+   PACKET_SC_LUCKYTURNTABLE_MODIFYCONFIG = 2656;   // 后台修改配置
+}
+
+//message LuckyTurntableConfig {
+//    int32 TurntableType =1; // 转盘类型
+//    int64 ScoreCost = 2;    // 积分消耗
+//    string Reward = 3;      // 奖励配置
+//}
+
+message LuckyTurntableConfig {
+    int32 TurntableType =1; // 转盘类型
+    int64 ScoreCost = 2;    // 积分消耗
+    repeated int64 Reward = 3;       // 奖励配置
+}
+
+message SCLuckyTurntablePersonalPrize {
+    int64 Ts = 1;             // 中奖时间
+    int32 TurntableType = 2;  // 转盘类型
+    int64 RewardAmount = 3;   // 奖励金额(单位：分)
+    int32 SnId = 4;           // 玩家id
+}
+
+// PACKET_SC_LUCKYTURNTABLE_PRIZE
+message SCLuckyTurntablePrize {
+    string Name = 1;          // 中奖玩家名字
+    int32 TurntableType = 2;  // 转盘类型
+    int64 RewardAmount = 3;   // 奖励金额(单位：分)
+    int64 Ts = 4;             // 中奖时间
+    int32 SnId = 5;           // 玩家id
+}
+
+// PACKET_SC_LUCKYTURNTABLE_GRANDPRIZE
+message SCLuckyTurntableGrandPrize {
+    int64 Ts = 1;             // 中奖时间
+    int32 TurntableType = 2;  // 转盘类型
+    int64 RewardAmount = 3;   // 奖励金额(单位：分)
+    int32 SnId = 4;           // 玩家id
+	  string Name = 5;          // 中奖玩家名字
+}
+
+// PACKET_CS_LUCKYTURNTABLE_INFO
+message CSLuckyTurntableInfo {
+}
+
+// PACKET_SC_LUCKYTURNTABLE_INFO
+message SCLuckyTurntableInfo {
+	int32 StartAct = 1;                              // 活动是否开启,0:未开启,1:已经开启
+	int64 StartTickets = 2;                          // 活动开启时间 时间戳
+	int32 Version = 3;                               // 活动版本
+	int64 Score = 4;                                 // 当前积分
+	int64 TomorrowScore = 5;                         // 明日积分
+	repeated LuckyTurntableConfig TurntablesConfigs = 6;      // 各转盘奖励配置
+	repeated SCLuckyTurntablePrize Prize = 7;                 // 中奖信息（用于滚动播报）
+	repeated SCLuckyTurntableGrandPrize GrandPrize = 8;       // 大奖记录（用于大奖记录展示）
+	repeated SCLuckyTurntablePersonalPrize PersonalPrize = 9; // 个人记录（个人中奖记录展示）
+	OpResultCode_ActLuckTurn OpRetCode = 10;                      // 返回错误码
+}
+
+// PACKET_SC_LUCKYTURNTABLE_MODIFYCONFIG
+message SCLuckyTurntableModifyConfig {
+    int32 StartAct = 1;                         // 活动是否开启,0:未开启,1:已经开启
+    int64 StartTickets = 2;                     // 活动开启时间 时间戳
+    int32 Version = 3;                          // 活动版本
+    repeated LuckyTurntableConfig TurntablesConfigs = 4; // 各转盘奖励配置
+}
+
+// PACKET_CS_LUCKYTURNTABLE_DRAW
+message CSLuckyTurntableDraw {
+    int32 TurntableType = 1; // 转盘类型
+}
+
+// PACKET_SC_LUCKYTURNTABLE_DRAW
+message SCLuckyTurntableDraw {
+    int64 Ts = 1;               // 时间戳
+    int64 RewardAmount = 2;     // 中奖金额
+    int32 RewardType = 3;       // 奖励类型 1-8分别表示小奖1、小奖2、中奖1、中奖2、大奖1、大奖2、特大奖1、特大奖2
+    int32 TurntableType = 4;    // 转盘类型
+    int32 SnId = 5;             // 玩家id
+    OpResultCode_ActLuckTurn OpRetCode = 6; // 返回错误码
+}

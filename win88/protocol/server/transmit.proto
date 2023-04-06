@@ -1,0 +1,13 @@
+syntax = "proto3";
+package server;
+option go_package = ".;server";
+//任务消息id
+enum TransmitPacketID {
+	PACKET_Transmit_ZERO = 0;                       // 弃用消息号
+	PACKET_SS_PACKET_TRANSMIT = 1003;
+}
+//PACKET_SS_PACKET_TRANSMIT
+message SSTransmit {
+	int64 SessionId = 1;
+	bytes PacketData = 2;
+}

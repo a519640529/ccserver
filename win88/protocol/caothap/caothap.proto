@@ -1,0 +1,107 @@
+syntax = "proto3";
+package caothap;
+option go_package = ".;caothap";
+
+//CaoThap
+enum CaoThapPacketID {
+    PACKET_CAOTHAP_ZERO = 0;              //弃用消息号
+    PACKET_SC_CAOTHAP_ROOMINFO = 5260;    //房间信息
+    PACKET_CS_CAOTHAP_PLAYEROP = 5261;    //玩家操作（客户->服务）
+    PACKET_SC_CAOTHAP_PLAYEROP = 5262;    //玩家操作（服务->客户）
+    PACKET_SC_CAOTHAP_ROOMSTATE = 5263;   //房间状态
+    PACKET_SC_CAOTHAP_GAMEBILLED = 5264;  //游戏结算
+    PACKET_SC_CAOTHAP_GAMEJACKPOT = 5265;  //奖池
+    PACKET_SC_CAOTHAP_PLAYERHISTORY = 5266;//玩家操作记录
+}
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+    OPRC_CoinNotEnough = 2; //钱不够
+}
+
+message CaoThapPlayerData {
+    string Name = 1;       //名字
+    int32 SnId = 2;        //账号
+    int32 Head = 3;        //头像
+    int32 Sex = 4;         //性别
+    int64 Coin = 5;        //金币
+    int32 HeadOutLine = 6; //头像框
+    int32 VIP = 7;
+	repeated string Params = 8;     //其他数据 如:ip 等
+}
+
+//房间信息
+message SCCaoThapRoomInfo {
+    int32 RoomId = 1;                //房间id
+    int32 Creator = 2;               //创建者SnId
+    int32 GameId = 3;                //游戏id
+    int32 RoomMode = 4;              //游戏模式
+    repeated int32 Params = 5;                //规则参数
+    int32 State = 6;                 //房间当前状态
+	int32 Chip = 7;                  //当前选择的押注
+    repeated CaoThapPlayerData Players = 8;   //房间内的玩家信息
+	int64 Jackpot = 9;              //奖池金额
+	int64 SpinID = 10;               //操作ID
+	repeated int32 ParamsEx = 11;             //其他参数 用于断线重连 pos=1:剩余时间 pos>=2:已翻开的牌(A牌可自行计算)
+    int32 GameFreeId = 12;
+    GameBilledData BilledData = 13; //上一局结算信息，用于断线重连
+}
+
+
+//玩家操作
+message CSCaoThapOp {
+    int32 OpCode = 1;      //操作码
+    repeated int64 Params = 2;      //操作参数 OpCode 0:开始 Params 0:下注数
+}
+
+//玩家操作返回
+message SCCaoThapOp {
+    int32 SnId = 1;                //玩家ID
+    int32 OpCode = 2;              //操作码
+    repeated int64 Params = 3;     //操作参数
+    OpResultCode OpRetCode = 4;    //操作结果
+}
+
+message GameBilledData {
+    int64 TurnID = 1;            //操作ID
+    repeated int32 CardsData = 2;         //需要翻出的牌
+    int64 BetType = 3;           //下注类型
+    int64 BetValue = 4;          //下注分
+    int64 PrizeValue = 5;        //赢分
+    int64 JackpotValue = 6;      //爆奖金额
+    int64 Balance = 7;           //玩家余额
+    int64 Jackpot = 8;           //奖池金额
+    int64 ResponseStatus = 9;    //状态码
+    bool IsJackpot = 10;         //是否爆奖
+    int32 Step = 11;             //翻牌个数
+    int64 BigWinScore = 12;      //压大赢分
+    int64 LittleWinScore = 13;   //压小赢分
+    int64 TotalPoint = 14;       //
+    int32 CardID = 15;           //当前翻牌
+    repeated int32 CurrentAces = 16;      //当前A牌数据
+    int32 AcesCount = 17;        //A牌数量
+}
+//发送给客户端的数据 结算
+message SCCaoThapGameBilled {
+    GameBilledData BilledData = 1;//结算信息
+}
+
+//房间状态
+message SCCaoThapRoomState {
+    int32 State = 1; //房间当前状态
+}
+
+// 玩家操作记录信息
+message CaoThapPlayerHistoryInfo{
+    string SpinID = 1;      // 操作id
+    int64 CreatedTime = 2;  // 时间
+    int64 BetValue = 3;     // 下注
+    int64 PriceValue = 4;   // 赢分
+    int32 CardID = 5;       //当前翻牌
+}
+// 玩家押注记录
+message SCCaoThapPlayerHistory{
+    repeated CaoThapPlayerHistoryInfo PlayerHistory = 1;
+}

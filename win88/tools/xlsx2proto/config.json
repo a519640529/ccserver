@@ -1,0 +1,14 @@
+{
+    "proto": {
+	"WorkPath": "E:/gocode/trunk/src",
+	"XlsxPath": "games.yol.com/win88/xlsx",
+	"ProtoPath": "games.yol.com/win88/protocol/server",
+	"ProtoLuaPath": "games.yol.com/win88/protocol_lua/pbdata",
+	"GoFilePath": "games.yol.com/win88/srvdata",
+	"TsFilePath": "E:/ccc_client/tsdata",
+	"ConvertToolPath": "games.yol.com/win88/tools/xlsx2binary",
+	"CppFilePath": "temp",
+	"DataPath": "games.yol.com/win88/data",
+	"ProtoFile": "pbdata.proto"
+	}
+}

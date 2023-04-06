@@ -1,0 +1,276 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"Name": "任务红包",
+			"Desc": "第一天任务:分享游戏至朋友圈",
+			"Sort": 1,
+			"TrunkTaskId": 1,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				1
+			],
+			"Prize": [
+				4,
+				100,
+				110
+			],
+			"PeriodOfTime": 86400,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 2,
+			"Name": "任务红包",
+			"Desc": "第二天任务:参与对局5次 分享一次朋友圈",
+			"Sort": 1,
+			"TrunkTaskId": 1,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				1,
+				2
+			],
+			"Prize": [
+				4,
+				90,
+				100
+			],
+			"PeriodOfTime": 86400,
+			"StartOfTime": 86400,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 3,
+			"Name": "任务红包",
+			"Desc": "第三天任务:创建房间并参与对局2次 分享一次朋友圈",
+			"Sort": 1,
+			"TrunkTaskId": 1,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				1,
+				3
+			],
+			"Prize": [
+				4,
+				90,
+				100
+			],
+			"PeriodOfTime": 86400,
+			"StartOfTime": 172800,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 4,
+			"Name": "任务红包",
+			"Desc": "第四天任务:获得3次大赢家 分享一次朋友圈",
+			"Sort": 1,
+			"TrunkTaskId": 1,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				1,
+				4
+			],
+			"Prize": [
+				4,
+				90,
+				100
+			],
+			"PeriodOfTime": 86400,
+			"StartOfTime": 259200,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 5,
+			"Name": "任务红包",
+			"Desc": "第五天任务:在棋牌馆中获得2次大赢家 分享一次朋友圈",
+			"Sort": 1,
+			"TrunkTaskId": 1,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				1,
+				5
+			],
+			"Prize": [
+				4,
+				90,
+				100
+			],
+			"PeriodOfTime": 86400,
+			"StartOfTime": 345600,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 6,
+			"Name": "登录红包",
+			"Desc": "第一天登录任务",
+			"Sort": 1,
+			"TrunkTaskId": 6,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				6
+			],
+			"Prize": [
+				4,
+				450,
+				480
+			],
+			"PeriodOfTime": 86400,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 7,
+			"Name": "登录红包",
+			"Desc": "第二天登录任务",
+			"Sort": 1,
+			"TrunkTaskId": 6,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				6
+			],
+			"Prize": [
+				4,
+				10,
+				20
+			],
+			"PeriodOfTime": 86400,
+			"StartOfTime": 86400,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 8,
+			"Name": "登录红包",
+			"Desc": "第三天登录任务",
+			"Sort": 1,
+			"TrunkTaskId": 6,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				6
+			],
+			"Prize": [
+				4,
+				10,
+				20
+			],
+			"PeriodOfTime": 86400,
+			"StartOfTime": 172800,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 9,
+			"Name": "登录红包",
+			"Desc": "第四天登录任务",
+			"Sort": 1,
+			"TrunkTaskId": 6,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				6
+			],
+			"Prize": [
+				4,
+				10,
+				15
+			],
+			"PeriodOfTime": 86400,
+			"StartOfTime": 259200,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		},
+		{
+			"Id": 10,
+			"Name": "登录红包",
+			"Desc": "第五天登录任务",
+			"Sort": 1,
+			"TrunkTaskId": 6,
+			"PostIds": [
+				0
+			],
+			"AcceptConds": [
+				1
+			],
+			"CompleteConds": [
+				6
+			],
+			"Prize": [
+				4,
+				10,
+				15
+			],
+			"PeriodOfTime": 86400,
+			"StartOfTime": 345600,
+			"FuncParam": [
+				0
+			],
+			"ZeroEffect": 1
+		}
+	]
+}

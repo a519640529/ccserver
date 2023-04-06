@@ -1,0 +1,144 @@
+syntax = "proto3";
+package message;
+option go_package = ".;message";
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+}
+
+//聊天消息id
+enum MSGPacketID {
+	PACKET_MSGPACKET_ZERO = 0;                       // 弃用消息号
+	PACKET_SC_MESSAGELIST = 2430;
+	PACKET_SC_MESSAGEADD = 2431;
+	PACKET_SC_MESSAGEDEL = 2432;
+	PACKET_CS_MESSAGEREAD = 2433;
+	PACKET_SC_MESSAGEREAD = 2434;
+	PACKET_CS_MESSAGEDEL = 2435;
+	PACKET_CS_GETMESSAGEATTACH = 2436;
+	PACKET_SC_GETMESSAGEATTACH = 2437;
+	PACKET_SC_NOTICE = 2438;
+	PACKET_CS_MESSAGELIST = 2439;
+}
+
+message NoticeParam{
+	int32 IntParam = 1;
+	string StrParam = 2;
+}
+
+//PACKET_SC_NOTICE
+message SCNotice{
+	int32 Count = 1;		//循环次数 0:无限循环 >0:循环指定次数
+	int32 MsgType = 2;		//消息类型 0:标示消息内容为服务端拼装好的字符串 >0:根据客户端配置的编号格式化参数组成完整的消息内容(详见:NoticeMsgType)
+	int64 Ts = 3;			//发送时间戳
+	string ChannelId = 4;	//渠道id,""标示全渠道广播
+	repeated NoticeParam Params = 5;//公告参数
+	string Platform = 6;//
+	int32 StandSec = 7;
+}
+
+message MessageData{
+	string Id = 1;	
+	string Title = 2;
+	string Content = 3;
+	int32 MType = 4;
+	int32 SrcId = 5;
+	int64 Coin = 6;
+	int32 State = 7;//0 未读取,1 已经读取, 2 已经删除
+	int32 Ts = 8;
+	repeated int32 Params = 9;
+	int32 AttachState = 10;//0 未提取,1 已提取
+	string GiftId = 11;
+	int32  GiftState = 12;//0 未提取,1 已提取,2已撤回
+	int64 Ticket = 13;//比赛报名券
+	int64 Grade = 14;//积分
+	int64 Diamond = 15; // 钻石
+	string SrcName = 16; // 发送人名字
+}
+
+//PACKET_SC_MESSAGELIST
+message SCMessageList{
+	repeated MessageData Msgs = 1;
+}
+
+//PACKET_SC_MESSAGEADD
+message SCMessageAdd{
+	MessageData Msg = 1;
+}
+
+//PACKET_CS_MESSAGEREAD
+message CSMessageRead{
+	string Id = 1;
+}
+//PACKET_SC_MESSAGEREAD
+message SCMessageRead{
+	string Id = 1;
+}
+
+//PACKET_CS_MESSAGEDEL
+message CSMessageDel{
+	string Id = 1;
+}
+//PACKET_SC_MESSAGEDEL
+message SCMessageDel{
+	string Id = 1;
+}
+
+//PACKET_CS_GETMESSAGEATTACH
+message CSGetMessageAttach{
+	string Id = 1;
+}
+//PACKET_SC_GETMESSAGEATTACH
+message SCGetMessageAttach{
+	string Id = 1;
+	repeated string Ids = 2;
+}
+
+
+message ClubMessage{
+	int32 MsgType = 1;
+	string Content = 2;
+	int32 SnId = 3;
+	string NickName = 4;
+	string HeadPic = 5;
+	int64 Ts = 6;
+}
+//PACKET_CS_CLUBMSG
+message CSClubMsg{
+	int32 ClubId = 1;//聊天的俱乐部
+	int32 MsgType = 2;//0.文字1.表情2.回放码
+	string Content = 3;//聊天详细信息
+}
+//PACKET_SC_CLUBMSG
+message SCClubMsg{
+	OpResultCode OpRetCode = 1;
+	int32 ClubId = 2;//聊天的俱乐部
+	int32 MsgType = 3;
+	ClubMessage ClubMsg = 4;
+}
+//PACKET_CS_CLUBMSGSTATE
+message CSClubMsgState{
+	int32 ClubId = 1;//禁言的俱乐部
+	bool Disable = 2;//true禁言false聊天
+}
+//PACKET_SC_CLUBMSGSTATE
+message SCClubMsgState{
+	bool Disable = 1;//true禁言false聊天
+	OpResultCode OpRetCode = 2;
+}
+//PACKET_CS_CLUBMSHISTORY
+message CSClubMsgHistory{
+	int32 ClubId = 1;//俱乐部
+}
+//PACKET_SC_CLUBMSHISTORY
+message SCClubMsgHistory{
+	OpResultCode OpRetCode = 1;
+	repeated ClubMessage ClubMsg = 2;
+}
+
+//PACKET_CS_MESSAGELIST
+message CSMessageList{
+    int64 ShowId = 1;
+}

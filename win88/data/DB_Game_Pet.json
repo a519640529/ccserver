@@ -1,0 +1,123 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 1,
+			"Fragment": 10001,
+			"Amount": 1,
+			"AwardType": 1,
+			"Award": 10,
+			"AwardRate": 100
+		},
+		{
+			"Id": 2,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 2,
+			"Fragment": 10001,
+			"Amount": 2,
+			"AwardType": 1,
+			"Award": 20,
+			"AwardRate": 100
+		},
+		{
+			"Id": 3,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 3,
+			"Fragment": 10001,
+			"Amount": 3,
+			"AwardType": 1,
+			"Award": 30,
+			"AwardRate": 100
+		},
+		{
+			"Id": 4,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 4,
+			"Fragment": 10001,
+			"Amount": 4,
+			"AwardType": 1,
+			"Award": 40,
+			"AwardRate": 100
+		},
+		{
+			"Id": 5,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 5,
+			"Fragment": 10001,
+			"Amount": 5,
+			"AwardType": 1,
+			"Award": 50,
+			"AwardRate": 100
+		},
+		{
+			"Id": 6,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 6,
+			"Fragment": 10001,
+			"Amount": 6,
+			"AwardType": 1,
+			"Award": 60,
+			"AwardRate": 100
+		},
+		{
+			"Id": 7,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 7,
+			"Fragment": 10001,
+			"Amount": 7,
+			"AwardType": 1,
+			"Award": 70,
+			"AwardRate": 100
+		},
+		{
+			"Id": 8,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 8,
+			"Fragment": 10001,
+			"Amount": 8,
+			"AwardType": 1,
+			"Award": 80,
+			"AwardRate": 100
+		},
+		{
+			"Id": 9,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 9,
+			"Fragment": 10001,
+			"Amount": 9,
+			"AwardType": 1,
+			"Award": 90,
+			"AwardRate": 100
+		},
+		{
+			"Id": 10,
+			"PetId": 1000001,
+			"Name": "斗鸡",
+			"Grade": 1,
+			"Level": 10,
+			"Fragment": 10001,
+			"AwardType": 1,
+			"Award": 100,
+			"AwardRate": 100
+		}
+	]
+}

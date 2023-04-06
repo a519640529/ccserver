@@ -1,0 +1,348 @@
+syntax = "proto3";
+package gamehall;
+option go_package = ".;gamehall";
+
+//操作结果
+enum OpResultCode_Hall {
+  OPRC_Sucess_Hall = 0; //成功
+  OPRC_Error_Hall = 1; //失败
+
+  OPRC_OnlineReward_Info_FindPlatform_Fail_Hall = 10008;
+}
+////大厅协议 2340-2379
+enum HallPacketID {
+  PACKET_Hall_ZERO = 0;                       // 弃用消息号
+  PACKET_CS_REBATE_LIST = 2340;
+  PACKET_SC_REBATE_LIST = 2341;
+  PACKET_CS_REBATE_RECEIVE = 2342;
+  PACKET_SC_REBATE_RECEIVE = 2343;
+  PACKET_SC_HALL_REDCTRL = 2344;
+  //////新个人中心
+  PACKET_CS_NEWPLAYERINFO = 2345;
+  PACKET_SC_NEWPLAYERINFO = 2346;
+  PACKET_CS_CODETYPERECORD = 2347;
+  PACKET_SC_CODETYPERECORD = 2348;
+  PACKET_CS_BETCOINRECORD = 2349;
+  PACKET_SC_BETCOINRECORD = 2350;
+  PACKET_CS_COINDETAILED = 2351;
+  PACKET_SC_COINDETAILEDTOTAL = 2352;
+  PACKET_SC_COINTOTAL = 2353;
+  PACKET_CS_REPORTFORM = 2354;
+  PACKET_SC_REPORTFORM = 2355;
+  PACKET_CS_HISTORYRECORD = 2356;
+  PACKET_SC_HISTORYRECORD = 2357;
+  PACKET_CS_RECEIVECODECOIN = 2358;
+  PACKET_SC_RECEIVECODECOIN = 2359;
+  PACKET_SC_REBATETOTALINFO = 2360;
+
+  //    PACKET_CS_FISHBETCOINRECORD = 2361;
+  PACKET_CS_GETISCANREBATE = 2362;
+  PACKET_SC_GETISCANREBATE = 2363;
+
+  PACKET_CS_GETRANKINFO = 2364;
+  PACKET_SC_GETRANKINFO = 2365;
+  PACKET_SC_SHOWRED = 2366;
+
+}
+//////////////////////////////////////rebatetask
+message RebateInfo {
+  string Platform = 1; //平台名称
+  int64 validBetTotal = 2; //返利金额
+}
+//PACKET_CS_REBATE_LIST
+message CSRebateList {
+}
+//PACKET_SC_REBATE_LIST
+message SCRebateList {
+  repeated RebateInfo RebateList = 1; //各平台返利值
+  int64 RebateTotalCoin = 2; //当前可领取的总值
+}
+//领取奖励
+//PACKET_CS_REBATE_RECEIVE
+message CSReceiveRebate {
+}
+//PACKET_SC_REBATE_RECEIVE
+message SCReceiveRebate {
+  OpResultCode_Hall OpRetCode = 1; //错误码
+  int64 Coin = 2; //领取到的金额
+}
+/////////////////////////////////
+//红点是否显示
+//PACKET_SC_HALL_REDCTRL
+message SCRedCtrl {
+  int64 OpCode = 1; //0 返利
+  bool IsFShow = 2; //是否显示
+}
+
+
+//是否开启返利
+//PACKET_CS_GETISCANREBATE
+message CSGetIsCanRebate {
+}
+//PACKET_SC_GETISCANREBATE
+message SCGetIsCanRebate {
+  OpResultCode_Hall OpRetCode = 1; //错误码
+  int64 IsCan = 2; //是否可以领取 0 返利未开启 1返利开启 但是不能领取(二维码)  2返利开启 可以领取
+  string Url = 3; //url
+  string WX = 4; //wx
+
+
+}
+
+
+//////2019.11.22 新个人中心
+/////////////////////////////////个人信息//////////////////////////////////////////////////////////////
+message HallGameType {
+  int32 GameId = 1;
+  int32 GameMode = 2;
+}
+////////////////////////////////////////
+enum HallOperaCode {
+  HallOperaZero = 0;  //占位
+  HallChessGame = 1; //棋牌游戏
+  HallElectronicGame = 2; //电子游艺
+  HallFishingGame = 3; //捕鱼游戏
+  HallLiveVideo = 4; //真人视讯
+  HallLotteryGame = 5; //彩票游戏
+  HallSportsGame = 6; //体育游戏
+  HallPrivateRoom = 7; //个人房间
+  HallClubRoom = 8; //俱乐部房间
+  HallThirdPlt = 101;//三方平台
+}
+//请求相关统计
+//PACKET_CS_NEWPLAYERINFO
+message CSNewPlayerInfo {
+}
+//相关统计
+//PACKET_SC_NEWPLAYERINFO
+message SCNewPlayerInfo {
+  int32 GameTotalNum = 1; //游戏总局数
+  string GameMostPartake = 2; //参与最多
+  string GameMostProfit = 3; //单局最多盈利
+  int32 GameMostProfitNum = 4; //单局最多盈利
+  int32 CreateRoomNum = 5; //创建房间总数
+  string CreateRoomMost = 6; //创建房间最多
+  int32 CreateClubNum = 7; //创建俱乐部数量
+  string CreateClubRoomMost = 8; //创建包间最多
+  int32 TeamNum = 9; //团队人数
+  int32 AchievementTotal = 10; //推广总业绩
+  int32 RewardTotal = 11; //推广总奖励
+  ///以下为 投注记录、账户明细和个人报表用
+  int64 TotalCoin = 12; //总计游戏投注
+  int64 LastGetCoinTime = 13; //最后一次结算时间
+  int64 Coin = 14; //可洗码总金额
+  int32 CodeType = 15; //当前洗码类型  0实时领取  1次日领取
+  repeated int32 ClassType = 16; //需要显示的大类 [1.棋牌 2.电子 3.捕鱼 4.真人 5.彩票 6.体育 7.个人中心 8.俱乐部]
+}
+//更新返利统计信息
+//PACKET_SC_REBATETOTALINFO
+message SCRebateTotalInfo {
+  int64 TotalCoin = 1; //总计游戏投注
+  int64 LastGetCoinTime = 2; //最后一次结算时间
+  int64 Coin = 3; //可洗码总金额
+  int32 CodeType = 4; //当前洗码类型  0实时领取  1次日领取
+}
+//请求洗码列表
+//PACKET_CS_CODETYPERECORD
+message CSCodeTypeRecord {
+  HallOperaCode ShowTypeId = 1; //HallOperaCode
+}
+///洗码列表
+message CodeTypeRecord {
+  string GameName = 1; //游戏名称
+  int64 GameBetCoin = 2; //游戏洗码量
+  int32 Rate = 3; //比例
+  int32 Coin = 4; //洗码金额
+  int32 MinCoin = 5; //最低洗码量
+  int32 MaxCoin = 6; //每天最高领取
+}
+//PACKET_SC_CODETYPERECORD
+message SCCodeTypeRecord {
+  HallOperaCode ShowType = 1; //标签
+  repeated CodeTypeRecord CodeTypeRecord = 2;
+}
+//请求投注记录
+//PACKET_CS_BETCOINRECORD
+message CSBetCoinRecord {
+  HallOperaCode ShowTypeId = 1; //HallOperaCode
+  int64 TimeIndex = 2; //0.全部 1.今天 2.昨天 3.一个月内
+  int32 PageNo = 3; //当前页
+}
+//请求捕鱼投注记录
+//PACKET_CS_FISHBETCOINRECORD
+//message CSFishBetCoinRecord {
+//    HallOperaCode ShowTypeId = 1;
+//    int64 TimeIndex = 2; //0.全部 1.今天 2.昨天 3.一个月内
+//    repeated HallGameType GameType = 3; //游戏类型
+//    int32 PageNo = 4; //当前页
+//}
+///投注记录
+message BetCoinRecord {
+  int64 Ts = 1; //时间戳
+  string GameName = 2; //游戏名称
+  string RecordId = 3; //注单号
+  int64 BetCoin = 4; //投注金额
+  int64 ReceivedCoin = 5; //已派奖
+}
+//PACKET_SC_BETCOINRECORD
+message SCBetCoinRecord {
+  repeated BetCoinRecord BetCoinRecord = 1;
+  int32 PageNo = 2; //当前页
+  int32 PageSize = 3; //每页数量
+  int32 PageNum = 4; //总页数
+}
+//请求账户明细
+//PACKET_CS_COINDETAILED
+message CSCoinDetailed {
+  int64 TimeIndex = 1; //0.全部 1.今天 2.昨天 3.一个月内
+  int64 CoinType = 2; // 0.全部 1.充值 2.兑换 3.邮件 4.保险箱 5.人工操作 6.活动 7.手动洗码 8.第三方
+  //9.余额宝 10.俱乐部 11.VIP奖励 12.私有房间
+  int32 PageNo = 3; //当前页
+}
+///账户明细
+message CoinDetailed {
+  int64 Ts = 1; //时间戳
+  int64 CoinType = 2; //交易类型
+  int64 Income = 3; //收入
+  int64 Disburse = 4; //支出
+  int64 Coin = 5; //金额
+  /*
+详细交易类型有:
+/////////一.充值
+1: "充值",
+/////////二.兑换
+28: "兑换",
+15: "兑换",
+/////////三.邮件
+32: "邮件",
+/////////四.保险箱
+33: "保险箱存入",
+34: "保险箱取出",
+/////////五.人工操作
+44: "人工操作保险箱",45: "人工操作保险箱",
+47: "人工操作钱包",
+/////////六.活动
+0: "新用户赠送",
+41: "升级账号",
+48: "签到",
+49: "财神任务",
+50: "财神降临",
+57: "在线奖励",
+66: "转盘活动",
+75:'周卡月卡每日领取',
+77:'ios安装奖励',
+/////////七.手动洗码
+76:'洗码返利',
+/////////八.第三方
+58: "系统转入第三方",
+59: "第三方转入系统",
+/////////九.余额宝
+60: "余额宝转入",
+61: "余额宝转出",
+67: "余额宝利息",
+/////////十.俱乐部
+70:'俱乐部创建',
+71:'俱乐部升级',
+72:'会长赠送',
+73:'会员获得',
+74:'俱乐部返还',
+/////////十一.VIP奖励
+80:'vip等级奖励',
+81:'vip日等级奖励',
+82:'vip周等级奖励',
+83:'vip月等级奖励',
+/////////十二.私有房间
+84.创建私有房间
+85.解散私有房间返还
+*/
+}
+//PACKET_SC_COINDETAILEDTOTAL
+message SCCoinDetailedTotal {
+  repeated CoinDetailed CoinDetailed = 1;
+  int32 PageNo = 2; //当前页
+  int32 PageSize = 3; //每页数量
+  int32 PageNum = 4; //总页数
+}
+//明细统计
+//PACKET_SC_COINTOTAL
+message SCCoinTotal {
+  int64 RechargeCoin = 1; //充值
+  int64 ExchangeCoin = 2; //兑换
+  int64 ClubAddCoin = 3; //俱乐部加币
+  int64 RebateCoin = 4; //返利
+  int64 Activity = 5; //活动获取
+  repeated int32 TransactionType = 6; //交易类型个数 0.全部 1.充值 2.兑换 3.邮件 4.保险箱 5.人工操作 6.活动
+  // 7.手动洗码 8.第三方 9.余额宝 10.俱乐部 11.VIP奖励 12.私有房间 注:有该数字显示 没有不显示
+}
+//请求个人报表
+//PACKET_CS_REPORTFORM
+message CSReportForm {
+  HallOperaCode ShowTypeId = 1; //HallOperaCode
+  int64 TimeIndex = 2; //0.今天 1.昨天 2.一个月内
+}
+///个人报表
+//PACKET_SC_REPORTFORM
+message SCReportForm {
+  int32 ShowType = 1; //标签 棋牌游戏等等
+  int64 ProfitCoin = 2; //盈利总额
+  int64 BetCoin = 3; //有效投注总额
+  int64 FlowCoin = 4; //流水总额
+}
+//历史洗码记录
+//PACKET_CS_HISTORYRECORD
+message CSHistoryRecord {
+  int32 PageNo = 1; //当前页
+}
+message HistoryRecord {
+  int64 Ts = 1; //时间
+  int32 CodeCoin = 2; //洗码量
+  int32 Coin = 3; //洗码金额
+  int32 ReceiveType = 4; //详情 0.手动 1.邮件
+}
+//PACKET_SC_HISTORYRECORD
+message SCHistoryRecord {
+  repeated HistoryRecord HistoryRecord = 1;
+  int32 PageNo = 2; //当前页
+  int32 PageSize = 3; //每页数量
+  int32 PageNum = 4; //总页数
+}
+//领取洗码金额
+//PACKET_CS_RECEIVECODECOIN
+message CSReceiveCodeCoin {
+}
+//PACKET_SC_RECEIVECODECOIN
+message SCReceiveCodeCoin {
+  OpResultCode_Hall OpRetCode = 1; //操作结果
+  int64 Coin = 2; //领取的金额
+}
+
+//PACKET_CS_GETRANKINFO
+message CSGetRankInfo {
+  string Plt = 1;//平台
+  int32 GameFreeId = 2;//游戏id
+}
+//PACKET_SC_GETRANKINFO
+message RankInfo {
+  int32 Snid = 1;         //snid
+  string Name = 2;        //名字
+  int64 TotalIn = 3;      //总投入
+  int64 TotalOut = 4;     //总产出
+}
+message SCGetRankInfo {
+  repeated RankInfo Info = 1;
+}
+enum ShowRedCode {
+  Mail = 0;
+  Shop = 1;
+  Role = 2;
+  Pet = 3;
+}
+//红点 PACKET_SC_SHOWRED
+message ShowRed{
+  ShowRedCode ShowType = 1;//0.邮件(showId)  1.商城(0,1,2,3) 2.人物 3.宠物
+  int32 ShowChild = 2;
+  int32 IsShow = 3;//0.不显示  1.显示
+}
+message SCShowRed{
+  ShowRed ShowRed = 1;
+}

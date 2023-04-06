@@ -1,0 +1,92 @@
+syntax = "proto3";
+package activity;
+option go_package = ".;activity";
+
+//操作结果
+enum OpResultCode_ActCard {
+    OPRC_Sucess_ActCard = 0; //成功
+    OPRC_Error_ActCard = 1; //失败
+    OPRC_CoinNotEnough = 1056; //金币不够
+    OPRC_Card_Receive_MustBuyCardFirst = 10024;
+    OPRC_Card_Receive_HasReceived = 10025;
+}
+// 周卡月卡
+enum CardPacketID {
+   PACKET_Card_ZERO = 0;                                // 弃用消息号
+   PACKET_CS_CARD_INFO         = 2610; // 卡信息
+   PACKET_SC_CARD_INFO         = 2611; // 卡信息
+   PACKET_SC_CARD_BUYOK        = 2612; // 购买成功
+   PACKET_CS_CARD_RECEIVE      = 2613; // 领取
+   PACKET_SC_CARD_RECEIVE      = 2614; // 领取
+   PACKET_SC_CARD_MODIFYCONFIG = 2615; // 修改配置
+   PACKET_CS_CARD_BUY_ONLINE      = 2616; // 购买卡片
+   PACKET_SC_CARD_BUY_ONLINE      = 2617; // 购买卡片
+}
+
+message Card {
+    int32 Type = 1;            // 类型: 1 周卡、2 月卡
+    int64 Prize = 2;           // 价格
+    int64 ReceiveFirst = 3;    // 首次领取(购买既得)
+    int64 ReceiveEveryday = 4; // 每日可领取
+    int32 ValidTime = 5;       // 有效时间(单位：天)
+    int64 BuyTs = 6;           // 购买时间
+    int64 ReceiveTs = 7;       // 领取时间
+    int64 SystemTs = 8;        // 系统时间
+}
+
+message ModifyCard {
+    int32 Type = 1;            // 类型: 1 周卡、2 月卡
+    int64 Prize = 2;           // 价格
+    int64 ReceiveFirst = 3;    // 首次领取(购买既得)
+    int64 ReceiveEveryday = 4; // 每日可领取
+    int32 ValidTime = 5;       // 有效时间(单位：天)
+}
+
+// PACKET_CS_CARD_INFO
+message CSCardInfo {
+}
+
+// PACKET_SC_CARD_INFO
+message SCCardInfo {
+    int32 StartAct = 1;         // 活动是否开启 0:未开启,1:已经开启
+	int64 StartTickets = 2;     // 活动开启时间 时间戳
+    int32 Version = 3;          // 活动版本
+    repeated Card Cards = 4;             // 卡
+	OpResultCode_ActCard OpRetCode = 5; // 返回错误码
+}
+
+// PACKET_SC_CARD_MODIFYCONFIG
+message SCCardModifyConfig {
+    int32 StartAct = 1;         // 活动是否开启 0:未开启,1:已经开启
+	int64 StartTickets = 2;     // 活动开启时间 时间戳
+    int32 Version = 3;          // 活动版本
+    repeated ModifyCard Cards = 4;       // 卡
+}
+
+// PACKET_SC_CARD_BUYOK
+message SCCardBuyOK {
+	int32 Type = 1; // 类型: 1 周卡、2 月卡
+}
+
+// PACKET_CS_CARD_RECEIVE
+message CSCardReceive {
+    int32 Type = 1; // 类型: 1 周卡、2 月卡
+}
+
+// PACKET_SC_CARD_RECEIVE
+message SCCardReceive {
+    int32 Type = 1;             // 类型: 1 周卡、2 月卡
+    int32 IncludeFirst = 2;     // 包含购买即得(1 包含，0 不包含)
+	OpResultCode_ActCard OpRetCode = 3; // 返回错误码
+}
+
+// PACKET_CS_CARD_BUY_ONLINE
+message CSCardBuyOnline {
+    int32 Type = 1; // 类型: 1 周卡、2 月卡
+}
+
+// PACKET_SC_CARD_BUY_ONLINE
+message SCCardBuyOnline {
+    int32 Type = 1;                // 类型: 1 周卡、2 月卡
+	OpResultCode_ActCard OpRetCode = 2;    // 返回错误码
+}

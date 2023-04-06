@@ -1,0 +1,21 @@
+{
+	"Id":2,
+	"Name":"对暗号拿红包",
+	"Desc":"对暗号拿红包",
+	"StartTime":"2018-02-16 00:00:00",
+	"EndTime":"2018-02-23 00:00:00",
+	"TaskIds":[],
+	"IsDelTaskWhenEnd":false,
+	"IsDelActIdWhenEnd":false,
+	"Data":[
+		{"Name":"Count", "IntVal":7 },
+		{"Name":"UnOpenTip", "StrVal":"0" },
+		{"Name":"1", "StrVal":"2018-02-16 19:00:00|1" },
+		{"Name":"2", "StrVal":"2018-02-17 19:00:00|2" },
+		{"Name":"3", "StrVal":"2018-02-18 19:00:00|3" },
+		{"Name":"4", "StrVal":"2018-02-19 19:00:00|4" },
+		{"Name":"5", "StrVal":"2018-02-20 19:00:00|5" },
+		{"Name":"6", "StrVal":"2018-02-21 19:00:00|6" },
+		{"Name":"7", "StrVal":"2018-02-22 19:00:00|7" }
+	]
+}

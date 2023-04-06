@@ -1,0 +1,116 @@
+syntax = "proto3";
+package fruits;
+option go_package = ".;fruits";
+
+//fruits
+//水果拉霸
+enum FruitsPID {
+  PACKET_FRUITS_ZERO = 0;// 弃用消息号
+  PACKET_FRUITS_SCFruitsRoomInfo = 5490; //房间信息
+  PACKET_FRUITS_CSFruitsOp = 5491;
+  PACKET_FRUITS_SCFruitsOp = 5492;
+  PACKET_FRUITS_SCFruitsRoomState = 5493;
+  PACKET_FRUITS_SCFruitsBilled = 5494;
+  PACKET_FRUITS_SCFruitsMaryBilled = 5495;
+  PACKET_FRUITS_SCFruitsPrize = 5496;
+}
+
+message FruitsPlayerData {
+  string Name = 1; //名字
+  int32 SnId = 2; //账号
+  int32 Head = 3; //头像
+  int32 Sex = 4; //性别
+  int64 Coin = 5; //金币
+  int32 Pos = 6; //座位位置
+  int32 Flag = 7; //二进制标记
+  repeated string Params = 8; //其他数据 如:ip 等
+  string City = 9; //城市
+  int32 HeadOutLine = 10;  //头像框
+  int32 VIP = 11;
+}
+message FruitsWinLine{
+  repeated int32 Poss = 1;//中奖 元素组(0-14)
+  int64 WinScore = 2;//单线分数
+  int32 LineId = 3;//线号
+}
+//房间信息
+//PACKET_FRUITS_SCFruitsRoomInfo
+message SCFruitsRoomInfo {
+  int32 RoomId = 1; //房间id
+  int32 GameFreeId = 2;
+  int32 GameId = 3; //游戏id
+  int32 RoomMode = 4; //游戏模式
+  repeated int32 Params = 5; //规则参数
+  int32 NumOfGames = 6; //当前第几局
+  int32 State = 7; //房间当前状态
+  repeated int32 ParamsEx = 8; //其他参数
+  int32 SceneType = 9; //房间模式
+  FruitsPlayerData Player = 10; //房间内的玩家信息
+  ///
+  int32 NowGameState = 11;//当前模式
+  int32 BetIdx = 12;//下注索引
+  int32 FreeTimes = 13;//剩余免费次数
+  int32 MaryTimes = 14;//剩余玛丽游戏次数
+  int64 MaryTotalWin = 15;//玛丽游戏赢的金额
+  repeated int32 Cards = 16;//元素值
+  int32 MaryWinId = 17;//玛丽游戏外围索引
+  repeated int32 MaryCards = 18;//玛丽游戏中间数组
+  int64 WinLineCoin = 19;//线赢金额
+  int64 WinJackpot = 20;//当局奖池爆奖
+  int64 WinEle777Coin = 21;//Jack线钱
+  int64 FreeTotalWin = 22;//免费赢的金额
+  int64 WinRate = 23;//赢的倍率
+  int32 WinFreeTimes = 24;//当局赢的免费次数
+  repeated FruitsWinLine WinLines = 25;//中奖线
+}
+//玩家操作
+//PACKET_FRUITS_CSFruitsOp
+message CSFruitsOp {
+  int32 OpCode = 1; //操作码 0.旋转 1.切换
+  repeated int64 Params = 2; //操作参数 下注索引编号
+}
+//玩家操作返回
+//PACKET_FRUITS_SCFruitsOp
+message SCFruitsOp {
+  int32 OpCode = 1; //操作码
+  int32 OpRetCode = 2; //操作结果 1.金币不足 2.低于该值不能押注
+  repeated int64 Params = 3; //操作参数
+}
+//房间状态
+//PACKET_FRUITS_SCFruitsRoomState
+message SCFruitsRoomState {
+  int32 State = 1; //房间当前状态
+  int32 SubState = 2; //房间当前子状态
+  repeated int32 Params = 3; //状态参数
+}
+//PACKET_FRUITS_SCFruitsPrize
+message SCFruitsPrize{
+  int64 PrizePool = 1;//奖池
+}
+//PACKET_FRUITS_SCFruitsBilled
+message SCFruitsBilled{
+  int32 NowGameState = 1;//当前游戏状态 0.正常 1.免费游戏 2.玛丽游戏
+  int32 BetIdx = 2;//下注索引
+  int64 Coin = 3;//当前身上的金币
+  int64 FreeTotalWin = 4;//免费游戏获得金额
+  int64 Jackpot = 5;//当前奖池金额
+  int64 WinJackpot = 6;//当局奖池爆奖
+  int64 WinEle777Coin = 7;//线赢的金额
+  int64 WinRate = 8;//线倍率
+  repeated int32 Cards = 9;//元素
+  repeated FruitsWinLine WinLines = 10;//中奖线
+  int32 FreeTimes = 11;//剩余免费次数
+  int32 MaryFreeTimes = 12;//剩余玛丽游戏次数
+  int32 WinFreeTimes = 13;//当局获得的免费次数
+  int64 WinLineCoin = 14;//当局获得的线钱
+}
+//PACKET_FRUITS_SCFruitsMaryBilled
+message SCFruitsMaryBilled{
+  int64 Coin = 1;//当局获得的免费次数
+  int64 FreeTotalWin = 2;//免费游戏获得的金额
+  int64 MaryTotalWin = 3;//玛丽游戏获得的金额
+  int64 MaryWinCoin = 4;//玛丽游戏倍率金额
+  int32 MaryWinId = 5;//外围索引
+  repeated int32 MaryCards = 6;//中间数组
+  int32 MaryFreeTimes = 7;//玛丽游戏剩余次数
+}

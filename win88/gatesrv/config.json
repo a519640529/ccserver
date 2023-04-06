@@ -1,0 +1,154 @@
+{
+    "netlib": {
+		"SrvInfo":{
+			"Name": "GateServer",
+			"Type":	4,
+			"Id": 401,
+			"AreaID": 1,
+			"Banner": [
+					"=================",
+					"gate server",
+					"================="
+				]
+		},
+	
+		"IoServices": [
+			{
+				"Id": 101,
+				"Type": 1,
+				"AreaId": 1,
+				"Name": "ClientServiceWs",
+				"Ip": "",
+				"OuterIp": "0.0.0.0",
+				"Port": 31004,
+				"Protocol":"ws",
+				"Path":"/",
+				"MaxDone": 50,
+				"MaxPend": 200,
+				"MaxPacket": 65535,
+				"MaxConn": 5000,
+				"RcvBuff": 8192,
+				"SndBuff": 8192,
+				"WriteTimeout": 300,
+				"ReadTimeout": 300,
+				"KeepAlive": true,
+				"KeepAlivePeriod": 5,
+				"KeepAliveIdle": 10,
+				"KeepAliveCount": 3,
+				"IsInnerLink": false,
+				"NoDelay": true,
+				"SupportFragment": true,
+				"AuthKey": "www.jxjy.games.cn",
+				"UnknowPacketHandlerName": "packetdispatchhandler",
+				"FilterChain": ["session-filter-trace", "session-filter-auth"],
+				"HandlerChain": ["session-client-registe","handler-client-close","handler-client-load"]
+			},
+			{
+				"Id": 102,
+				"Type": 1,
+				"AreaId": 1,
+				"Name": "ClientServiceTcp",
+				"Ip": "",
+				"OuterIp": "127.0.0.1",
+				"Port": 11001,
+				"Protocol":"tcp",
+				"Path":"/",
+				"MaxDone": 50,
+				"MaxPend": 200,
+				"MaxPacket": 65535,
+				"MaxConn": 5000,
+				"RcvBuff": 8192,
+				"SndBuff": 8192,
+				"WriteTimeout": 300,
+				"ReadTimeout": 300,
+				"KeepAlive": true,
+				"KeepAlivePeriod": 5,
+				"KeepAliveIdle": 10,
+				"KeepAliveCount": 3,
+				"IsInnerLink": false,
+				"NoDelay": true,
+				"SupportFragment": true,
+				"AuthKey": "www.jxjy.games.cn",
+				"UnknowPacketHandlerName": "packetdispatchhandler",
+				"FilterChain": ["session-filter-trace", "session-filter-auth"],
+				"HandlerChain": ["session-client-registe","handler-client-close","handler-client-load"]
+			},
+			{
+				"Id": 501,
+				"Type": 5,
+				"AreaId": 1,
+				"Name": "ManagerService",
+				"Ip": "127.0.0.1",
+				"Port": 3002,
+				"MaxDone": 20,
+				"MaxPend": 20,
+				"MaxPacket": 65535,
+				"MaxConn": 10,
+				"RcvBuff": 8192,
+				"SndBuff": 8192,
+				"WriteTimeout": 30,
+				"ReadTimeout": 30,
+				"IsInnerLink": true,
+				"NoDelay": true,
+				"IsClient": true,
+				"IsAutoReconn": true,
+				"SupportFragment": true,
+				"AuthKey": "1234567890",
+				"FilterChain": ["session-filter-auth"],
+				"HandlerChain": ["session-srv-registe","srv-service-handler"]
+			}
+		]
+    },
+
+	"module": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+
+	"executor": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 0
+			},
+		"Worker": {
+			"WorkerCnt": 8,
+			"Options": {
+				"QueueBacklog": 1024,
+				"MaxDone": 1024,
+				"Interval": 0
+			}
+		}
+	},
+	
+	"timer": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+						
+    "core": {
+	    "MaxProcs": 4
+    },
+	
+	"cmdline": {
+		"SupportCmdLine": true
+	},
+	
+	"signal":{
+		"SupportSignal": true
+	},
+	
+	"common":{
+		"AppId": "5c56d1644966f078bfb90c71",
+		"IsDevMode":false
+	},
+	"webapi":{
+		"GameApiURL":"http://192.168.10.230:81/api/game_srv"
+	}
+}

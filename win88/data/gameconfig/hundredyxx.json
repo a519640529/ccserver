@@ -1,0 +1,18 @@
+{
+	"GameName":"鱼虾蟹",
+	"GameId":102,
+	"GameMode":[0],
+	"CanForceStart":false,
+	"MinPlayerCnt":1,
+	"DefaultPlayerCnt":1,
+	"MaxIndex":0,
+	"TimeFreeStart":0,
+	"TimeFreeEnd":0,
+	"DependentPlayerCnt":true,
+	"EnterAfterStart":false,
+	"PerGameTakeCard":100,
+	"ViewLogCnt":40,
+	"BetState":1,
+	"Params":[
+	]
+}

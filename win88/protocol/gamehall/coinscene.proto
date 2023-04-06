@@ -1,0 +1,100 @@
+syntax = "proto3";
+package gamehall;
+option go_package = ".;gamehall";
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+
+    OPRC_RoomIsFull = 1019; //房间已满
+
+    OPRC_RoomHadClosed = 1053; //牌局已结束，正在结算
+    OPRC_SceneServerMaintain = 1054; //服务器维护中,请稍后创建
+    OPRC_CoinNotEnough = 1056; //金币不够
+    OPRC_CoinTooMore = 1058; //金币太多了,请换高倍场
+    OPRC_CoinSceneYouAreGaming = 1059; //游戏还未结束,不能换桌
+    OPRC_NoFindDownTiceRoom = 1079; //没有找到可以下米的房间
+    OPRC_ChangeRoomTooOften = 1080; //老板你换桌太频繁了,请稍等下
+    OPRC_NoOtherDownTiceRoom = 1081; //对不起，没有其他下米房间可换
+    OPRC_OpYield = 1082; //操作被挂起
+    OPRC_RoomGameTimes = 1103;//超过最大游戏次数
+    OPRC_CoinSceneEnterQueueSucc = 1105;
+    OPRC_CoinSceneEnterQueueFail = 1106;
+    OPRC_CoinSceneEnterQueueOverTime = 1107;
+
+    OPRC_MustBindPromoter = 1113; //必须绑定推广员
+    OPRC_YourAreGamingCannotLeave = 1078;   //
+
+}
+//自由场协议编号 2320-2339
+enum CoinSceneGamePacketID {
+    PACKET_CoinSceneGame_ZERO = 0;                       // 弃用消息号
+	PACKET_CS_COINSCENE_GETPLAYERNUM = 2320;
+	PACKET_SC_COINSCENE_GETPLAYERNUM = 2321;
+	PACKET_CS_COINSCENE_OP			 = 2322;
+	PACKET_SC_COINSCENE_OP			 = 2323;
+	PACKET_CS_COINSCENE_LISTROOM     = 2324;
+	PACKET_SC_COINSCENE_LISTROOM     = 2325;
+    PACKET_SC_COINSCENE_QUEUESTATE   = 2326;
+}
+
+//PACKET_CS_COINSCENE_GETPLAYERNUM
+//获取场次人数
+message CSCoinSceneGetPlayerNum{
+    int32 GameId = 1;	//游戏ID
+    int32 GameModel = 2;//游戏model
+}
+
+//PACKET_SC_COINSCENE_GETPLAYERNUM
+message SCCoinSceneGetPlayerNum{
+    repeated int32 Nums = 1;		//场次人数
+}
+
+//PACKET_CS_COINSCENE_OP
+//玩家进入房间
+message CSCoinSceneOp{
+    int32 Id = 1;	//
+	int32 OpType = 2;//0:进入 1:离开 2:换桌
+	repeated int32 OpParams = 3;
+    string Platform = 4;
+}
+
+//PACKET_SC_COINSCENE_OP
+message SCCoinSceneOp{
+    OpResultCode OpCode = 1;		//操作码
+    int32 Id = 2;	//
+	int32 OpType = 3;
+	repeated int32 OpParams = 4;
+}
+
+//PACKET_CS_COINSCENE_LISTROOM
+//查看房间列表
+message CSCoinSceneListRoom{
+    int32 Id = 1;	//游戏ID：对应DB_GameFree.xlsx中的id
+}
+
+//房间信息
+message CoinSceneInfo{
+    int32 SceneId = 1;
+    int32 PlayerNum = 2;
+}
+
+//PACKET_SC_COINSCENE_LISTROOM
+//查看房间列表
+message SCCoinSceneListRoom{
+	int32 Id = 1;	              //游戏ID：对应DB_GameFree.xlsx中的id
+    int32 LimitCoin = 2;         //入场下限
+    int32 MaxCoinLimit = 3;      //入场上限
+    int32 BaseScore = 4;         //最小下注或者底分
+    int32 MaxScore = 5;          //最大下注
+    int32 MaxPlayerNum = 6;      //最大人数
+    repeated int32 OtherIntParams = 7;    //其他参数
+    repeated CoinSceneInfo Datas = 8;     //房间信息
+}
+//PACKET_SC_COINSCENE_QUEUESTATE
+message SCCoinSceneQueueState{
+    int32 GameFreeId = 1;
+    int32 Count = 2;
+    int64 Ts = 3;
+}

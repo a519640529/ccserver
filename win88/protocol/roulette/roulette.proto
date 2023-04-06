@@ -1,0 +1,110 @@
+syntax = "proto3";
+package roulette;
+option go_package = ".;roulette";
+
+//轮盘 Roulette
+enum RouletteMmoPacketID {
+    PACKET_SC_Roulette_Default = 0;
+    PACKET_SC_Roulette_RoomInfo = 5410;
+    PACKET_CS_Roulette_PlayerOp = 5411;
+    PACKET_SC_Roulette_RoomState = 5412;
+    PACKET_SC_Roulette_Billed = 5413;
+    PACKET_SC_Roulette_PLayerOn = 5414;
+    PACKET_SC_Roulette_PlayerOp = 5415;
+    PACKET_SC_Roulette_TopPlayer = 5416;
+    PACKET_SC_Roulette_BetChange = 5417;
+}
+message RouletteBetInfo{
+    repeated int32 Cnt = 1;     //0:1号筹码数量 1:2号筹码数量 2:3号筹码数量 3:4号筹码数量
+    int32 BetPos =2;   //下注位置 1-157
+}
+message RoulettePlayerData{
+    string Name = 1;   //名字
+    int32 SnId = 2;    //账号
+    int32 Head = 3;    //头像
+    int32 Sex = 4;     //性别
+    int64 Coin = 5;    //金币
+    int32 Pos = 6;     //座位位置
+    int32 Flag = 7;    //二进制标记 第一位:是否掉线(0:在线 1:掉线) 第二位:是否准备(0:未准备 1:已准备)
+    repeated string Params = 8;    //其他数据 如:ip 等
+    int32 Longitude = 9;  //经度
+    int32 Latitude = 10;   //纬度
+    string City = 11;      //城市 例:中国-河南省-郑州市
+    int32 NiceId = 12;     //靓号
+    string AgentCode = 13; //代理商编号
+    int32 HeadOutLine = 14;//头像框
+    int32 VIP = 15;        //VIP等级
+    int64 lately20BetCoin = 16;//20局下注金额
+    int64 lately20Win = 17;    //20局以内赢了几次
+    int64 BetCoin = 18;        //当局下注金额
+    repeated RouletteBetInfo LastBetInfo = 19;//上一局下注额
+    repeated RouletteBetInfo BetInfo = 20;    //详细下注区域
+}
+//房间信息
+//PACKET_SC_Roulette_RoomInfo
+message SCRouletteRoomInfo {
+    int32 RoomId = 1;  //房间id
+    int32 Creator = 2; //创建者SnId
+    int32 GameId = 3;  //游戏id
+    int32 GameFreeId = 4;  //游戏场次id
+    int32 RoomMode = 5;//游戏模式
+    repeated int32 Params = 6;  //规则参数 0.LimitCoin 1.MaxCoinLimit 2.BetLimit
+    int32 NumOfGames = 7;  //当前第几局
+    int32 State = 8;       //房间当前状态
+    int32 TimeOut = 9;     //已经用的时间 单位:秒
+    repeated RoulettePlayerData Players = 10; //top榜 根据玩家pos识别 最多3个玩家
+    int32 DisbandGen = 11;     //解散申请
+    int32 AgentId = 12;    //代开房者
+    repeated int32 ParamsEx = 13;   //比赛参数
+    int32 SceneType = 14;  //房间模式 0:房卡模式 1:钻石模式
+    int32 BaseScore = 15;  //基础分
+    int32 TotalOfGames = 16;   //总局数
+    repeated int32 WinRecord = 17;      //历史中奖号码记录
+    repeated int32 MaxBetCoin = 18;     //多门押注上限
+}
+//上座玩家信息更新
+//PACKET_SC_Roulette_TopPlayer
+message SCRouletteTopPlayer{
+    repeated RoulettePlayerData Players = 1; //top榜 根据玩家pos识别 最多3个玩家
+}
+//玩家操作
+//PACKET_CS_Roulette_PlayerOp
+message CSRoulettePlayerOp {
+    int32 OpCode = 1;  //下注 0.准备 1.取消准备 2.踢人 3.下注 4.撤销 5.在线玩家列表 6.续投
+    repeated int64 OpParam = 2; //参数 0.下注位置 1.筹码位置 2.筹码数量 默认为1
+}
+//PACKET_SC_Roulette_PlayerOp
+message SCRoulettePlayerOp {
+    int32 OpRCode = 1;  //请求结果 0.成功 1.押注超过上限 2.金币不足 3.已经续压 4.没有下注无法撤销
+    int32 OpCode = 2;   //下注 0.准备 1.取消准备 2.踢人 3.下注 4.撤销 6.续投
+    int32 Pos = 3;      //玩家pos
+    repeated RouletteBetInfo ProceedBetCoin = 4;  //玩家撤销续压的押注额 续压时为续压的押注额
+}
+//通知玩家 其他玩家的下注额(不包含自己和上座玩家)
+//PACKET_SC_Roulette_BetChange
+message SCRouletteBetChange{
+    repeated RouletteBetInfo BetInfo = 1;  //时间阶段玩家下注改变值
+}
+//在线玩家列表
+//PACKET_SC_Roulette_PLayerOn
+message SCRoulettePlayerOn{
+    repeated RoulettePlayerData Players = 1;// 最多21个玩家
+}
+//房间状态更新
+//PACKET_SC_Roulette_RoomState
+message SCRouletteRoomState {
+    int32 State = 1; //房间当前状态 0.准备状态；1.下注 2.开奖 3.结算 4.开始倒计时
+    // Params 游戏子状态的参数列表：
+    repeated int32 Params = 2; //状态参数
+}
+message RouletteBilled{
+    int32 Pos = 1;     //位置
+    int64 Coin = 2;    //赢的总金额
+    int64 GainCoin = 3;//变动金额
+    int64 LastCoin = 4;//当前金额
+    repeated RouletteBetInfo BetInfo = 5;  //玩家下注总值
+}
+//PACKET_SC_Roulette_Billed
+message SCRouletteBilled {
+    repeated RouletteBilled Players = 1; //玩家 pos表示位置
+}

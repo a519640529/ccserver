@@ -1,0 +1,133 @@
+{
+  "NewPlayerCoin":1000000,
+  "UpgradeAccountGiveCoin":300,
+  "UpgradeAccountGiveCoinLimit":20000,
+  "LogBatchWriteCount":1024,
+  "LogBatchWriteInterval":1,
+  "LogHoldDuration":3,
+  "BullfightMostBackwardFind":4,
+  "BullfightEachGameChgCardMax":4,
+  "WinthreeMostBackwardFind":3,
+  "VerifyClientVersion":true,
+  "HundredBullBankNumbers":10,
+  "SrvMaintain":false,
+  "HundredSceneRecoveryCoe":{
+    "100000001":3,
+    "100000002":3,
+    "110000001":3,
+    "110000002":3,
+    "120000001":3,
+    "120000002":3
+  },
+  "HundredInviteRobCnt":25,
+  "HundredScenePreCreate":false,
+  "HundredRecoveryParam":0.02,
+  "HundredCloseRecovery":true,
+  "HundredBullRealPlayerNum":5,
+  "HundredBullAllBetParam":[80000,200000,600000],
+  "HundredBullPlayerBetLimitParam":[1,2,3],
+  "HundredSceneCoinCecycle":30,
+  "RollColorEventChance":100,
+  "WaterMarginReturnBonus":55,
+  "SendWorldJackpots":50000,
+  "WriteEventLog": true,
+  "GameTax":5,
+  "WaterMarginRatio":{
+    "BigExRatio":60,
+    "MiddleExRatio":40,
+    "SmallExRatio":20,
+    "NormalRatio":880
+  },
+  "GoddessRatio":{
+    "BigExRatio":40,
+    "MiddleExRatio":0,
+    "SmallExRatio":20,
+    "NormalRatio":940
+  },
+  "FruitMachineRatio":{
+    "BigExRatio":0,
+    "MiddleExRatio":0,
+    "SmallExRatio":50,
+    "NormalRatio":950
+  },
+  "RollLineRatio":{
+    "BigExRatio":0,
+    "MiddleExRatio":0,
+    "SmallExRatio":100,
+    "NormalRatio":850
+  },
+  "RollTeamRatio":{
+    "BigExRatio":40,
+    "MiddleExRatio":0,
+    "SmallExRatio":60,
+    "NormalRatio":850
+  },
+  "FootballHeroRatio":{
+    "BigExRatio":60,
+    "MiddleExRatio":40,
+    "SmallExRatio":20,
+    "NormalRatio":880
+  },
+  "IslandSurvivalRatio":{
+    "BigExRatio":0,
+    "MiddleExRatio":0,
+    "SmallExRatio":50,
+    "NormalRatio":900
+  },
+  "DoudizhuWinCoinMaxRate": 10,
+  "DoudizhuBadCardRate": 100,
+  "DoudizhuBirdCount": 10,
+  "DoudizhuBirdMaxRate": 10,
+  "DoudizhuBirdGoodCardRate": 100,
+  "DoudizhuLibRandRange": [0,10000,2000,10000,40000,3000,50000,80000,3000,80000,115000,2000],
+  "DDZKey": "14c22b14-6db3-4b3f-8915-cb32792db26b",
+  "SpreadAccountQPT":100,
+  "FakeVerifyCode":"123456",
+  "SceneMaxIdle":30,
+  "BullFightUseOldBill":false,
+  "SameIpNoLimit": true,
+  "SamePlaceLimit":5,
+  "WinthreePokerLimit":1,
+  "GameConfigGroupUseRobot":true,
+  "IsWebApiUseMQ":true,
+  "DtAutoBalance":true,
+  "UseEtcd":true,
+  "CtrlSwitch":{
+    "5":{
+      "IsCoinPoolCtrlSwitch":true,
+      "IsPlayerFeelCtrlSwitch":false
+    },
+    "34":{
+      "IsCoinPoolCtrlSwitch":true,
+      "IsPlayerFeelCtrlSwitch":true
+    },
+    "36":{
+      "IsCoinPoolCtrlSwitch":true,
+      "IsPlayerFeelCtrlSwitch":true
+    },
+    "45":{
+      "IsCoinPoolCtrlSwitch":true,
+      "IsPlayerFeelCtrlSwitch":true
+    },
+    "49":{
+      "IsCoinPoolCtrlSwitch":true,
+      "IsPlayerFeelCtrlSwitch":true
+    }
+  },
+  "NoticeCoinMin":100000,
+  "NoticeCoinMax":400000,
+  "OpenPlatformRank":true,
+  "ClubGiveCoinLimit":1000,
+  "IsStoreThirdBetInfo":true,
+  "IsStore2Playerlistlog_Plt":true,
+  "GDYDealLowSearchNum": 4,
+  "GDYDealLowSearchRate": 50,
+  "GDYDealOtherSearchNum": 2,
+  "GDYDealOtherSearchRate": 50,
+  "PlayerWatchNum": 2,
+  "DNOpenSmartSwitchPlatform": ["1"],
+  "CgAddr":"http://192.168.10.230:8091/",
+  "ThirdPltTransferMaxTry":1,
+  "IsRobotInMatchSeasonRank":true,
+  "MatchSeasonRankMaxNum":50
+}

@@ -1,0 +1,33 @@
+package main
+
+import (
+		"github.com/globalsign/mgo"
+	"github.com/globalsign/mgo/bson"
+	"fmt"
+	"time"
+)
+var playerinfo *mgo.Collection
+func main() {
+	session, err := mgo.Dial("mongodb://hjgame:123456@192.168.0.242:27017/")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	db:=session.DB("jxjy_game_hj")
+	playerinfo=db.C("user_playerinfo")
+
+	go find(1420)
+	go find(1421)
+	time.Sleep(time.Second*5)
+}
+func find(snid int32) {
+	fmt.Printf("head:%d;start at:%d \n",snid,time.Now().UnixNano())
+	var result interface{}
+	err := playerinfo.Find(bson.M{"head": snid}).One(&result)
+	if err != nil {
+		fmt.Println(err)
+	}else {
+		fmt.Println(result)
+	}
+	fmt.Printf("head:%d;end at:%d  \n",snid,time.Now().UnixNano())
+}

@@ -1,0 +1,79 @@
+syntax = "proto3";
+package activity;
+option go_package = ".;activity";
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+}
+// vip彩金
+enum VipBonusPacketID {
+    PACKET_VipBonus_ZERO = 0;                       // 弃用消息号
+    PACKET_CS_VipBonus_Info = 2600; 				// 彩金信息
+    PACKET_SC_VipBonus_Info = 2601; 				// 彩金信息返回
+    PACKET_CS_VipBonus_Get  = 2602; 				// 领取
+    PACKET_SC_VipBonus_Get  = 2603; 				// 领取返回
+	PACKET_SC_Notify_ActVipBonus_State  = 2604;     // 通知活动状态
+	PACKET_SC_Notify_VipGetBonus_State  = 2605;     // 通知奖励领取状态变化
+	
+}
+
+//显示信息
+message VipBonusInfo {
+    int32  LevelCoin   	= 1;    // 等级奖励
+    int32  DayCoin      	= 2;    // 日奖励
+    int32  WeekCoin     	= 3;    // 周奖励
+    int32  MonthCoin      	= 4;    // 月奖励	
+}
+
+//领取信息
+message VipBonusGetInfo {
+    int32  Level   	= 1;    // 等级奖励领取状态 位运算 1标识领取 
+    int32  Day      	= 2;    // 日奖励领取状态 0 未领取 1领取
+    int32  Week     	= 3;    // 周奖励领取状态 0 未领取 1领取
+    int32  Month      	= 4;    // 月奖励领取状态 0 未领取 1领取
+}
+
+// vip奖励信息返回
+message SCVipBonusInfo {
+    repeated VipBonusInfo Infos 		= 1;   	// 彩金信息
+	VipBonusGetInfo GetInfo 	= 2;    //领取信息
+}
+
+// 获得vip奖励信息
+message CSVipBonusInfo {
+
+}
+
+
+// 领取奖励返回
+message SCVipBonus {
+    OpResultCode OpRetCode		= 1;    // 错误码
+	VipBonusGetInfo GetInfo 	= 2;    //领取成功更新信息
+}
+
+// 领取奖励
+message CSVipBonus {
+    int32  SelectBonus  = 1;    	// 选择奖励 1 vip等级 2 vip日 3 vip周 4vip 月	
+    int32  SelectVip    = 2;      	// Vip等级礼包 用于领取vip等级奖励使用		
+}
+
+
+// 通知活动状态变化
+message SCNotifyVipBonusState {
+    int32 State = 1;    // 状态 0 关闭 1开启
+}
+
+// 通知活动状态变化
+message SCNotifyVipGetBonusState {
+    VipBonusGetInfo GetInfo = 1;    // 领取信息
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+{
+	"GameName":"二十一点",
+	"GameId":206,
+	"GameMode":[0],
+	"SceneType":[1,2,3,4,99],
+	"CanForceStart":true,
+	"MinPlayerCnt":1,
+	"DefaultPlayerCnt":5,
+	"MaxIndex":0,
+	"TimeFreeStart":0,
+	"TimeFreeEnd":0,
+	"DependentPlayerCnt":true,
+	"EnterAfterStart":true,
+	"PerGameTakeCard":100,
+	"Params":[
+	]
+}

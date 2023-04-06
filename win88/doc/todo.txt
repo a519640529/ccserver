@@ -1,0 +1,12 @@
+业务日志数据(如:帐变，牌局记录，登录日志等)
+	1.rabitmq接口和实例整理
+	2.gamesrv日志类型的db写入,推送到rabitmqmq中,通过指定服务消费mq中的记录做真正写入处理
+	3.worldsrv日志类型的db写入,推送到rabitmqmq中,通过指定服务消费mq中的记录做真正写入处理
+
+后台数据上报类
+原业务流程
+	1.通过webapi直接调用后台接口(耦合性太强,pass)
+	2.上报数据先写到mgo,然后再由datesrv从mgo中取出写入到rabitmq中，需要优化掉mgo中间层，改为直接由各服务直接推送到rabitmq中
+
+
+

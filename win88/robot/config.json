@@ -1,0 +1,143 @@
+{
+    "netlib": {
+		"SrvInfo":{
+			"Name": "RobotServer",
+			"Type":	9,
+			"Id": 901,
+			"AreaID": 1,
+			"Banner": [
+					"=================",
+					"robot server",
+					"================="
+				]
+		},
+		
+		"IoServices": [	
+			{
+				"Id": 901,
+				"Type": 9,
+				"AreaId": 1,
+				"Name": "RobotService",
+				"Ip": "",
+				"Port": 9003,
+				"MaxDone": 200000,
+				"MaxPend": 200000,
+				"MaxPacket": 65535,
+				"MaxConn": 2,
+				"RcvBuff": 8192000,
+				"SndBuff": 8192000,
+				"WriteTimeout": 300,
+				"ReadTimeout": 300,
+				"IsInnerLink": true,
+				"NoDelay": true,
+				"SupportFragment": true,
+				"AuthKey": "1234567890",
+				"FilterChain": ["session-filter-auth"],
+				"HandlerChain": ["session-srv-registe","srv-service-handler", "handler-world-close"]
+			}
+		]		
+    },
+
+	"module": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+
+	"executor": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 0
+			},
+		"Worker": {
+			"WorkerCnt": 8,
+			"Options": {
+				"QueueBacklog": 1024,
+				"MaxDone": 1024,
+				"Interval": 0
+			}
+		}
+	},
+	
+	"timer": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+						
+    "core": {
+	    "MaxProcs": 4
+    },
+	
+	"cmdline": {
+		"SupportCmdLine": true
+	},
+	"signal":{
+		"SupportSignal": true
+	},
+	"benchmark": {
+    	"Count":100,
+		"ValideDate":1,
+		"AppId":"5c56d1644966f078bfb90c71",
+		"AccountHost":"http://127.0.0.1:7878",
+		"AccountPrefix":"benchmark_",
+		"GameId":1,
+		"GameMode":0,
+		"RoomId": 540600,
+		"IgnoreMatchId":[10206],
+		"HeadUrl":"http://cdnres.izaiyou.com/doubeires/head/",
+		"Connects": {
+			"Id": 10000,
+			"Type": 1,
+			"AreaId": 1,
+			"Name": "ClientService",
+		  	"Ip": "127.0.0.1",
+		  	"Port": 11001,
+			"Protocol":"tcp",
+			"Path":"/",
+			"MaxDone": 200,
+			"MaxPend": 200,
+			"MaxPacket": 65535,
+			"MaxConn": 2000,
+			"RcvBuff": 4096,
+			"SndBuff": 4096,
+			"WriteTimeout": 3600,
+			"ReadTimeout": 3600,
+			"SoLinger": 10,
+			"IsInnerLink": true,
+			"NoDelay": true,
+			"SupportFragment": true,
+			"AuthKey": "www.jxjy.games.cn",
+			"IsClient": true,
+			"AllowMultiConn":true,
+		  	"FilterChain": ["session-filter-auth"],
+		  	"HandlerChain": ["handler-gate-session"]
+		}
+    },
+	"costum": {
+		"MgoRpcCliNet": "tcp",
+		"MgoRpcCliAddr": "127.0.0.1:8999",
+		"MgoRpcCliReconnInterV": 3,
+		"UseTIENLENSmartApi3th": true,
+		"TIENLENApi3thTimeout": 3,
+		"TIENLENApi3thAddr":"http://3.110.111.158:5000",
+		"TIENLENApiKey": ""
+	},
+	"data": {
+		"RootPath": "../data",
+		"Files": [
+			"DB_NameBoy.dat",
+			"DB_NameGirl.dat",
+			"DB_MatchFree.dat",
+			"DB_MatchRule.dat",
+			"DB_Task.dat",
+			"DB_GameFree.dat",
+			"DB_GameRule.dat"
+        ]
+	}	
+}

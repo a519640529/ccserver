@@ -1,0 +1,8 @@
+{
+    "language": {
+		"WorkPath": "E:/gocode/trunk/src",
+		"XlsxPath": "games.yol.com/win88/language",
+		"TsPath": "games.yol.com/win88/language",
+		"LanguageType": ["zh.ts","en.ts","jn.ts","yn.ts"]
+	}
+}

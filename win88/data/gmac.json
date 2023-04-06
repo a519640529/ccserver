@@ -1,0 +1,9 @@
+{
+	"InviteRobot":1, 
+	"AgentCreateRoom":2,
+	"SpecialCareOf":20,
+	"SpecailCareOfIds":[],
+	"LuYiTingLevel": 20,
+	"ChangeCardLevel": 10,
+	"WhiteList":[]
+}

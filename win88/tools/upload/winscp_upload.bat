@@ -1,0 +1,1 @@
+WinSCP.exe /console /script=upload.txt /log=upload.log

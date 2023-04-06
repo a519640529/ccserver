@@ -1,0 +1,8 @@
+{
+	"LHMin": 6000,
+	"LHMax": 8500,
+	"BullCardTypeWin":[3000,3000,4000,3000,2200],
+	"BullCardTypeWin2":[1000,3000,4000,3000,6000],
+	"FishLuckRate": 10,
+	"FishRate": 10
+}

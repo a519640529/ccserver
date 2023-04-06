@@ -1,0 +1,130 @@
+syntax = "proto3";
+package gamehall;
+option go_package = ".;gamehall";
+
+//操作结果
+enum OpResultCode_Hundred {
+  OPRC_Sucess_Hundred = 0; //成功
+  OPRC_Error_Hundred = 1; //失败
+
+  OPRC_YourResVerIsLow_Hundred = 1044; //资源版本过低
+  OPRC_YourAppVerIsLow_Hundred = 1045; //APK版本过低
+  OPRC_RoomHadClosed_Hundred = 1053; //牌局已结束，正在结算
+  OPRC_SceneServerMaintain_Hundred = 1054; //服务器维护中,请稍后创建
+  OPRC_CoinNotEnough_Hundred = 1056; //金币不够
+  OPRC_CoinTooMore_Hundred = 1058; //金币太多了,请换高倍场
+  OPRC_RoomGameTimes_Hundred = 1103;//超过最大游戏次数
+  OPRC_MustBindPromoter_Hundred = 1113; //必须绑定推广员
+}
+//百人场操作消息id  2380-2399
+enum HundredScenePacketID {
+  PACKET_HundredScene_ZERO = 0;                       // 弃用消息号
+  PACKET_CS_HUNDREDSCENE_OP = 2380;
+  PACKET_SC_HUNDREDSCENE_OP = 2381;
+  PACKET_CS_HUNDREDSCENE_GETPLAYERNUM = 2382;
+  PACKET_SC_HUNDREDSCENE_GETPLAYERNUM = 2383;
+  PACKET_CS_GAMEJACKPOT = 2384;
+  PACKET_SC_GAMEJACKPOT = 2385;
+  PACKET_CS_GAMEHISTORYINFO = 2386;
+  PACKET_SC_GAMEPLAYERHISTORY = 2387;
+  PACKET_SC_GAMEBIGWINHISTORY = 2388;
+  PACKET_BD_GAMEJACKPOT = 2389;    //游戏内广播奖池
+}
+//玩家进入房间
+message CSHundredSceneOp{
+  int32 Id = 1;
+  int32 OpType = 2;//0:进入 1:离开 2:换桌
+  repeated int32 OpParams = 3;
+  int32 ApkVer = 4;
+  int32 ResVer = 5;
+}
+
+message SCHundredSceneOp{
+  OpResultCode_Hundred OpCode = 1;    //操作码
+  int32 Id = 2;  //
+  int32 OpType = 3;
+  repeated int32 OpParams = 4;
+  int32 MinApkVer = 5;  //最低apk版本号
+  int32 LatestApkVer = 6;//最新apk版本号
+  int32 MinResVer = 7;  //最低资源版本号
+  int32 LatestResVer = 8;//最新资源版本号
+}
+
+//获取场次人数
+message CSHundredSceneGetPlayerNum{
+  int32 GameId = 1;  //游戏ID
+  int32 GameModel = 2;//游戏模式
+}
+
+//PACKET_SC_HUNDREDSCENE_GETPLAYERNUM
+message SCHundredSceneGetPlayerNum{
+  repeated int32 Nums = 1;    //场次人数
+}
+
+//PACKET_CS_GAMEJACKPOT
+message CSHundredSceneGetGameJackpot{}
+
+message GameJackpotFundInfo{
+  int32 GameFreeId = 1;
+  int64 JackPotFund = 2;
+}
+
+//PACKET_SC_GAMEJACKPOT
+message SCHundredSceneGetGameJackpot{
+  repeated GameJackpotFundInfo GameJackpotFund = 1; //奖池列表
+}
+
+//奖池 PACKET_BD_GAMEJACKPOT
+message BroadcastGameJackpot{
+  repeated int64 JackpotFund = 1;     //当前奖池金额
+  int32 GameFreeId = 2;      //游戏id
+}
+
+//获取历史记录及爆奖记录
+//PACKET_CS_GAMEHISTORYINFO
+message CSHundredSceneGetHistoryInfo{
+  int32 GameId = 1;  //游戏ID
+  int32 GameHistoryModel = 2;  //1.历史记录；2.爆奖记录
+}
+
+// 游戏记录信息
+message GameHistoryInfo{
+  string GameNumber = 1; // 游戏编号
+  int64 CreatedTime = 2; // 时间
+  int64 Multiple = 3; //下注倍率
+  string Hash = 4;    //Hash
+}
+
+// 玩家记录信息
+message PlayerHistoryInfo{
+  string SpinID = 1; // 操作id
+  int64 CreatedTime = 2; // 时间
+  int64 TotalBetValue = 3; // 总下注
+  int64 TotalPriceValue = 4; // 总赢分
+  bool IsFree = 5; // 是否免费
+  int64 TotalBonusValue = 6; // 是否免费
+  int64 Multiple = 7; //下注倍率
+}
+
+// 玩家记录 
+// PACKET_SC_GAMEPLAYERHISTORY
+message SCPlayerHistory{
+  repeated  PlayerHistoryInfo PlayerHistory = 1;
+  repeated  GameHistoryInfo GameHistory = 2;
+}
+// 大奖记录信息
+message BigWinHistoryInfo{
+  string SpinID = 1;      // 操作id
+  int64 CreatedTime = 2;  // 时间
+  int64 BaseBet = 3;      // 单条线下注（底注）
+  int64 PriceValue = 4;   // 大奖赢分
+  string UserName = 5;    // 昵称
+  bool IsVirtualData = 6; // 是否为虚拟数据
+  int64 TotalBet = 7;     // 总下注
+  repeated int32 Cards = 8;//牌型
+}
+// 大奖记录
+message SCBigWinHistory{
+  repeated  BigWinHistoryInfo BigWinHistory = 1;
+  int32 GameId = 2;
+}

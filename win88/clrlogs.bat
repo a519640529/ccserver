@@ -1,0 +1,14 @@
+del /F/S gatesrv\*.log
+del /F/S gatesrv\*.log.*
+del /F/S mgrsrv\*.log
+del /F/S mgrsrv\*.log.*
+del /F/S worldsrv\*.log
+del /F/S worldsrv\*.log.*
+del /F/S gamesrv\*.log
+del /F/S gamesrv\*.log.*
+del /F/S dbproxy\*.log
+del /F/S dbproxy\*.log.*
+del /F/S minigame\*.log
+del /F/S minigame\*.log.*
+del /F/S robot\*.log
+del /F/S robot\*.log.*

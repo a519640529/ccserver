@@ -1,0 +1,77 @@
+syntax = "proto3";
+package bag;
+option go_package = ".;bag";
+//操作结果
+enum OpResultCode {
+  OPRC_Sucess = 0; //成功
+  OPRC_Error = 1; //未知错误
+  OPRC_UseUp = 2; //道具不足
+  OPRC_IdErr = 3; //物品编号不存在
+  OPRC_DbErr = 4; //存储出错
+  OPRC_BagFull = 5; //背包已满
+  OPRC_NotPlayer = 6; //找不到玩家
+}
+// 商城
+enum SPacketID {
+  PACKET_BAG_ZERO = 0;        // 弃用消息号
+  PACKET_ALL_BAG_INFO = 2530; //请求背包数据
+  PACKET_ALL_BAG_USE = 2531;  //使用背包道具
+  PACKET_SC_SYNCBAGDATA = 2532;//背包数据更新
+  PACKET_ALL_BAG_END = 2549;  //最大消息号
+}
+//物品信息 后续精简
+message ItemInfo{
+  //数据表数据
+  int32 ItemId = 1;  // 物品ID
+  int32 ItemNum = 2; // 物品数量
+  //  string Name = 3; // 名称
+  //  repeated int32 ShowLocation = 4; // 分页类型 1，道具类 	2，资源类	3，兑换类
+  //  repeated int32 Classify = 5; // 分页类型 1，道具类 	2，资源类	3，兑换类
+  //  int32 Type = 6; // 道具种类 1，宠物碎片 2，角色碎片
+  //  repeated int32 Effect0 = 7; // 竖版道具功能 1，使用 2，赠送 3，出售
+  //  repeated int32 Effect = 8; // 横版道具功能 1，使用 2，赠送 3，出售
+  //  int32 SaleType = 9; // 出售类型
+  //  int32 SaleGold = 10; // 出售金额
+  //  int32 Composition = 11;  // 能否叠加 1，能 2，不能
+  //  int32 CompositionMax = 12; // 叠加上限
+  //  int32 Time = 13; // 道具时效 0为永久
+  //  string Location = 14; // 跳转页面
+  //  string Describe = 15;  // 道具描述
+  int64 ObtainTime = 3; //获取的时间
+}
+
+//PACKET_ALL_BAG_INFO
+message CSBagInfo {
+  int32 NowLocation = 1;//0.通用 1.大厅 2.Tienlen 3.捕鱼
+}
+//PACKET_ALL_BAG_INFO
+message SCBagInfo {
+  OpResultCode RetCode = 1;
+  repeated ItemInfo Infos = 2;     // 商品信息
+  int32    BagNumMax = 3;//最大格子
+}
+
+//PACKET_ALL_BAG_USE
+message CSUpBagInfo {
+  int32 ItemId = 1;//物品ID
+  int32 ItemNum = 2;//物品数量
+  int32 Opt = 3;//操作 0.使用 1.赠送 2.出售
+  int32 AcceptSnId = 4;//被赠送玩家id
+  int32 NowEffect = 5;//0.竖版 1.横版
+  int64 ShowId = 6;// 邮件显示位置  0 所有大厅都显示 1 主大厅显示 2 len大厅显示 4 fish大厅显示
+}
+//PACKET_ALL_BAG_USE
+message SCUpBagInfo {
+  OpResultCode RetCode = 1;
+  int32 NowItemId = 2;//当前物品物品ID
+  int32 NowItemNum = 3;//当前物品剩余数量
+  //使用道具获得的
+  int64 Coin = 4;//金币
+  int64 Diamond = 5;// 钻石
+  //使用道具获得的
+  repeated ItemInfo Infos = 6;// 物品信息
+}
+//PACKET_SC_SYNCBAGDATA
+message SCSyncBagData{
+  repeated ItemInfo Infos = 1;// 物品信息
+}

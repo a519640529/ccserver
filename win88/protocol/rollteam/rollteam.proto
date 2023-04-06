@@ -1,0 +1,131 @@
+syntax = "proto3";
+package rollteam;
+option go_package = ".;rollteam";
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+}
+//世界杯
+enum RTPacketID {
+    PACKET_RollTeam_ZERO = 0;                       // 弃用消息号
+    ROLLTEAM_SC_ROOMINFO = 4065;        //房间信息
+    ROLLTEAM_SC_ROOMSTATE = 4066;       //房间状态
+    ROLLTEAM_CS_OP = 4067; //玩家操作（客户-》服务）
+    ROLLTEAM_SC_OP = 4068; //玩家操作（服务-》客户）
+    ROLLTEAM_SC_GAMEBILLED = 4069;      //游戏结算
+    ROLLTEAM_SC_JACKPOTLIST = 4070;     //爆池记录
+    ROLLTEAM_SC_SMALLGAMELIST = 4071;   //小游戏记录
+    ROLLTEAM_SC_SEATS = 4072;           //座位变化
+    ROLLTEAM_SC_SENDJACKPOT = 4073;     //奖池变化推送
+}
+
+message RollTeamPlayerData {
+    string Name = 1;   //名字
+    int32 SnId = 2;    //账号
+    int32 Head = 3;    //头像
+    int32 Sex = 4;     //性别
+    int64 Coin = 5;    //金币
+    int32 Pos = 6;     //座位位置
+    int32 Flag = 7;    //二进制标记
+    repeated string Params = 8; //其他数据 如:ip 等
+    string City = 9;   //城市
+    int32 HeadOutLine = 10;  //头像框
+    int32 VIP = 11;
+}
+
+//房间信息
+message SCRollTeamRoomInfo {
+    int32 RoomId = 1;      //房间id
+    int32 Creator = 2;     //创建者SnId
+    int32 GameId = 3;      //游戏id
+    int32 RoomMode = 4;    //游戏模式
+    repeated int32 Params = 5;      //规则参数
+    int32 NumOfGames = 6;  //当前第几局
+    repeated int32 Cards = 7;       //牌数据 (没开牌之前是两个-1)
+    int32 State = 8;       //房间当前状态
+    int32 TimeOut = 9;     //等待剩余时间 单位:毫秒
+    int32 DisbandGen = 10; //解散申请
+    int32 AgentId = 11;    //代开房者
+    repeated int32 ParamsEx = 12;   //其他参数
+    int32 SceneType = 13;  //房间模式 1:初级模式 3:高级模式
+    repeated RollTeamPlayerData Players = 14; //房间内的玩家信息
+    int32 ChipData = 15;   //当前选择的筹码
+    int32 FreeTimes = 16;  //免费转动次数
+    int32 FreeType = 17;   //免费转动类型w
+    repeated int32 OtherParams = 18; //其它参数
+    bool PokerGame = 19;  //扑克小游戏
+    int64 PokerBaseCoin = 20;//基础金币
+    int32 PokerRate = 21;//扑克倍率
+    int32 GameFreeId = 22;
+}
+//玩家操作
+//RollTeamPlayerOpStart 0 游戏
+//RollTeamPlayerOpJackList 1 查看礼物列表
+//RollTeamPlayerOpChangeRoom 2 切换房间
+//RollTeamPlayerOpPokerStart 3 开始翻倍
+//RollTeamPlayerOpPokerSel 4 扑克选择
+//RollTeamPlayerOpPokerOver 5 扑克结算
+//RollTeamPlayerOpSyncCoin 6 同步金币
+message CSRollTeamOp {
+    int32 OpCode = 1; //操作码
+    repeated int64 Params = 2; //操作参数
+}
+
+//玩家操作返回
+message SCRollTeamOp {
+    int32 SnId = 1;    //玩家ID
+    int32 OpCode = 2;  //操作码
+    repeated int64 Params = 3;  //操作参数
+    OpResultCode OpRetCode = 4; //操作结果
+}
+
+//每条线的结算数据
+message RollTeamLinesInfo {
+    int32 WinLine = 1;     //中奖线路0-29
+    int32 WinNum = 2;      //中奖数量1-5
+    int64 WinScore = 3;    //中奖分数
+    int32 WinItem = 4;     //中奖的国家
+}
+
+//发送给客户端的数据
+message SCRollTeamGameBilled {
+    repeated int32 Cards = 1;       //需要翻出的牌，数组15个
+    int32 AllWinLines = 2; //中奖的线数
+    int64 AllWinScore = 3; //中奖的总分数
+    repeated RollTeamLinesInfo Lines = 4; //中奖的结果数组,存每条线的情况
+    int32 FreeTimes = 5;   //剩余免费转动次数
+    int32 FreeType = 6;    //免费转动类型
+    int64 CoinReward = 7;  //射门奖励
+    int64 RewardIndex = 8; //爆奖
+    repeated int64 RewardPool = 9;  //爆奖
+    bool PokerGame = 10;   //是否开始扑克小游戏
+}
+//房间状态
+message SCRollTeamRoomState {
+    int32 State = 1;   //房间当前状态
+    int32 SubState = 2; //房间当前子状态
+    repeated int32 Params = 3;  //状态参数
+}
+
+message SCRollTeamSendJackpot{
+    int64 Big = 1;     //奖池
+    int64 Small = 2;   //奖池
+}
+
+message RollTeamJackpot {
+    int64 jackpottime=1;   //时间戳
+    string jackpotName=2;  //昵称
+    int64 jackpotscore=3;  //奖励
+}
+
+//奖池记录
+message SCRollTeamJackpot {
+    repeated RollTeamJackpot Data = 1; //房间当前状态
+}
+
+//座位数据
+message SCRollTeamSeats {
+    repeated RollTeamPlayerData Data = 1; //房间当前状态
+}

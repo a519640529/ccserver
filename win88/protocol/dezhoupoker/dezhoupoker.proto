@@ -1,0 +1,298 @@
+syntax = "proto3";
+package dezhoupoker;
+option go_package = ".;dezhoupoker";
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+}
+
+//德州扑克
+enum DZPKPacketID {
+    PACKET_BlackJack_ZERO = 0;// 弃用消息号
+    PACKET_SC_DEZHOUPOKER_ROOMINFO = 5340;//房间信息
+    PACKET_SC_DEZHOUPOKER_ROOMSTATE = 5341;//房间状态
+    PACKET_CS_DEZHOUPOKER_OP = 5342;//玩家操作
+    PACKET_SC_DEZHOUPOKER_OP = 5343;//玩家操作
+    PACKET_SC_DEZHOUPOKER_GAMEBILLED = 5346;//游戏结算
+    PACKET_SC_DEZHOUPOKER_NEXTOPERNOTIFY = 5347;//广播通知下一个操作玩家和操作参数
+    PACKET_SC_DEZHOUPOKER_CARD = 5348;//发牌
+    PACKET_SC_DEZHOUPOKER_BANKANDBLINDPOS = 5349;//庄家和大小盲的位置
+    PACKET_SC_DEZHOUPOKER_POTS = 5350;//池
+    PACKET_SC_DEZHOUPOKER_SITDOWN = 5351;//坐下
+    PACKET_SC_DEZHOUPOKER_STANDUP = 5352;//站起
+    PACKET_SC_DEZHOUPOKER_GAMECOIN = 5353;//带入金币变化时推送
+    PACKET_SC_DEZHOUPOKER_PLAYERENTER = 5354;//玩家进入
+    PACKET_SC_DEZHOUPOKER_PLAYERLEAVE = 5355;//玩家离开
+    PACKET_SC_DEZHOUPOKER_SHOWPOKER = 5356;//亮牌
+    PACKET_SC_DEZHOUPOKER_GAMEBILLED_MIDDLE = 5357; //中途结算
+    PACKET_SC_DEZHOUPOKER_AUTOBUYIN = 5358;//自动带入
+    PACKET_SC_DEZHOUPOKER_GAMEBILLEDBYPOTS = 5359;//根据池来结算
+
+    PACKET_CSC_DEZHOUPOKER_WPUPDATE = 5360;//玩家的手牌胜率
+}
+
+
+//玩家操作
+//const (
+//	DezhouPokerPlayerOpNull       int32 = iota //0,初始值
+//	DezhouPokerPlayerOpCallAntes               //1,下底注
+//	DezhouPokerPlayerOpCall                    //2,跟进
+//	DezhouPokerPlayerOpFold                    //3,弃牌
+//	DezhouPokerPlayerOpCheck                   //4,让牌
+//	DezhouPokerPlayerOpRaise                   //5,加注
+//	DezhouPokerPlayerOpAllIn                   //6,全压
+//	DezhouPokerPlayerOpSmallBlind              //7,小盲
+//	DezhouPokerPlayerOpBigBlind                //8,大盲
+//	DezhouPokerPlayerOpAutoBuyIn               //9,自动买入 买入数量
+//	DezhouPokerPlayerOpAutoBuyInCfg            //10,请求自动买入配置
+//)
+
+
+//玩家信息
+message  DezhouPokerPlayerData {
+    string Name = 1;    //名字
+    int32 SnId = 2;    //账号
+    int32 Head = 3;    //头像
+    int32 Sex = 4;     //性别
+    repeated string Params = 5; //其他数据 如:昵称 头像 性别 ip 等
+    int64 Coin = 6;    //金币
+    int32 Pos = 7;        //座位位置
+    int32 Flag = 8;    //二进制标记 详见:数据字典
+    int32 Longitude = 9;//经度
+    int32 Latitude = 10;//纬度
+    string City = 11;    //城市 例:伦敦
+    int32 LastOp = 12;  //如上:玩家操作
+    repeated int32 Cards = 13;    //手牌
+    int64 CurRoundTotalBet = 14;//本轮押注已押的金币
+    int64 GameCoin = 15;    //游戏内带入的金币
+    int32 VIP = 16;    //玩家VIP等级
+    int32 HeadOutLine = 17;  //头像框
+    int32 NiceId = 18; //靓号[机器人用]
+}
+
+
+//场景状态
+//const (
+//	DezhouPokerSceneStateWaitPlayer            int = iota   //0 人数不够开启游戏，等待玩家上线
+//	DezhouPokerSceneStateWaitStart                          //1 人数够开启游戏, 延迟X秒开始游戏
+//	DezhouPokerSceneStateSelectBankerAndBlinds              //2 选庄家和大小盲
+//	DezhouPokerSceneStateAnte                               //3 下前注0，预留
+//	DezhouPokerSceneStateBlinds                             //4 下大小盲
+//	DezhouPokerSceneStateHandCard                           //5 发手牌
+//	DezhouPokerSceneStateHandCardBet                        //6 手牌下注1
+//	DezhouPokerSceneStateFlop                               //7 发3张翻牌
+//	DezhouPokerSceneStateFlopBet                            //8 翻牌下注2
+//	DezhouPokerSceneStateTurn                               //9 转牌
+//	DezhouPokerSceneStateTurnBet                            //10 转牌下注3
+//	DezhouPokerSceneStateRiver                              //11 河牌
+//	DezhouPokerSceneStateRiverBet                           //12 河牌下注4
+//	DezhouPokerSceneStateBilled                             //13 结算方式选择
+//	DezhouPokerSceneStateBilledNormal                       //14 正常结算
+//	DezhouPokerSceneStateBilledMiddle                       //15 半路结算 还剩一个未弃牌的玩家
+//	DezhouPokerSceneStateBilledAllIn                        //16 全部allin, 或者只有一个未Allin
+//	DezhouPokerSceneStateGameEnd                            //17 结算状态
+//	DezhouPokerSceneStateMax
+//)
+
+//房间信息
+//PACKET_SC_DEZHOUPOKER_ROOMINFO
+message SCDezhouPokerRoomInfo {
+    int32 RoomId = 1;    //房间id
+    int32 Creator = 2;    //创建者SnId
+    int32 GameId = 3;    //游戏id
+    int32 RoomMode = 4;//游戏模式
+    repeated int32 Params = 5;    //规则参数
+    int32 BankerPos = 6;//庄家位置
+    int32 State = 7;    //房间当前状态,如上
+    int32 TimeOut = 8;    //等待剩余时间 单位:秒
+    repeated DezhouPokerPlayerData Players = 9;    //房间内的玩家信息
+    repeated int32 PosList = 10;    //所有参与本局游戏的玩家位置，包括庄家，大小盲
+    int64 TotalBet = 11;        //本局桌面上已压的筹码总和
+    int32 CurOpIdx = 12;      //当前等待操作的玩家
+    repeated int32 Cards = 13;    //公牌
+    repeated int64 Pots = 14;    //主池+边池
+    repeated int32 MatchParams = 15;    //比赛参数
+    int64 SmallBlind = 16;      //小盲
+    int64 MinRaise = 17; //最小加注值
+    int64 RoundMaxBet = 18;  //当前轮最大下注值
+    int32 NextOperPos = 19; //下一个操作者位置
+    int64 NextOperCurRoundTotalBet = 20;//本轮押注已押的金币.这个变量其实在Players中已经存在
+    int32 CurOpTimeOut = 21;      //当前等待操作的玩家持续时间
+    int32 NumOfGames = 22;     //当前局数
+    int32 TotalOfGames = 23;   //总局数
+}
+
+
+//结算：先结算牌型最大的，数据段：边池IDs，累计输赢值，牌型，牌
+
+
+//房间状态更新
+//PACKET_SC_DEZHOUPOKER_ROOMSTATE
+message SCDezhouPokerRoomState {
+    int32 State = 1;       //房间当前状态
+    repeated int64 Params = 2;      //参数 case State=0,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 : 无参数
+    //case State=2 : 参数1:当前局数
+}
+
+message SCDezhouPokerBankerAndBlindPos {
+    int32 BankerPos = 1;         //庄家位置
+    int32 SmallBlindPos = 2;     //小盲位置
+    int32 BigBlindPos = 3;         //大盲位置
+    repeated int32 PosList = 4;             //所有参与本局游戏的玩家位置，包括庄家，大小盲
+    int64 SmallBlind = 5;      //小盲
+}
+
+//PACKET_SC_DEZHOUPOKER_POTS = 5350
+message SCDezhouPokerPots {
+    repeated int64 Pots = 1;    //池
+}
+
+//玩家操作
+//PACKET_SC_DEZHOUPOKER_OP
+message CSDezhouPokerPlayerOp {
+    int32 OpCode = 1;    //见上
+    repeated int64 OpParam = 2;    //待定
+}
+message SCDezhouPokerPlayerOp {
+    int32 OpCode = 1;        //详见:玩家操作码
+    repeated int64 OpParam = 2;        //case OpCode=1,2,3,4,5,6,7,8 : 参数1:当前操作下注的金额 参数2:当前轮总下注额 参数3:身上剩余金币 参数4:房间内总的下注额
+    //case OpCode=9,10 : 无参数
+    int32 Pos = 3;            //玩家位置
+    OpResultCode OpRetCode = 4;//返回错误码,详见:enums.proto
+}
+
+//带入金币 PACKET_SC_DEZHOUPOKER_AUTOBUYIN
+message SCDezhouPokerBuyIn {
+    int64 AutoBuyIn = 1;    //自动带入
+    int64 ToGameCoin = 2; //最大带入
+}
+
+//金币变化 PACKET_SC_DEZHOUPOKER_GAMECOIN
+message SCDezhouPokerPlayerGameCoin {
+    int32 Pos = 1;            //玩家位置
+    int64 GameCoin = 2;    //剩余筹码
+    int32 State = 3;        //0.默认不处理  1.自动带入
+    int64 ChangeCoin = 4;  //变化金币
+}
+
+//玩家站起。游戏中站起默认为弃牌
+//玩家站起
+message SCDezhouPokerPlayerStandUp {
+    int32 Pos = 1;                       //玩家位置
+    OpResultCode OpRetCode = 2;        //返回错误码，详见:enums.proto
+}
+
+//玩家坐下。要排定钱是否足够。自动带入最小带入
+//玩家坐下
+message SCDezhouPokerPlayerSit {
+    DezhouPokerPlayerData Data = 1;   //玩家数据
+    OpResultCode OpRetCode = 2;        //返回错误码，详见:enums.proto
+}
+
+message DezhouPokerCards {
+    repeated int32 Cards = 1;
+}
+
+//下一个玩家的操作提示
+//PACKET_SC_DEZHOUPOKER_NEXTOPERNOTIFY
+message SCDezhouPokerOperNotify {
+    int64 MinRaise = 1; //最小加注值
+    int64 RoundMaxBet = 2;  //当前轮最大下注值
+    int32 NextOperPos = 3; //下一个操作者位置
+    int64 NextOperCurRoundTotalBet = 4;//下一个操作者本轮押注已押的金币
+    // robot
+    int32 PlayerSeat = 5;
+    int32 ButtonSeat = 6;
+    int32 TotalPlayers = 7;
+    int32 Round = 8;
+    int64 Pot = 9;
+    int64 BetChips = 10;
+    repeated DezhouPokerCards PlayersHole = 11;
+    repeated int32 Board = 12;
+    string Actions = 13;
+    int64 RemainChips = 14;
+    repeated int64 RaiseOption = 15;
+    repeated int32 Survival = 16;
+    repeated int64 CurrRoundPerBet = 17;//当前轮，每个人总的下注额
+    int32 RolePos = 18;//玩家位置信息
+    int32 RestPlayerCnt = 19;//当前剩余玩家数量
+}
+
+//发牌
+//PACKET_SC_DEZHOUPOKER_CARD
+message SCDezhouPokerCard {
+    int32 Sort = 1; //0，公牌;1 玩家手牌
+    repeated int32 Cards = 2;    //手牌
+}
+
+message DezhouPokerCardsWP {
+    int32 SnId = 1;
+    repeated int32 Cards = 2;
+    int32 WinningProbability = 3;
+}
+
+//手牌胜率
+//PACKET_CSC_DEZHOUPOKER_WPUPDATE
+message CSCDezhouPokerWPUpdate {
+    repeated DezhouPokerCardsWP Datas = 1;
+}
+
+//玩家进入
+//PACKET_SC_DEZHOUPOKER_PlayerEnter
+message SCDezhouPokerPlayerEnter {
+    DezhouPokerPlayerData Data = 1; //玩家数据
+}
+
+//玩家离开
+//PACKET_SC_DEZHOUPOKER_PLAYERLEAVE
+message SCDezhouPokerPlayerLeave {
+    int32 Pos = 1;    //玩家位置
+}
+
+
+//亮牌
+message  PlayerPoker {
+    int32 Pos = 1;        //座位位置
+    repeated int32 Cards = 2;    //手牌
+}
+//PACKET_SC_DEZHOUPOKER_SHOWPOKER
+message SCDezhouPokerShowPoker {
+    repeated PlayerPoker PlayerPoker = 1;
+}
+
+
+//结算结果
+message DezhouPokerPlayerGameBilled {
+    int32 Pos = 1; //玩家位置
+    int32 KindOfCard = 2; //牌型
+    repeated int32 Cards = 3; // 5张牌
+    int64 WinCoin = 4;//输赢金额
+    int64 GameCoin = 5;//结算后身上余额
+    repeated int32 PotIndexList = 6;    //赢的池下标
+    int32 IsWin = 7; //输赢  赢1 输 2  平0
+}
+
+//PACKET_SC_DEZHOUPOKER_GAMEBILLED
+message SCDezhouPokerGameBilled {
+    repeated DezhouPokerPlayerGameBilled Datas = 1; //参与分钱的玩家
+}
+
+//PACKET_SC_DEZHOUPOKER_GAMEBILLED_MIDDLE
+message SCDezhouPokerGameBilledMiddle {
+    int32 Pos = 1;//玩家位置
+    int64 WinCoin = 2;//输赢的金额
+    int64 GameCoin = 3;//结算后身上余额
+    repeated int32 PotIndexList = 4;    //赢的池下标
+    int32 IsWin = 5; //输赢  赢1 输 2  平0
+}
+
+//每个池的结算结果
+message DezhouPokerPlayerGameBilledPotItem {
+    repeated DezhouPokerPlayerGameBilled PlayerDatas = 1;    //该池的玩家信息
+}
+//发给客户端的根据池展现方式
+message SCDezhouPokerGameBilledByPots {
+    repeated DezhouPokerPlayerGameBilledPotItem Datas = 1;    //每个边池的数据
+}

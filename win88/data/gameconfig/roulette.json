@@ -1,0 +1,19 @@
+{
+  "GameName":"轮盘",
+  "GameId":105,
+  "GameMode":[0],
+  "SceneType": [1],
+  "CanForceStart":false,
+  "MinPlayerCnt":1,
+  "DefaultPlayerCnt":1,
+  "MaxIndex":0,
+  "TimeFreeStart":0,
+  "TimeFreeEnd":0,
+  "DependentPlayerCnt":true,
+  "EnterAfterStart":false,
+  "PerGameTakeCard":100,
+  "ViewLogCnt":72,
+  "BetState":1,
+  "Params":[
+  ]
+}

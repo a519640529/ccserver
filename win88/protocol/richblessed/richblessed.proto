@@ -1,0 +1,109 @@
+syntax = "proto3";
+package richblessed;
+option go_package = ".;richblessed";
+
+//RichBlessed
+//多财多福
+enum RBPID {
+  PACKET_RICHBLESSED_ZERO = 0;// 弃用消息号
+  PACKET_RICHBLESSED_SCRBRoomInfo = 5500; //房间信息
+  PACKET_RICHBLESSED_CSRichBlessedOp = 5501;
+  PACKET_RICHBLESSED_SCRichBlessedOp = 5502;
+  PACKET_RICHBLESSED_SCRBRoomState = 5503;
+  PACKET_RICHBLESSED_SCRBBilled = 5504;
+  PACKET_RICHBLESSED_SCRBPrize = 5505;
+  PACKET_RICHBLESSED_SCRBJACKBilled = 5506; // 小游戏广播
+}
+
+message RBPlayerData {
+  string Name = 1; //名字
+  int32 SnId = 2; //账号
+  int32 Head = 3; //头像
+  int32 Sex = 4; //性别
+  int64 Coin = 5; //金币
+  int32 Pos = 6; //座位位置
+  int32 Flag = 7; //二进制标记
+  repeated string Params = 8; //其他数据 如:ip 等
+  string City = 9; //城市
+  int32 HeadOutLine = 10;  //头像框
+  int32 VIP = 11;
+}
+
+message RichWinLine{
+  repeated int32 Poss = 1;//中奖 元素组(0-14)
+  int64 WinScore = 2;//单线分数
+}
+
+//房间信息
+//PACKET_RICHBLESSED_SCRBRoomInfo
+message SCRBRoomInfo {
+  int32 RoomId = 1; //房间id
+  int32 GameFreeId = 2;
+  int32 GameId = 3; //游戏id
+  int32 RoomMode = 4; //游戏模式
+  repeated int32 Params = 5; //规则参数
+  int32 NumOfGames = 6; //当前第几局
+  int32 State = 7; //房间当前状态
+  repeated int32 ParamsEx = 8; //其他参数
+  int32 SceneType = 9; //房间模式
+  RBPlayerData Player = 10; //房间内的玩家信息
+  repeated int32 Cards = 11;//元素
+  int32 NowGameState = 12;//当前游戏状态 0.正常 1.免费游戏
+  int32 BetIdx = 13;//下注索引
+  int64 FreeAllWin = 14;//免费游戏获得总金额
+  int64 SmallJackpot = 15;//当前小奖池金额
+  int64 WinJackpot = 16;//当局Jackpot爆奖
+  int64 WinEleCoin = 17;//线赢的金额
+  int64 WinRate = 18;//线倍率
+  int64 FreeNum = 19;//当前剩余免费次数
+  int64 AddFreeNum = 20;//新增免费次数
+  int32 JackpotEle = 21;//-1 未中奖 0 金色男孩 1 金色女孩 2 蓝色男孩 3 蓝色女孩
+  repeated RichWinLine WinLines = 22;//中奖线
+  int64 MiddleJackpot = 23;//当前中奖池金额
+  int64 BigJackpot = 24;//当前大奖池金额
+  int64 GrandJackpot = 25;//当前巨奖池金额
+}
+//玩家操作
+//PACKET_RICHBLESSED_CSRichBlessedOp
+message CSRichBlessedOp {
+  int32 OpCode = 1; //操作码 0.旋转 1.切换 2 jack领奖
+  repeated int64 Params = 2; //操作参数 下注索引编号
+}
+//玩家操作返回
+//PACKET_RICHBLESSED_SCRichBlessedOp
+message SCRichBlessedOp {
+  int32 OpCode = 1; //操作码
+  int32 OpRetCode = 2; //操作结果 1.金币不足 2.低于该值不能押注
+  repeated int64 Params = 3; //操作参数
+}
+//房间状态
+//PACKET_RICHBLESSED_SCRBRoomState
+message SCRBRoomState {
+  int32 State = 1; //房间当前状态
+  int32 SubState = 2; //房间当前子状态
+  repeated int32 Params = 3; //状态参数
+}
+//PACKET_RICHBLESSED_SCRBPrize
+message SCRBPrize{
+  int64 PrizePool = 1;//奖池
+}
+
+//PACKET_RICHBLESSED_SCRBBilled
+message SCRBBilled{
+  int32 NowGameState = 1;//当前游戏状态 0.正常 1.免费游戏
+  int32 BetIdx = 2;//下注索引
+  int64 Coin = 3;//当前身上的金币
+  repeated int32 Cards = 4;//元素
+  int64 FreeAllWin = 5;//免费游戏获得总金额
+  int64 SmallJackpot = 6;//当前小奖池金额
+  int64 WinJackpot = 7;//当局Jackpot爆奖
+  int64 WinEleCoin = 8;//线赢的金额
+  int64 WinRate = 9;//线倍率
+  int64 FreeNum = 10;//当前剩余免费次数
+  int64 AddFreeNum = 11;//新增免费次数
+  int32 JackpotEle = 12;//-1 未中奖 0 金色男孩 1 金色女孩 2 蓝色男孩 3 蓝色女孩
+  repeated RichWinLine WinLines = 13;//中奖线
+  int64 MiddleJackpot = 14;//当前中奖池金额
+  int64 BigJackpot = 15;//当前大奖池金额
+  int64 GrandJackpot = 16;//当前巨奖池金额
+}

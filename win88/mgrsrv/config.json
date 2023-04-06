@@ -1,0 +1,110 @@
+{
+    "netlib": {
+		"SrvInfo":{
+			"Name": "ManagerServer",
+			"Type":	5,
+			"Id": 501,
+			"AreaID": 1,
+			"Banner": [
+					"=================",
+					"manager server",
+					"================="
+				]
+		},
+	
+		"IoServices": [
+			{
+				"Id": 501,
+				"Type": 5,
+				"AreaId": 1,
+				"Name": "ManagerService",
+				"Ip": "",
+				"Port": 3002,
+				"MaxDone": 20,
+				"MaxPend": 20,
+				"MaxPacket": 6553500,
+				"MaxConn": 10000,
+				"RcvBuff": 8192,
+				"SndBuff": 8192,
+				"WriteTimeout": 30,
+				"ReadTimeout": 30,
+				"IsInnerLink": true,
+				"NoDelay": true,
+				"SupportFragment": true,
+				"AuthKey": "1234567890",
+				"FilterChain": ["session-filter-auth"],
+				"HandlerChain": ["session-srv-registe","srv-service-handler"]
+			}
+		]
+    },
+
+	"tx": {
+		"TxSkeletonName": "github.com/idealeak/goserver/srvlib/txcommskeleton"
+	},
+	
+	"module": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+
+	"executor": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 31004
+			},
+		"Worker": {
+			"WorkerCnt": 8,
+			"Options": {
+				"QueueBacklog": 1024,
+				"MaxDone": 1024,
+				"Interval": 0
+			}
+		}
+	},
+	
+	"timer": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+						
+    "core": {
+	    "MaxProcs": 4
+    },
+	
+	"cmdline": {
+		"SupportCmdLine": true
+	},
+	"signal":{
+		"SupportSignal": true
+	},		
+	"admin": {
+		"SupportAdmin": true,
+		"AdminHttpPort": 9899
+	},
+	"srvctrl": {
+		"StartScript": "R:/jxjy/close.bat",
+		"IsDevMode": true
+	},
+
+	"costum":{
+		"MgoRpcCliNet": "tcp",
+		"MgoRpcCliAddr": "127.0.0.1:8999",
+		"MgoRpcCliReconnInterV": 3,
+
+		"RabbitMQURL": "amqp://win88:123456@192.168.10.230:5672/win88",
+		"RMQExchange": "win88",
+		"RMQPublishBacklog":1024
+	},
+	
+	"common":{
+		"AppId": "5c56d1644966f078bfb90c71",
+		"IsDevMode":true
+	}	
+}

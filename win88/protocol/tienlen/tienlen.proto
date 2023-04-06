@@ -1,0 +1,183 @@
+syntax = "proto3";
+package tienlen;
+option go_package = ".;tienlen";
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+}
+
+//tienlen
+enum TienLenPacketID {
+    PACKET_TienLenZERO = 0;// 弃用消息号
+    PACKET_SCTienLenRoomInfo = 5370;//房间信息
+    PACKET_SCTienLenRoomState = 5371;//房间状态
+    PACKET_CSTienLenPlayerOp = 5372;//玩家操作
+    PACKET_SCTienLenPlayerOp = 5373;//玩家操作
+    PACKET_SCTienLenPlayerEnter = 5374;//玩家进入
+    PACKET_SCTienLenPlayerLeave = 5375;//玩家离开
+    PACKET_SCTienLenCard = 5376;//发牌
+    PACKET_SCTienLenGameBilled = 5377;//结算
+    PACKET_SCTienLenCurOpPos = 5378;//当前操作的玩家位置
+    PACKET_SCTienLenSmallGameBilled = 5379;//小结算
+    PACKET_SCTienLenUpdateMasterSnid = 5380;//房主更换
+    PACKET_SCTienLenUpdateAudienceNum = 5381;//推送观众人数
+    PACKET_SCTienLenAI = 5382;//AI消息
+    PACKET_SCTienLenFirstOpPos = 5383;//首出玩家
+}
+
+
+//玩家信息
+message  TienLenPlayerData {
+    string Name = 1;    //名字
+    int32 SnId = 2;    //账号
+    int32 Head = 3;    //头像
+    int32 Sex = 4;     //性别
+    repeated string Params = 5; //其他数据 如:昵称 头像 性别 ip 等
+    int64 Coin = 6;    //金币
+    int32 Pos = 7;        //座位位置
+    int32 Flag = 8;    //二进制标记 详见:数据字典
+    int32 Longitude = 9;//经度
+    int32 Latitude = 10;//纬度
+    string City = 11;    //城市 例:伦敦
+    int32 LastOp = 12;  //如上:玩家操作
+    int32 VIP = 13;    //玩家VIP等级
+    int32 HeadOutLine = 14;  //头像框
+    int32 NiceId = 15; //靓号[机器人用]
+    repeated int32 Cards = 16;    //手牌
+    int64 CurRoundTotalBet = 17;//本轮押注已押的金币
+    int64 GameCoin = 18;    //游戏内带入的金币
+    int32 RoleId = 19; //使用中的角色id
+    map<int32,int32>Items = 20;
+    int32 MatchRankId = 21;
+    int32 Lv = 22;
+}
+
+message LastDelCard {
+    repeated int32 Cards = 1;
+}
+
+//房间信息
+message SCTienLenRoomInfo {
+    int32 RoomId = 1;    //房间id
+    int32 Creator = 2;    //创建者SnId
+    int32 GameId = 3;    //游戏id
+    int32 RoomMode = 4;//游戏模式
+    repeated int32 Params = 5;    //规则参数
+    int32 BankerPos = 6;//庄家位置
+    int32 State = 7;    //房间当前状态,如上
+    int32 TimeOut = 8;    //等待剩余时间 单位:秒
+    repeated TienLenPlayerData Players = 9;    //房间内的玩家信息
+    int32 AudienceNum = 11;        //当前观战人数
+    int32 CurOpIdx = 12;      //当前等待操作的玩家
+    repeated LastDelCard LastDelCards = 13;    //上两手出的牌
+    int32 NumOfGames = 14;     //当前局数
+    int32 TotalOfGames = 15;   //总局数
+    int32 MasterSnid = 16;//房主
+    int32 BaseScore = 17 ;//游戏底分
+    int32 MaxPlayerNum = 18 ;//最大游戏人数
+    repeated int32 WinSnids = 19 ;//已出完牌的玩家
+    // 比赛场相关
+    int32 IsMatch = 20;//0普通场 1锦标赛 2冠军赛
+    int32 Round = 22;//比赛当前轮数
+    int32 CurPlayerNum = 24;//当前游戏人数
+    int32 NextNeed = 25;//前多少名可以晋级下一轮
+    int32 MatchFinals = 26;//0晋级赛 1半决赛 2是总决赛
+}
+
+//房间状态更新
+message SCTienLenRoomState {
+    int32 State = 1;                //房间当前状态
+    repeated int64 Params = 2;      //参数
+}
+
+//玩家操作
+message CSTienLenPlayerOp {
+    int32 OpCode = 1;               //1出牌 2过牌 3开始游戏
+    repeated int64 OpParam = 2;
+}
+message SCTienLenPlayerOp {
+    int32 OpCode = 1;                   //1出牌 2过牌 3开始游戏
+    repeated int64 OpParam = 2;         //参数
+    int32 SnId = 3;                      //玩家位置
+    OpResultCode OpRetCode = 4;         //返回错误码,详见:enums.proto
+}
+
+//玩家进入
+message SCTienLenPlayerEnter {
+    TienLenPlayerData Data = 1; //玩家数据
+}
+
+//玩家离开
+message SCTienLenPlayerLeave {
+    int32 Pos = 1;    //玩家位置
+}
+
+//结算结果
+message TienLenPlayerGameBilled {
+    int32 SnId = 1; //玩家
+    repeated int32 Cards = 2; // 手牌
+    int64 WinCoin = 3;//输赢金额
+    int64 GameCoin = 4;//结算后身上余额
+    int32 IsWin = 5; //输赢  赢1 输2  平0
+}
+
+message SCTienLenGameBilled {
+    repeated TienLenPlayerGameBilled Datas = 1;
+}
+
+//小结算结果（炸的分）
+message SCTienLenSmallGameBilled {
+    int32 WinPos = 1; //赢家
+    int64 WinPosCoin = 2;//结算后赢家身上余额
+    int32 LosePos = 3; //输家
+    int64 LosePosCoin = 4;//结算后输家身上余额
+    int64 WinCoin = 5;//赢金额
+    int64 LoseCoin = 6;//输金额
+}
+
+//发牌
+message SCTienLenCard {
+    repeated int32 Cards = 1;    //手牌
+}
+
+message SCTienLenCurOpPos{
+    int32 Pos = 1;                  //座位位置
+    bool IsNew = 2;                 //新一轮开始出牌
+    repeated int32 Cards = 3;       //上家出的牌
+    int32 ExDelay = 4;              //出牌额外延迟时间（s）
+}
+
+message SCTienLenUpdateMasterSnid{
+    int32 MasterSnid = 1;//房主
+}
+
+//PACKET_SCTienLenUpdateAudienceNum
+message SCTienLenUpdateAudienceNum{
+    int32 AudienceNum = 1;        //当前观战人数
+}
+message  SCTienLenAIData {
+    int32 Bomb_num = 1;     //炸弹数量
+    string Card_play_action_seq = 2; //出牌历史记录
+    string Last_move_0 = 3; //最后出牌
+    string Last_move_1 = 4; //最后出牌
+    string Last_move_2 = 5; //最后出牌
+    string Last_move_3 = 6; //最后出牌
+    int32 Num_cards_left_0 = 7;//剩余牌数
+    int32 Num_cards_left_1 = 8;//剩余牌数
+    int32 Num_cards_left_2 = 9;//剩余牌数
+    int32 Num_cards_left_3 = 10;//剩余牌数
+    string Other_hand_cards = 11;//其它人手牌
+    string Played_cards_0 = 12;  //出过的牌
+    string Played_cards_1 = 13;  //出过的牌
+    string Played_cards_2 = 14;  //出过的牌
+    string Played_cards_3 = 15;  //出过的牌
+    string Player_hand_cards = 16;//手牌
+    int32 Player_position = 17;   //当前操作数置
+}
+
+//PACKET_SCTienLenFirstOpPos
+message SCTienLenFirstOpPos {
+    int32 Pos = 1;//座位位置
+}

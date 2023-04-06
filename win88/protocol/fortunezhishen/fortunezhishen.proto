@@ -1,0 +1,103 @@
+syntax = "proto3";
+package fortunezhishen;
+option go_package = ".;fortunezhishen";
+
+//FortuneZhiShen
+//财运之神
+enum FortuneZSPacketID {
+  PACKET_FORTUNEZHISHEN_ZERO = 0;                       // 弃用消息号
+  PACKET_SC_FORTUNEZHISHEN_ROOMINFO = 5160; //房间信息
+  PACKET_CS_FORTUNEZHISHEN_PLAYEROP = 5161; //玩家操作（客户-》服务）
+  PACKET_SC_FORTUNEZHISHEN_PLAYEROP = 5162; //玩家操作（服务-》客户）
+  PACKET_SC_FORTUNEZHISHEN_ROOMSTATE = 5163; //房间状态
+  PACKET_SC_FORTUNEZHISHEN_PRIZE = 5164; //游戏奖池
+  PACKET_SC_FORTUNEZHISHEN_BILLED = 5165; //游戏结算
+}
+
+message FortuneZhiShenPlayerData {
+  string Name = 1; //名字
+  int32 SnId = 2; //账号
+  int32 Head = 3; //头像
+  int32 Sex = 4; //性别
+  int64 Coin = 5; //金币
+  int32 Pos = 6; //座位位置
+  int32 Flag = 7; //二进制标记
+  repeated string Params = 8; //其他数据 如:ip 等
+  string City = 9; //城市
+  int32 HeadOutLine = 10;  //头像框
+  int32 VIP = 11;
+}
+
+//房间信息
+//PACKET_SC_FORTUNEZHISHEN_ROOMINFO
+message SCFortuneZhiShenRoomInfo {
+  int32 RoomId = 1; //房间id
+  int32 Creator = 2; //创建者SnId
+  int32 GameId = 3; //游戏id
+  int32 RoomMode = 4; //游戏模式
+  repeated int32 Params = 5; //规则参数
+  int32 NumOfGames = 6; //当前第几局
+  int32 State = 7; //房间当前状态
+  int32 DisbandGen = 8; //解散申请
+  int32 AgentId = 9; //代开房者
+  repeated int32 ParamsEx = 10; //其他参数
+  int32 SceneType = 11; //房间模式 0:房卡模式 1:钻石模式
+  repeated FortuneZhiShenPlayerData Players = 12; //房间内的玩家信息
+  int32 TotalChipIdx = 13;//投注索引
+  int32 FirstFreeTimes = 14;//第一个小游戏剩余免费次数
+  int32 SecondFreeTimes = 15;//第二个小游戏剩余免费次数
+  repeated int32 UiShow = 16;//界面展示 横向有序展示
+  repeated int64 GemstoneRateCoin = 17;//宝石上边显示的数据 按顺序展示
+  int32 NowGameState = 18;//0.普通模式 1.免费模式 2.旋转并停留模式0 3.旋转并停留模式1
+  int32 BetLimit = 19;//押注限制(低于该值不能押注)
+  int64 WinCoin = 20;//普通
+  int64 FirstWinCoin = 21;//免费
+  int64 SecondWinCOin = 22;//旋转
+  int32 GameFreeId = 23;
+}
+//玩家操作
+//PACKET_CS_FORTUNEZHISHEN_PLAYEROP
+message CSFortuneZhiShenOp {
+  int32 OpCode = 1; //操作码 0.旋转 1.切换
+  repeated int64 Params = 2; //操作参数 下注索引编号
+}
+//玩家操作返回
+//PACKET_SC_FORTUNEZHISHEN_PLAYEROP
+message SCFortuneZhiShenOp {
+  int32 OpCode = 1; //操作码
+  int32 OpRetCode = 2; //操作结果 1.金币不足 2.低于该值不能押注
+  repeated int64 Params = 3; //操作参数
+}
+//房间状态
+//PACKET_SC_FORTUNEZHISHEN_ROOMSTATE
+message SCFortuneZhiShenRoomState {
+  int32 State = 1; //房间当前状态
+  int32 SubState = 2; //房间当前子状态
+  repeated int32 Params = 3; //状态参数
+}
+//PACKET_SC_FORTUNEZHISHEN_PRIZE
+message SCFortuneZhiShenPrize{
+  repeated int64 GrandPrize = 1;//巨奖
+  repeated int64 BigPrize = 2;//大奖
+  repeated int64 MidPrize = 3;//中奖
+  repeated int64 SmallPrize = 4;//小奖
+}
+message FortuneZhiShenWinLine{
+  repeated int32 Poss = 1;//中奖 元素组(0-14)
+  int64 WinScore = 2;//单线分数
+}
+//PACKET_SC_FORTUNEZHISHEN_BILLED
+message SCFortuneZhiShenBilled{
+  int64 Coin = 1;//当前金额
+  int64 WinCoin = 2;//普通
+  int64 FirstWinCoin = 3;//免费
+  int64 SecondWinCOin = 4;//旋转
+  repeated int32 UiShow = 5;//界面展示 横向有序展示
+  repeated FortuneZhiShenWinLine WinLines = 6;//中奖线数
+  int32 FirstFreeTimes = 7;//第一个小游戏剩余免费次数
+  int32 SecondFreeTimes = 8;//第二个小游戏剩余免费次数
+  repeated int64 GemstoneRateCoin = 9;//宝石上边显示的数据 按顺序展示
+  int32 NowGameState = 10;//0.普通模式 1.免费模式 2.旋转并停留模式0 3.旋转并停留模式1
+  int64 WinRate = 11;//中奖倍率
+  repeated int64 HitPrize = 12; //小 中 大 巨 额外奖励  0 1 2 3 4
+}

@@ -1,0 +1,46 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj
+_test
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+*.exe
+*.exe~
+*.test
+*.log
+*.log.*
+.idea
+.vscode
+
+
+# linux可执行文件
+/datasrv/datasrv
+/gamesrv/gamesrv
+/gatesrv/gatesrv
+/mgrsrv/mgrsrv
+/robot/robot
+/routesrv/routesrv
+/schedulesrv/schedulesrv
+/worldsrv/worldsrv
+/dbproxy/dbproxy
+/minigame/minigame
+
+protocol_lua/*.lua
+/logiclevelsrv/logiclevelsrv
+/replaysrv/replaysrv
+/bin/protoc-3.19.4-win64

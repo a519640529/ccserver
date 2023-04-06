@@ -1,0 +1,31 @@
+syntax = "proto3";
+package welfare;
+option go_package = ".;welfare";
+//操作结果
+enum OpResultCode {
+  OPRC_Sucess = 0; //成功
+  OPRC_Error = 1; //失败
+  OPRC_NoTimes = 2; //没有领取次数
+  OPRC_CoinTooMore = 3; // 金币过多不符合领取
+}
+// 福利大厅
+enum SPacketID {
+  PACKET_SHOP_ZERO = 0;// 弃用消息号
+  PACKET_CS_WELF_GETRELIEFFUND = 2580;//领取救济金
+  PACKET_SC_WELF_GETRELIEFFUND = 2581;//领取救济金
+}
+
+
+
+
+//救济金领取
+//PACKET_CS_WELF_GETRELIEFFUND
+message CSGetReliefFund{
+}
+
+//PACKET_SC_WELF_GETRELIEFFUND
+message SCGetReliefFund{
+    OpResultCode OpRetCode = 1;    //结果
+    int32 Times = 2;               //当前领取救济金的次数
+    int64 Coin = 3;                //本次领取救济金金额
+}

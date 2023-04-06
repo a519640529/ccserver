@@ -1,0 +1,154 @@
+{
+	"Arr": [
+		{
+			"Id": 3060001,
+			"InitValue": 220000,
+			"LowerLimit": 200000,
+			"UpperLimit": 1000000,
+			"UpperOffsetLimit": 100000,
+			"MaxOutValue": 100000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 3060002,
+			"InitValue": 440000,
+			"LowerLimit": 400000,
+			"UpperLimit": 2000000,
+			"UpperOffsetLimit": 200000,
+			"MaxOutValue": 200000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 3060003,
+			"InitValue": 1100000,
+			"LowerLimit": 1000000,
+			"UpperLimit": 5000000,
+			"UpperOffsetLimit": 500000,
+			"MaxOutValue": 500000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 3060004,
+			"InitValue": 2200000,
+			"LowerLimit": 2000000,
+			"UpperLimit": 10000000,
+			"UpperOffsetLimit": 1000000,
+			"MaxOutValue": 1000000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 3070001,
+			"InitValue": 220000,
+			"LowerLimit": 200000,
+			"UpperLimit": 1000000,
+			"UpperOffsetLimit": 100000,
+			"MaxOutValue": 100000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 3070002,
+			"InitValue": 440000,
+			"LowerLimit": 400000,
+			"UpperLimit": 2000000,
+			"UpperOffsetLimit": 200000,
+			"MaxOutValue": 200000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 3070003,
+			"InitValue": 1100000,
+			"LowerLimit": 1000000,
+			"UpperLimit": 5000000,
+			"UpperOffsetLimit": 500000,
+			"MaxOutValue": 500000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 3070004,
+			"InitValue": 2200000,
+			"LowerLimit": 2000000,
+			"UpperLimit": 10000000,
+			"UpperOffsetLimit": 1000000,
+			"MaxOutValue": 1000000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 4010001,
+			"InitValue": 220000,
+			"LowerLimit": 200000,
+			"UpperLimit": 1000000,
+			"UpperOffsetLimit": 100000,
+			"MaxOutValue": 100000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 4010002,
+			"InitValue": 440000,
+			"LowerLimit": 400000,
+			"UpperLimit": 2000000,
+			"UpperOffsetLimit": 200000,
+			"MaxOutValue": 200000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 4010003,
+			"InitValue": 1100000,
+			"LowerLimit": 1000000,
+			"UpperLimit": 5000000,
+			"UpperOffsetLimit": 500000,
+			"MaxOutValue": 500000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 4010004,
+			"InitValue": 2200000,
+			"LowerLimit": 2000000,
+			"UpperLimit": 10000000,
+			"UpperOffsetLimit": 1000000,
+			"MaxOutValue": 1000000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 4020001,
+			"InitValue": 220000,
+			"LowerLimit": 200000,
+			"UpperLimit": 1000000,
+			"UpperOffsetLimit": 100000,
+			"MaxOutValue": 100000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 4020002,
+			"InitValue": 440000,
+			"LowerLimit": 400000,
+			"UpperLimit": 2000000,
+			"UpperOffsetLimit": 200000,
+			"MaxOutValue": 200000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		},
+		{
+			"Id": 4020003,
+			"InitValue": 1100000,
+			"LowerLimit": 1000000,
+			"UpperLimit": 5000000,
+			"UpperOffsetLimit": 500000,
+			"MaxOutValue": 500000,
+			"MinOutPlayerNum": 1,
+			"UpperLimitOfOdds": 9800
+		}
+	]
+}

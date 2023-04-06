@@ -1,0 +1,152 @@
+{
+	"Arr": [
+		{
+			"Id": 10001,
+			"Name": "斗鸡碎片",
+			"ShowLocation": [
+				1,
+				1
+			],
+			"Classify": [
+				1,
+				1,
+				0
+			],
+			"Type": 1,
+			"Effect0": [
+				0,
+				0,
+				1
+			],
+			"Effect": [
+				0,
+				1,
+				1
+			],
+			"SaleType": 1,
+			"SaleGold": 10000,
+			"Composition": 1,
+			"CompositionMax": 9999,
+			"Location": "10001",
+			"Describe": "作用：用于升级，解锁宠物斗鸡；可在角色功能页面使用。\n产出途径：14日签到，TienLen玩法中掉落\n"
+		},
+		{
+			"Id": 20001,
+			"Name": "酷帕碎片",
+			"ShowLocation": [
+				1,
+				1
+			],
+			"Classify": [
+				1,
+				1,
+				0
+			],
+			"Type": 2,
+			"Effect0": [
+				0,
+				0,
+				1
+			],
+			"Effect": [
+				0,
+				1,
+				1
+			],
+			"SaleType": 1,
+			"SaleGold": 50000,
+			"Composition": 1,
+			"CompositionMax": 9999,
+			"Location": "20001",
+			"Describe": "作用：用于升级，解锁角色酷帕；可在角色功能页面使用。\n产出途径：14日签到，TienLen玩法中掉落"
+		},
+		{
+			"Id": 20002,
+			"Name": "蝶女碎片",
+			"ShowLocation": [
+				1,
+				1
+			],
+			"Classify": [
+				1,
+				1,
+				0
+			],
+			"Type": 2,
+			"Effect0": [
+				0,
+				0,
+				1
+			],
+			"Effect": [
+				0,
+				1,
+				1
+			],
+			"SaleType": 1,
+			"SaleGold": 20000,
+			"Composition": 1,
+			"CompositionMax": 9999,
+			"Location": "20002",
+			"Describe": "作用：用于升级，解锁角色蝶女；可在角色功能页面使用。\n产出途径：14日签到，TienLen玩法中掉落"
+		},
+		{
+			"Id": 30001,
+			"Name": "V卡",
+			"ShowLocation": [
+				1,
+				1
+			],
+			"Classify": [
+				1,
+				0,
+				1
+			],
+			"Type": 3,
+			"Effect0": [
+				0,
+				0,
+				1
+			],
+			"Effect": [
+				0,
+				1,
+				1
+			],
+			"SaleType": 1,
+			"SaleGold": 500,
+			"Composition": 1,
+			"CompositionMax": 9999,
+			"Location": "0",
+			"Describe": "用途：可在兑换商城中使用，兑换您想要的物品。\n产出途径：Tienlen玩法中概率掉落；底注越高，掉落概率和数量越高"
+		},
+		{
+			"Id": 40001,
+			"Name": "冠军赛门票",
+			"ShowLocation": [
+				1,
+				1
+			],
+			"Classify": [
+				1,
+				1,
+				0
+			],
+			"Type": 4,
+			"Effect0": [
+				0,
+				0,
+				0
+			],
+			"Effect": [
+				0,
+				0,
+				0
+			],
+			"Composition": 1,
+			"CompositionMax": 1,
+			"Location": "0",
+			"Describe": "作用：用于报名冠军赛事；\n产出途径：参加任意锦标赛，获得冠军\n"
+		}
+	]
+}

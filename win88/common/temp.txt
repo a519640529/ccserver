@@ -1,0 +1,30 @@
+	GainWay_NewPlayer         int32 = iota //0.新建角色                         新建账号，系统赠送房卡%s张|新建账号，系统赠送金币%s个   remark:无
+	GainWay_Pay                            //1.后台增加(主要是充值)				%s，获得d%张房卡，剩余d%张 remark:充值X元
+	GainWay_Transfer_In                    //2.俱乐部转移(转入)					s%赠送您房卡d%张，剩余d%张 remark:玩家名称
+	GainWay_AgentReturn                    //3.代创房间返还						-
+	GainWay_DrawPrize                      //4.领取奖励							领取奖励房卡d%张，剩余%d张 remark:无
+	GainWay_Share                          //5.每日分享							每日分享活动，奖励d%房卡，剩余d%房卡 remark:无
+	GainWay_Activty                        //6.活动获得							s%活动奖励d%金币，剩余d%金币 remark:活动名称
+	GainWay_Game                           //7.玩游戏消耗						开房间房卡-d%张，剩余d%张 remark:无
+	GainWay_Task                           //8.任务								完成%s任务，奖励房卡d%张，剩余d%张 remark:任务名称
+	GainWay_ByPMCmd                        //9.pm命令							-
+	GainWay_MatchSignup                    //10.比赛报名							-
+	GainWay_MatchPlay                      //11.比赛回兑							-
+	GainWay_MatchAdd                       //12.比赛补充							-
+	GainWay_MatchBreakBack                 //13.退赛退还							-
+	GainWay_MatchSystemSupply              //14.系统补给							-
+	GainWay_Exchange                       //15.兑换								兑换%s，红包%d分，剩余红包%d分 remark:房卡x张
+	GainWay_Contribute                     //16.贡献								-
+	GainWay_ClubMoneySceneFee              //17.俱乐部钻石场房费					-
+	GainWay_Transfer_Out                   //18.俱乐部转移(转出)					赠送给s%房卡d%张，剩余d%张  remark:玩家名称
+	GainWay_ServiceFee                     //19.桌费								扣除桌费d%金币，剩余d%金币  remark:无
+	GainWay_CoinSceneWin                   //20.金豆场赢取						参与游戏赢取d%金币，剩余d%金币  remark:无
+	GainWay_CoinSceneLost                  //21.金豆场输							参与游戏输掉d%金币，剩余d%金币  remark:无
+	GainWay_BindTel                        //22.绑定手机							绑定手机，获得房卡%d张，剩余%d张 remark:无
+	GainWay_PlayerShare                    //23.隶属玩家每日分享					每日分享活动，领取房卡%d张，剩余%d张 remark:无
+	GainWay_Invite                         //24.邀请玩家							邀请玩家，获得红包%d分，剩余%d分 remark:无
+	GainWay_LoginSign                      //25.签到奖励
+	GainWay_OnlineGift                     //26.签到奖励
+	GainWay_CoinSceneEnter                 //27.进入金币场预扣
+	GainWay_ShopBuy                        //28.商城购买或者兑换					使用%s，购买金币%d，剩余%d remark:房卡x张
+	GainWay_CoinSceneLeave                 //29.离开金币场回兑

@@ -1,0 +1,248 @@
+syntax = "proto3";
+package blackjack;
+option go_package = ".;blackjack";
+
+enum BlackJackPacketID {
+    PACKET_BlackJack_ZERO = 0;                       // 弃用消息号
+    CS_PLAYER_OPERATE = 5320; // 玩家操作
+    SC_ROOM_INFO      = 5321; // 房间信息
+    SC_PLAYER_ENTER   = 5322; // 玩家进入
+    SC_PLAYER_LEAVE   = 5323; // 玩家离开
+    SC_ROOM_STATUS    = 5324; // 房间状态
+    SC_PLAYER_BET     = 5325; // 玩家下注
+    SC_PLAYER_Pos     = 5326; // 玩家位置
+    SC_DEAL           = 5327; // 发牌信息
+    SC_NOTIFY_BUY     = 5328; // 通知买保险
+    SC_PLAYER_BUY     = 5329; // 买保险结果
+    //SC_BANKER_CARDS   = 5330; // 庄家手牌
+    SC_NOTIFY_OPERATE = 5331; // 通知闲家操作
+    SC_PLAYER_OPERATE = 5332; // 闲家操作
+    SC_NOTIFY_CARDS   = 5333; // 通知牌型
+    SC_END            = 5334; // 通知结算
+    SC_BUY_END        = 5335; // 保险结算
+    SC_SIT            = 5336; // 坐下
+}
+
+// CS_PLAYER_OPERATE
+message CSBlackJackOP {
+    int32 OpCode = 1; // 操作码
+//    SubBet      = 0  下注 Param[0] 下注位置0~4 Param[1] 下注金额
+//    SubBuy      = 1  买保险 Params[0] = 1 买 0 不买
+//    SubFenPai   = 2  分牌
+//    SubDouble   = 3  双倍
+//    SubSkip     = 4  停牌
+//    SubOuts     = 5  要牌
+//    SubLeave    = 6  离开
+//    SubSit      = 7  坐下
+    repeated int64 Params = 2; // 操作参数
+}
+
+message BlackJackCards {
+    repeated int32 Cards    = 1; // 一副手牌(-1代表暗牌)
+    int32 DCards   = 2; // 双倍牌
+    int32 Type     = 3; // 类型
+    repeated int32 Point    = 4; // 点数
+    int32 State    = 5; // 操作状态: 0 默认 1 已停牌
+    int32 Id       = 6; // 手牌序号: 0 左侧手牌 1 右侧手牌
+    int32 Seat     = 7; // 座位号
+    int64 BetCoin  = 8; // 下注额
+}
+
+message BlackJackPlayer {
+    string          Name        = 1;  // 名字
+    int32           SnId        = 2;  // 账号
+    int32           Head        = 3;  // 头像
+    int32           Sex         = 4;  // 性别
+    int64           Coin        = 5;  // 金币
+    int32           Pos         = 6;  // 位置
+    int32           Seat        = 7;  // 座位号
+    int32           Flag        = 8;  // 二进制标记 第一位:是否掉线(0:在线 1:掉线) 第二位:是否准备(0:未准备 1:已准备)
+    repeated BlackJackCards  Cards       = 9;  // 手牌
+    int64           BetCoin     = 10; // 下注金币
+    repeated string          Params      = 11; // 其他数据 如:ip 等
+    int32           Longitude   = 12; // 经度
+    int32           Latitude    = 13; // 纬度
+    string          City        = 14; // 城市 例:中国-河南省-郑州市
+    int32           NiceId      = 15; // 靓号
+    string          AgentCode   = 16; // 代理商编号
+    int64           AllInCoin   = 17; // 可推注值
+    int32           HeadOutLine = 18; // 头像框
+    int32           VIP         = 19; // vip
+    int64           BaoCoin     = 20; // 保险金
+    repeated int32           OpFlagParams= 21; // 操作标记参数
+}
+
+// SC_ROOM_INFO
+message SCBlackJackRoomInfo {
+    int32           RoomId     = 1;    // 房间id
+    int32           Creator    = 2;    // 创建者SnId
+    int32           GameId     = 3;    // 游戏id
+    int32           RoomMode   = 4;    // 游戏模式
+    repeated int32           Params     = 5;    // 规则参数
+    int32           NumOfGames = 6;    // 当前第几局
+    int32           BankerPos  = 7;    // 庄家位置
+    int32           State      = 8;    // 房间当前状态
+    int32           TimeOut    = 9;    // 消耗时间，单位：秒
+    repeated BlackJackPlayer Players    = 10;   // 房间内的玩家信息
+    int32           DisbandGen = 11;   // 解散申请
+    int32           AgentId    = 12;   // 代开房者
+    repeated int32           ParamsEx   = 13;   // 比赛参数
+    int32           SceneType  = 14;   // 房间模式
+    int32           Pos        = 15;   // 操作位置
+    repeated int64           BetScope   = 16;   // 下注范围
+    int32           TotalOfGames=17;   // 总局数
+    int32           Num        = 18;   // 剩余牌数
+    bool            IsAudience = 19;   // 当前玩家是否观众中
+}
+
+// SC_PLAYER_ENTER
+message SCBlackJackPlayerEnter {
+    BlackJackPlayer Player = 1; // 玩家信息
+}
+
+// SC_PLAYER_LEAVE
+message SCBlackJackPlayerLeave {
+    repeated int32 Pos = 1; // 玩家位置: 第一个是玩家的真实座位，其余为代玩座位,代玩是以前的规则，现在没有了
+}
+
+// SC_ROOM_STATUS
+message SCBlackJackRoomStatus {
+    int32 Status = 1; // 状态码
+//    StatusWait   = 0 // 等待状态
+//    StatusReady  = 1 // 准备状态
+//    StatusBet    = 2 // 下注状态 Param [最小下注，最大下注]
+//    StatusDeal   = 3 // 发牌状态
+//    StatusBuy    = 4 // 买保险状态
+//    StatusBuyEnd = 5 // 保险结算状态
+//    StatusPlayer = 6 // 闲家操作
+//    StatusBanker = 7 // 庄家操作
+//    StatusEnd    = 8 // 结算状态
+    repeated int64 Param  = 2;
+}
+
+// SC_PLAYER_BET
+message SCBlackJackPlayerBet {
+    enum ErrorCode {
+        Success = 0; // 成功
+        ErrCoin = 1; // 下注金额错误
+        ErrBet  = 2; // 当前座位先下注
+        ErrPos  = 3; // 已下注
+    }
+    ErrorCode Code     = 1; // 错误码
+    int32     Pos1     = 2; // 扣钱位置（玩家真实座位号）
+    int32     Pos2     = 3; // 下注位置
+    int64     Coin     = 4; // 下注金额
+    int64     ReCoin   = 5; // 剩余金额
+}
+
+//message BlackJackSeat {
+//    int32 Id       = 1; // 座位号 1~5
+//    int32 Pos      = 2; // 玩家真实座位号 1~5; (SnId > 0 && Id != Pos) 玩家代玩
+//    int32 SnId     = 3; // 玩家账号; (SnId = 0) 空座位
+//    int64 BetCoin  = 4; // 下注金额
+//}
+
+// SC_PLAYER_Pos
+message SCBlackJackPos {
+    repeated int32 Seats = 1; // 玩家操作顺序，值是玩家的pos
+}
+
+// SC_DEAL
+message SCBlackJackDeal {
+    repeated BlackJackCards Seats = 1; // 发牌信息
+    int32          Num   = 2; // 剩余牌数
+}
+
+// SC_NOTIFY_BUY
+message SCBlackJackNotifyBuy {
+    int32 Pos = 1; // 玩家位置
+}
+
+// SC_PLAYER_BUY
+message SCBlackJackBuy {
+    enum ErrorCode {
+        Success = 0; // 成功
+        ErrCoin = 1; // 金额错误
+        ErrPos  = 2; // 非当前玩家操作
+        UnBuy   = 3; // 不买
+    }
+    ErrorCode Code     = 1; // 错误码
+    int32     Pos      = 2; // 扣钱位置
+    int64     Coin     = 3; // 金额
+    int64     ReCoin   = 4; // 剩余金额
+}
+
+// SC_BANKER_CARDS
+//message SCBlackJackCards {
+//    repeated int32 Cards = 1; // 牌
+//}
+
+// SC_PLAYER_OPERATE
+message SCBlackJackPlayerOperate {
+    enum ErrorCode {
+        Success = 0; // 成功
+        ErrCoin = 1; // 金币不足
+        ErrPos  = 2; // 非当前玩家操作
+        ErrOp   = 3; // 不能操作
+    }
+    ErrorCode       Code    = 1; // 错误码
+    int32           Operate = 2; // 操作码
+    //    SubBet      = 0  下注
+    //    SubBuy      = 1  买保险
+    //    SubFenPai   = 2  分牌
+    //    SubDouble   = 3  双倍
+    //    SubSkip     = 4  停牌
+    //    SubOuts     = 5  要牌
+    //    SubLeave    = 6  离开
+    //    SubSit      = 7  坐下
+    //    SubSkipLeft = 40 左侧停牌(分牌后玩家有两堆牌)
+    //    SubSkipBomb = 41 爆牌停牌
+    int32           Pos     = 3; // 位置
+    repeated BlackJackCards  Cards   = 4; // 牌(只有新增的牌)
+    int64           ReCoin  = 5; // 剩余金额 （分牌后剩余金额）
+    int32           Num     = 6; // 剩余牌数
+    int64          BetCoin  = 7; // 分数变化
+    // 给机器人发的数据
+    string         CardsStr = 8;
+    int32          Seat     = 9;
+}
+
+// SC_NOTIFY_OPERATE
+message SCBlackJackNotifyOperate {
+    int32 Pos = 1; // 玩家位置
+    string Cards = 2; // 场上明牌
+    int32 Seat = 3; // 玩家座位号
+    int32 LastPos = 4;//上一个玩家位置
+}
+
+// SC_NOTIFY_CARDS
+message SCBlackJackNotifyCards {
+    BlackJackCards Cards = 1; // 牌型信息
+    int32           Num  = 2; // 剩余牌数
+}
+
+message BlackJackPlayerEnd {
+    int32 Pos          = 1; // 位置
+    int64 LeftGain     = 2; // 左比牌输赢分
+    int64 RightGain    = 3; // 右比牌输赢分
+    int64 Gain         = 4; // 总输赢分
+    int64 Coin         = 5; // 剩余分
+    bool IsDouble      = 6; // 是否双倍
+
+}
+
+// SC_END
+// SC_BUY_END
+message SCBlackJackEnd {
+    repeated BlackJackPlayerEnd Players = 1; // 玩家结算信息
+    bool IsBlackJack = 2; // 庄家是黑杰克
+}
+
+// SC_SIT
+message SCBlackJackSit {
+    enum ErrorCode {
+        Success = 0; // 成功
+        ErrPos = 1; // 没有空位
+    }
+    ErrorCode       Code    = 1; // 错误码
+}

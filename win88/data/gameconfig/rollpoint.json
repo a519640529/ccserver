@@ -1,0 +1,18 @@
+{
+	"GameName":"骰宝",
+	"GameId":104,
+	"GameMode":[0],
+	"CanForceStart":true,
+	"MinPlayerCnt":1,
+	"DefaultPlayerCnt":1,
+	"MaxIndex":0,
+	"TimeFreeStart":0,
+	"TimeFreeEnd":0,
+	"DependentPlayerCnt":true,
+	"EnterAfterStart":true,
+	"PerGameTakeCard":100,
+	"ViewLogCnt":40,
+	"BetState":1,
+	"Params":[
+	]
+}

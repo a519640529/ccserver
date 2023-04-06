@@ -1,0 +1,426 @@
+syntax = "proto3";
+package pb;
+option go_package = ".;webapi";
+import "pbdata.proto";
+/*
+ 这个文件保存公共结构
+*/
+
+// 私有化mysql数据库
+message MysqlDbSetting {
+  string HostName = 1; // ip/域名
+  int32 HostPort = 2;  // 端口
+  string Database = 3; // 数据库名
+  string Username = 4; // 用户名
+  string Password = 5; // 数据库密码 TODO:加密存储
+  string Options = 6;  // 附加参数
+}
+// 私有化mongo数据库
+message MongoDbSetting {
+  string HostName = 1; // ip/域名
+  int32 HostPort = 2;  // 端口
+  string Database = 3; // 数据库名
+  string Username = 4; // 用户名
+  string Password = 5; // 数据库密码 TODO:加密存储
+  string Options = 6;  // 附加参数
+  string CfgSign = 7;  // 配置签名,防止来自外部的恶意修改
+  int32 CfgVer = 8;    // 配置版本号,版本号提升可以显式的让业务层重建连接池
+}
+// 排行榜开关
+
+message RankSwitch {
+  int32 Asset = 1;    //财富榜
+  int32 Recharge = 2; //充值榜
+  int32 Exchange = 3; //兑换榜
+  int32 Profit = 4;   //盈利榜
+}
+
+//俱乐部配置
+message ClubConfig {
+  int64 CreationCoin = 1;           //创建俱乐部金额
+  int64 IncreaseCoin = 2;           //升级俱乐部金额
+  int32 ClubInitPlayerNum = 3;      //俱乐部初始人数
+  int32 IncreasePlayerNum = 4;      //升级人数增加
+  bool IsOpenClub = 5;              //是否开放俱乐部
+  bool CreateClubCheckByManual = 6; //创建俱乐部人工审核，true=手动
+  bool EditClubNoticeByManual = 7;  //修改公告人工审核，true=手动
+  int64 CreateRoomAmount = 8;       //创建房间金额（分/局）
+  repeated int64 GiveCoinRate = 9;  //会长充值额外赠送比例
+}
+
+message ThirdGame {
+  int32 Id = 1;
+  int32 Merchant = 2;// 状态 0/1
+}
+
+// 平台结构
+message Platform {
+  string PlatformName = 1;  // 平台名称
+  bool Isolated = 2;        //是否独立平台
+  bool Disabled = 3;        //是否关闭
+  int32 Id = 4;          //平台ID
+  string CustomService = 5; //客服系统链接
+  int32 BindOption = 6; //平台用户绑定方式 位运算 微信|支付宝|银行卡
+  bool ServiceFlag = 7;            //是否支持浏览器跳转  0=否 1=是
+  int32 UpgradeAccountGiveCoin = 8; //升级账号奖励金币
+  int32 NewAccountGiveCoin = 9;     //新账号奖励金币
+  int32 PerBankNoLimitAccount = 10; //同一银行卡号绑定用户数量限制
+  int32 ExchangeMin = 11;           //最低兑换金额
+  int32 ExchangeLimit = 12;         // 兑换限制（身上携带）
+  int32 ExchangeTax = 13;           //兑换税收（万分比）
+  int32 ExchangeForceTax = 14;      //强制兑换税收
+  int32 ExchangeFlow = 15;          // 兑换流水比例
+  int32 ExchangeGiveFlow = 16;      //赠送兑换流水比例
+  int32 ExchangeFlag = 17; //兑换标记 二进制 第一位:兑换税收 第二位:流水比例
+  int32 ExchangeVer = 18;       //兑换版本
+  int32 ExchangeMultiple = 19;  //兑换基数
+  repeated int32 VipRange = 20; // VIP充值区间
+  int32 SpreadConfig = 21;  //0:等级返点 1:保底返佣
+  RankSwitch Leaderboard = 22; //排行榜开关
+  ClubConfig ClubConfig = 24; //俱乐部配置
+  int32 VerifyCodeType = 25;  //验证码方式 短信，随机，滑块
+  repeated ThirdGame ThirdGameMerchant = 26; //三方游戏平台状态
+  int32 CustomType = 27;    //客服类型 0 live800 1 美洽 2 CC客服
+  //bool NeedDeviceInfo = 28; //需要用户设备码
+  bool NeedSameName = 29; //绑定的银行卡和支付宝用户名字需要相同
+  int32 ExchangeBankMax = 30;       //银行卡最大兑换金额  0不限制
+  int32 ExchangeAlipayMax = 31;     //支付宝最大兑换金额 0不限制
+  int32 PerBankNoLimitName = 32;    //银行卡名字数量限制
+  bool IsCanUserBindPromoter = 33;  //是否允许用户手动绑定推广员
+  int32 UserBindPromoterPrize = 34; //手动绑定奖励
+  string MerchantKey = 35;//商户秘钥
+  //MysqlDbSetting Mysql = 35;// 平台mysql配置
+  //MongoDbSetting Mongo = 36;// 平台mongo配置
+  // int32 DgHboConfig ;//dg hbo配置，默认0，dg 1 hbo 2
+  // string OtherParams;//没看到哪里用，先不加
+}
+
+// 游戏状态结构
+message GameStatus{
+  int32 GameId = 1;   // excel 表Id
+  bool Status = 2;    // 是否开启
+}
+
+// 全局游戏配置，单独拿出来，方便扩展
+message GameConfigGlobal{
+  repeated GameStatus GameStatus = 1;
+}
+
+// GameFree 需要包一层属性
+message GameFree {
+  int32 GroupId = 1;                  // 组ID
+  bool Status = 2;                    // 开关
+  pbdata.DB_GameFree DbGameFree = 3;  // excel导出结构
+}
+
+// 平台级别游戏配置
+message PlatformGameConfig {
+  int32 PlatformId = 1;               // 平台ID
+  repeated GameFree DbGameFrees = 2;  // 游戏配置
+}
+
+// 平台数据库配置
+message PlatformDbConfig{
+  int32 PlatformId = 1;                  //平台ID
+  MysqlDbSetting Mysql = 2;
+  MongoDbSetting MongoDb = 3;
+  MongoDbSetting MongoDbLog = 4;
+}
+
+//游戏分组配置
+message GameConfigGroup {
+  int32 Id = 1;                     //分组id
+  int32 LogicId = 2;                //游戏id
+  pbdata.DB_GameFree DbGameFree = 3;  // 游戏分组配置
+  string GroupName = 4;              //分组标题
+}
+
+// 包信息
+message AppInfo {
+  int32 Id = 1;
+  int32 PlatformId = 2;     // 平台ID
+  string Name = 3;          // app名称
+  string PackageName = 4;   // android 包标识
+  string BundleId = 5;      // ios bundleid
+  string ApkUrl = 6;        // apk 下载地址
+  string IpaUrl = 7;        // ipa 下载地址
+  string CreateTime = 8;    // 创建时间
+}
+message PlayerData{
+  int32 SnId = 1;
+  string Tel = 2;
+  int32 VIP = 3;
+  string Name = 4;
+  int64 Coin = 5;
+  int64 CoinExchangeTotal = 6;//总提现金额 兑换
+  int64 CoinPayTotal = 7;//在线总充值金额
+  int64 CreateTime = 8;//创建时间
+  string DeviceId = 9;//设备id
+  string DeviceOS = 10;//设备操作系统
+  int32 DrawTimes = 11;//平局次数
+  int64 FailCoin = 12;//总输钱数量
+  int32 FailTimes = 13;//失败次数
+  int64 GameTax = 14;//总游戏税收
+  string Ip = 15;
+  bool IsRob = 16;
+  int64 LastLoginTime = 17;//最后登陆时间
+  string MarkInfo = 18;//用来备注玩家信息
+  bool Online = 19;
+  string Package = 20;//包信息 android:包名 ios:bundleid
+  string PackageID = 21;//推广包标识 对应客户端的packagetag
+  string Platform = 22;
+  string RegIp = 23;//注册ip地址
+  int64 SafeBoxCoin = 24;//保险箱金币
+  int32 WBLevel = 25;//黑白名单等级
+  int64 WinCoin = 26;//总赢钱数量
+  int32 WinTimes = 27;//胜利次数
+  int32 BlacklistType = 28;//黑名单作用域和后台一样都是采用位标记的表示形式
+  int32 SceneId = 29;//房间号
+  int32 GameFreeId = 30;
+  int64 Diamond = 31;//钻石
+  int32 RoleUnlock = 32;//角色解锁的个数
+  repeated int32 RolesIds = 33;//角色Id
+  int32 PetUnlock = 34;//宠物解锁的个数
+  repeated int32 PetsIds = 35;//宠物Id
+}
+message RoomInfo{
+  string Platform = 1;
+  int32 SceneId = 2;//场景id
+  int32 GameId = 3;//游戏id
+  int32 GameMode = 4;//游戏模式
+  int32 SceneMode = 5;//房间模式,参考common.SceneMode_XXX
+  int32 GroupId = 6;//组id
+  int32 GameFreeId = 7;
+  int32 SrvId = 8;//服务器id
+  int32 Creator = 9;//创建者账号id
+  int32 Agentor = 10;//代理者id
+  string ReplayCode = 11;//回放码
+  repeated int32 Params = 12;//场景参数
+  repeated int32 PlayerIds = 13;//所有玩家id
+  int32 PlayerCnt = 14;//玩家数量
+  int32 RobotCnt = 15;//AI数量
+  int32 Start = 16;//0.等待 1.游戏中
+  int64 CreateTime = 17;//创建时间
+  int32 ClubId = 18;//俱乐部id
+}
+message PlayerSingleAdjust{
+  string Id = 1;
+  string Platform = 2;
+  int32 GameFreeId = 3;
+  int32 SnId = 4;
+  int32 Mode = 5;//调控模式 1赢 2输 tinyint(1)
+  int32 TotalTime = 6;//调控总次数
+  int32 CurTime = 7;//当前调控次数
+  int64 BetMin = 8;//下注下限
+  int64 BetMax = 9;//下注上限
+  int64 BankerLoseMin = 10;//坐庄被输下限
+  int64 BankerWinMin = 11;//坐庄被控赢下限
+  int32 CardMin = 12;//牌型下限
+  int32 CardMax = 13;//牌型上限
+  int32 Priority = 14;//优先级
+  int32 WinRate = 15;//万分比
+  int32 GameId = 16;
+  int32 GameMode = 17;
+  string Operator = 18;
+  int64 CreateTime = 19;
+  int64 UpdateTime = 20;
+}
+message ServerInfo {
+  int32 SrvId = 1;//服务器id
+  int32 SrvType = 2;//服务器类型 4.网管 6.大厅.7游戏
+  int32 State = 3;//服务器状态 0.关闭 1.开启
+  int32 PlayerNum = 4;//人数
+  int32 RobotNum = 5;//AI人数
+  int32 SceneNum = 6;//房间数量
+  string Data = 7;
+}
+message CoinPoolSetting{
+  string Platform = 1;//平台id
+  int32 GameFreeId = 2;//游戏id
+  int32 ServerId = 3;//服务器id
+  int32 InitValue = 4;//初始库存值
+  int32 LowerLimit = 5;//库存下限
+  int32 UpperLimit = 6;//库存上限
+  int32 UpperOffsetLimit = 7;//上限偏移值
+  int32 MaxOutValue = 8;//最大吐钱数
+  int32 ChangeRate = 9;//库存变化速度
+  int32 MinOutPlayerNum = 10;//最少吐钱人数
+  int32 UpperLimitOfOdds = 11;//赔率上限(万分比)
+  int32 BaseRate = 12;//基础赔率
+  int32 CtroRate = 13;//调节赔率
+  int32 HardTimeMin = 14;//收分调节频率下限
+  int32 HardTimeMax = 15;//收分调节频率上限
+  int32 NormalTimeMin = 16;//正常调节频率下限
+  int32 NormalTimeMax = 17;//正常调节频率上限
+  int32 EasyTimeMin = 18;//放分调节频率下限
+  int32 EasyTimeMax = 19;//放分调节频率上限
+  int32 EasrierTimeMin = 20;//吐分调节频率下限
+  int32 EasrierTimeMax = 21;//吐分分调节频率上限
+  int32 GroupId = 22;//组id
+  int32 CpCangeType = 23;//库存变化类型
+  int32 CpChangeInterval = 24;//库存变化时间
+  int32 CpChangeTotle = 25;//库存变化总量
+  int32 CpChangeLower = 26;//下降域值
+  int32 CpChangeUpper = 27;//上升域值
+  int32 ProfitRate = 28;//营收比例
+  int32 CoinPoolMode = 29;//ai水池模式
+  int32 ResetTime = 30;//水池重置时间
+  int32 ProfitAutoRate = 31;//杀率调控自动修正比例
+  int32 ProfitManualRate = 32;//杀率调控手动修正比例
+  bool ProfitUseManual = 33;//使用杀率手动修正比例
+  int64 CoinValue = 34;//当前库存值
+  int32 PlayerNum = 35;//当前在线人数
+  int64 ProfitPool = 36;//当前收益池
+  //new
+  int64 JackpotCoin1 = 37;//奖池1
+  int64 JackpotCoin2 = 38;//奖池2
+  int64 JackpotCoin3 = 39;//奖池3
+  int64 JackpotCoin4 = 40;//奖池4
+}
+//邮件
+message MessageInfo {
+  string Id = 1;
+  int32 MType = 2;//消息类型
+  string Title = 3;//标题
+  string Content = 4;//内容
+  int32 State = 5;//当前消息状态
+  int64 CreateTime = 6;//创建时间戳
+  int32 SrcSnid = 7;//发送人ID
+  int32 DestSnid = 8;//目标人ID
+  int64 Coin = 9;//携带金币数量
+  string GiftId = 10;
+  int32 GiftState = 11;
+  string Platform = 12;
+}
+message HorseRaceLamp{
+  string Id = 1;
+  string Platform = 2;
+  string Title = 3;
+  string Content = 4;//公告内容
+  string Footer = 5;
+  int64 StartTime = 6;//开始时间
+  int32 Frequency = 7;// 公告间隔
+  int32 State = 8;// 状态：0.启用；1.关闭
+  int64 CreateTime = 9;//创建时间
+  int32 Count = 10;//播放次数
+  int32 Priority = 11;//播放优先级
+  int32 MsgType = 12;//公告类型
+  repeated int32 Target = 13;
+  int32 StandSec = 14;
+}
+//在线统计
+message OnlineGameCnt{
+  int32 GameId = 1;//游戏id
+  int32 Cnt = 2;//在线人数
+}
+message OnlineReport{
+  int32 TotalCnt = 1; // 在线总人数
+  int32 AndroidOnlineCnt = 2;//android在线
+  int32 IosOnlineCnt = 3;// ios在线
+  int32 DatingPlayers = 4;// 总大厅人数
+  int32 OnRoomPlayers = 5;// 正在游戏房间人数
+  int32 TodayRegisterOnline = 6;// 当天注册在线
+  int32 SevenDayRegisterOnline = 7;
+  repeated OnlineGameCnt GameCount = 8;// 1-7天注册在线
+}
+
+message CommonNotice {
+  int32  Sort = 1;
+  string Title = 2;
+  string Content = 3;
+  string TypeName = 4;
+  int32  Type = 5;
+  int64  StartTime = 6;
+  int64  EndTime = 7;
+  string Platform = 8;
+}
+message CommonNoticeList{
+  repeated CommonNotice List = 1;
+  string Platform = 2;
+}
+
+message ExchangeShop {
+  int32 Id = 1;       //商品ID
+  string Picture = 2; // 图片
+  int32 Type = 3;     // 类型 1，话费2，实物
+  string Name = 4;    // 名称
+  int32 Price = 5;    // 消耗V卡
+  string Content = 6; //规则说明
+  int32 ShopLimit = 7;        // 剩余总数
+  int32 DayMaxLimit = 8;      // 单日限购总数
+  int32 DayPlayLimit = 9;    // 个人单日购买
+}
+// etcd /game/exchange_shop
+message ExchangeShopList{
+  repeated ExchangeShop List = 1;
+  string Platform = 2;
+}
+
+message ItemShop {
+  int32 Id = 1;                    //商品ID
+  int32 ItemId = 2;                //道具ID
+  int32 Page = 3;                  //页面 1，金币页面 2，钻石页面 3，道具页面
+  int32 Order = 4;                 //排序  页面内商品的位置排序
+  int32 Type = 5;                  // 类型 1，金币 2，钻石 3，道具类型1：用金币或者钻石购买 4.道具类型2：走充值购买 5，其他
+  repeated int32 Location = 6;     // 显示位置 第1位，竖版大厅 第2位，Tienlen1级选场 第3位，捕鱼1级选场
+  string Picture = 7;              // 图片id
+  string Name = 8;                 // 名称
+  int32 Ad = 9;                    //是否观看广告 1，是 2，不是
+  int32 AdTime = 10;               // 观看几次广告
+  int32 RepeatTimes = 11;          // 领取次数
+  repeated int32 CoolingTime = 12; // 观看冷却时间
+  repeated int32 Label = 13;       // 标签
+  int32 Added = 14;                // 加送百分比
+  int32 Amount = 15;               // 货币金额
+  int32 Consume = 16;              // 购买消耗类型 1，金币 2，钻石 3，美金 4，柬埔寨币
+  int32 ConsumptionAmount = 17;    // 消耗数量 加送百分比（比如加送10%，就配置110）
+}
+
+// etcd /game/item_shop
+message ItemShopList{
+  repeated ItemShop List = 1;
+  string Platform = 2;
+}
+
+//物品信息
+message ItemInfo{
+  int32 ItemId = 1;  // 物品ID
+  int32 ItemNum = 2; // 物品数量
+  string Name = 3; // 名称
+}
+
+message MatchInfoAward {
+  repeated ItemInfo ItemId = 1;          // 道具
+  int64 Coin = 2;                        // 金币
+  int64 Diamond = 3;                     // 钻石、
+  int32 UpLimit = 4;                     // 名次上行
+  int32 DownLimit = 5;                   // 名次下行 例如 第一名为 UpLimit 1,DownLimit 1 4~10为 UpLimit 4,DownLimit 10
+}
+
+message GameMatchDate {
+  int32 Id = 1;                       // 序号
+  int32 GameFreeId = 2;               // 玩法类型 所用的玩法ID
+  int32 MatchType = 3;                // 比赛类型 1.锦标赛 2.冠军赛
+  string MatchName = 4;               // 场次名字
+  int32 MatchNumebr = 5;              // 报名人数
+  repeated int32 MatchPromotion = 6;  // 晋级方式
+  int32 MatchSwitch = 7;              // 1.开启 2.关闭
+  repeated MatchInfoAward     Award = 8;// 比赛奖励
+  int64 SignupCostCoin = 9; //报名消耗金币
+  int64 SignupCostDiamond = 10;//报名消耗钻石
+  ItemInfo SignupCostItem = 11;//报名消耗道具
+  int32 MatchTimeType = 12;//冠军赛时效类型 0无时效 1重复时间段 2一次性时间段
+  repeated int32 MatchTimeWeek = 13;//周几
+  int32 MatchTimeStartHMS = 14;//几点开始（时*10000 + 分*100 + 秒）
+  int32 MatchTimeEndHMS = 15;//几点结束（时*10000 + 分*100 + 秒）
+  repeated int64 MatchTimeStamp = 16;//哪一天（时间戳：开始时间戳-结束时间戳）
+  string TitleURL = 17;//比赛标题后台自定义
+  string AwardShow = 18;//主要奖励展示
+  string Rule = 19;
+}
+
+// etcd /game/game_match
+message GameMatchDateList{
+  repeated GameMatchDate List = 1;
+  string Platform = 2;
+}

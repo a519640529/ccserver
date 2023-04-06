@@ -1,0 +1,120 @@
+syntax = "proto3";
+package pets;
+option go_package = ".;pets";
+
+//人物和宠物
+enum PetsPacketID {
+  PACKET_CANDY_ZERO = 0;//弃用消息号
+  PACKET_CS_ROLE_INFO = 2550;//获取人物信息
+  PACKET_SC_ROLE_INFO = 2551;
+  PACKET_CS_PET_INFO = 2552;//获取宠物信息
+  PACKET_SC_PET_INFO = 2553;
+  PACKET_CS_PET_RISINGSTAR = 2554;//人物或者宠物升星
+  PACKET_SC_ROLE_RISINGSTAR = 2555;
+  PACKET_SC_PET_RISINGSTAR = 2556;
+  PACKET_CS_ROLEPETUSEOP = 2557;//人物或者宠物使用
+  PACKET_SC_ROLEPETUSEOP = 2558;
+  PACKET_CS_ROLEPETUNLOCK = 2559;//解锁模型
+  PACKET_SC_ROLEPETUNLOCK = 2560;
+}
+
+//操作结果
+enum OpResultCode {
+  OPRC_Sucess = 0; //成功
+  OPRC_Error = 1; //失败
+}
+//人物信息
+message RoleInfo {
+  int32 Id = 1;//序号
+  int32 RoleId = 2;//角色id
+  string Name = 3;//角色名称
+  int32 Grade = 4;//角色品级
+  int32 Level = 5;//角色等级
+  int32 MaxLevel = 6;//角色等级
+  int32 Fragment = 7;//升级所需的道具id
+  int32 Amount = 8;//升级所需的道具个数
+  int32 AwardType = 9;//奖励类型
+  int32 Award = 10;//奖励加成
+  int32 AwardRate = 11;//奖励触发概率
+  string Story = 12;//人物背景介绍
+  string AwardTitle = 13;//奖励标题
+  //数据
+  int32 HaveAmount = 14;//拥有的道具个数
+  int32 NextAward = 15;//下一级加成
+  bool IsUsing = 16;//是否在使用中
+  bool IsUnlock = 17;//是否已经解锁
+}
+//PACKET_CS_ROLE_INFO
+message CSRoleInfo {
+}
+//PACKET_SC_ROLE_INFO
+message SCRoleInfo {
+  repeated RoleInfo Infos = 1;    //宠物信息
+}
+//宠物信息
+message PetInfo {
+  int32 Id = 1;//序号
+  int32 PetId = 2;//角色id
+  string Name = 3;//角色名称
+  int32 Grade = 4;//角色品级
+  int32 Level = 5;//角色等级
+  int32 MaxLevel = 6;//宠物等级
+  int32 Fragment = 7;//升级所需的道具id
+  int32 Amount = 8;//升级所需的道具个数
+  int32 AwardType = 9;//奖励类型
+  int32 Award = 10;//奖励加成
+  int32 AwardRate = 11;//奖励触发概率
+  string Story = 12;//人物背景介绍
+  string AwardTitle = 13;//奖励标题
+  //数据
+  int32 HaveAmount = 14;//拥有的道具个数
+  int32 NextAward = 15;//下一级加成
+  bool IsUsing = 16;//是否在使用中
+  bool IsUnlock = 17;//是否已经解锁
+}
+//PACKET_CS_PET_INFO
+message CSPetInfo {
+}
+//PACKET_SC_PET_INFO
+message SCPetInfo {
+  repeated PetInfo Infos = 1;    //宠物信息
+}
+//PACKET_CS_PET_RISINGSTAR
+message CSRisingStar{
+  int32 RisingType = 1; //0.人物 1.宠物
+  int32 RisingModId = 2; //升星的mod Id
+}
+//PACKET_SC_ROLE_RISINGSTAR
+message SCRoleRisingStar{
+  RoleInfo RoleInfo = 1;
+  OpResultCode RetCode = 2;
+}
+//PACKET_SC_PET_RISINGSTAR
+message SCPetRisingStar{
+  PetInfo PetInfo = 1;
+  OpResultCode RetCode = 2;
+}
+//PACKET_CS_ROLEPETUSEOP
+message CSRolePetUseOp{
+  int32 UseModType = 1; //0.人物 1.宠物
+  int32 UseModId = 2; //使用的模型id
+}
+//PACKET_CS_ROLEPETUSEOP
+message SCRolePetUseOp{
+  int32 UseModType = 1; //0.人物 1.宠物
+  int32 UseModId = 2; //使用的模型id
+  OpResultCode RetCode = 3;
+}
+//PACKET_CS_ROLEPETUNLOCK
+message CSRolePetUnlock{
+  int32 UseModType = 1;//0.人物 1.宠物
+  int32 UseModId = 2;//模型id
+}
+//PACKET_SC_ROLEPETUNLOCK
+message SCRolePetUnlock{
+  int32 UseModType = 1;//0.人物 1.宠物
+  int32 UseModId = 2;//模型id
+  OpResultCode RetCode = 3;
+  RoleInfo RoleInfo = 4;
+  PetInfo PetInfo = 5;
+}

@@ -1,0 +1,259 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"BetScope": [
+				50,
+				300000
+			],
+			"TrueCalcRate": [
+				0,
+				7000
+			],
+			"WeightId": 2
+		},
+		{
+			"Id": 2,
+			"BetScope": [
+				50,
+				300000
+			],
+			"TrueCalcRate": [
+				7000,
+				9000
+			],
+			"WeightId": 2
+		},
+		{
+			"Id": 3,
+			"BetScope": [
+				50,
+				300000
+			],
+			"TrueCalcRate": [
+				9000,
+				9800
+			],
+			"WeightId": 1
+		},
+		{
+			"Id": 4,
+			"BetScope": [
+				50,
+				300000
+			],
+			"TrueCalcRate": [
+				9800,
+				11000
+			],
+			"WeightId": 1
+		},
+		{
+			"Id": 5,
+			"BetScope": [
+				50,
+				300000
+			],
+			"TrueCalcRate": [
+				11000,
+				9999999
+			],
+			"WeightId": 3
+		},
+		{
+			"Id": 6,
+			"IsNew": 1,
+			"BetScope": [
+				50,
+				50000
+			],
+			"TrueCalcRate": [
+				0,
+				7000
+			],
+			"WeightId": 2
+		},
+		{
+			"Id": 7,
+			"IsNew": 1,
+			"BetScope": [
+				50,
+				1000
+			],
+			"TrueCalcRate": [
+				7000,
+				9000
+			],
+			"WeightId": 2
+		},
+		{
+			"Id": 8,
+			"IsNew": 1,
+			"BetScope": [
+				50,
+				1000
+			],
+			"TrueCalcRate": [
+				9000,
+				9800
+			],
+			"WeightId": 4
+		},
+		{
+			"Id": 9,
+			"IsNew": 1,
+			"BetScope": [
+				50,
+				1000
+			],
+			"TrueCalcRate": [
+				9800,
+				11000
+			],
+			"WeightId": 4
+		},
+		{
+			"Id": 10,
+			"IsNew": 1,
+			"BetScope": [
+				50,
+				1000
+			],
+			"TrueCalcRate": [
+				11000,
+				9999999
+			],
+			"WeightId": 3
+		},
+		{
+			"Id": 11,
+			"IsNew": 1,
+			"BetScope": [
+				1000,
+				50000
+			],
+			"TrueCalcRate": [
+				0,
+				7000
+			],
+			"WeightId": 2
+		},
+		{
+			"Id": 12,
+			"IsNew": 1,
+			"BetScope": [
+				1000,
+				50000
+			],
+			"TrueCalcRate": [
+				7000,
+				9000
+			],
+			"WeightId": 2
+		},
+		{
+			"Id": 13,
+			"IsNew": 1,
+			"BetScope": [
+				1000,
+				50000
+			],
+			"TrueCalcRate": [
+				9000,
+				9800
+			],
+			"WeightId": 6
+		},
+		{
+			"Id": 14,
+			"IsNew": 1,
+			"BetScope": [
+				1000,
+				50000
+			],
+			"TrueCalcRate": [
+				9800,
+				11000
+			],
+			"WeightId": 6
+		},
+		{
+			"Id": 15,
+			"IsNew": 1,
+			"BetScope": [
+				1000,
+				50000
+			],
+			"TrueCalcRate": [
+				11000,
+				9999999
+			],
+			"WeightId": 3
+		},
+		{
+			"Id": 16,
+			"IsNew": 1,
+			"BetScope": [
+				50000,
+				300000
+			],
+			"TrueCalcRate": [
+				0,
+				7000
+			],
+			"WeightId": 2
+		},
+		{
+			"Id": 17,
+			"IsNew": 1,
+			"BetScope": [
+				50000,
+				300000
+			],
+			"TrueCalcRate": [
+				7000,
+				9000
+			],
+			"WeightId": 2
+		},
+		{
+			"Id": 18,
+			"IsNew": 1,
+			"BetScope": [
+				50000,
+				300000
+			],
+			"TrueCalcRate": [
+				9000,
+				9800
+			],
+			"WeightId": 7
+		},
+		{
+			"Id": 19,
+			"IsNew": 1,
+			"BetScope": [
+				50000,
+				300000
+			],
+			"TrueCalcRate": [
+				9800,
+				11000
+			],
+			"WeightId": 7
+		},
+		{
+			"Id": 20,
+			"IsNew": 1,
+			"BetScope": [
+				50000,
+				300000
+			],
+			"TrueCalcRate": [
+				11000,
+				9999999
+			],
+			"WeightId": 3
+		}
+	]
+}

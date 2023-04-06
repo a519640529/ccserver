@@ -1,0 +1,143 @@
+syntax = "proto3";
+package shop;
+option go_package = ".;shop";
+//操作结果
+enum OpResultCode {
+  OPRC_Sucess = 0; //成功
+  OPRC_Error = 1; //失败
+  OPRC_VCoinNotEnough = 2; //V卡不够
+  OPRC_ExchangeLimit = 3; //今日兑换已达上限，请明日再来
+  OPRC_ExchangeNotEnough = 4; //该物品已被兑换完
+  OPRC_ExchangeDataRtt   = 5; //输入信息有误
+  OPRC_ExchangeSoldOut   = 6; //该商品已下架
+}
+// 商城
+enum SPacketID {
+  PACKET_SHOP_ZERO = 0;// 弃用消息号
+  PACKET_CS_SHOP_INFO = 2500;//请求商品数据
+  PACKET_SC_SHOP_INFO = 2501;//返回商品数据
+  PACKET_CS_SHOP_ADLOOKED = 2502;//观看广告
+  PACKET_SC_SHOP_ADLOOKED = 2503;//观看广告返回
+  PACKET_CS_SHOP_VCPAYSHOP = 2504;//购买虚拟货币或者商品
+  PACKET_SC_SHOP_VCPAYSHOP = 2505;//购买结果返回
+  PACKET_CS_SHOP_EXCHANGERECORD = 2506;//兑换记录
+  PACKET_SC_SHOP_EXCHANGERECORD = 2507;
+  PACKET_CS_SHOP_EXCHANGE       = 2508;//兑换商品
+  PACKET_SC_SHOP_EXCHANGE       = 2509;
+  PACKET_CS_SHOP_EXCHANGELIST       = 2510;//兑换商品列表
+  PACKET_SC_SHOP_EXCHANGELIST       = 2511;
+  /////Exchange
+  SHOP_SC_GIVECOIN_INFO = 2514;        //通知赠送信息,先临时放到这个地方，其他协议需要合并
+}
+//商品信息
+message ShopInfo{
+  //数据表数据
+  int32 Id = 1;
+  //缓存数据
+  int32 AdLookedNum = 2;//已经观看的次数
+  int32 AdReceiveNum = 3;//已经领取的次数
+//  int32 RemainingTime = 4;//商品的剩余冷却时间
+  int32 LastLookTime = 4;//商品上一次观看时间
+  //展示数据
+  int32 RoleAdded = 5;//人物加成
+  int32 PetAdded = 6;//宠物加成
+  int32 ItemId = 7;                //道具ID
+  int32 Page = 8;                  //页面 1，金币页面 2，钻石页面 3，道具页面
+  int32 Order = 9;                 //排序  页面内商品的位置排序
+  int32 Type = 10;                  // 类型 1，金币 2，钻石 3，道具类型1：用金币或者钻石购买 4.道具类型2：走充值购买 5，其他
+  repeated int32 Location = 11;     // 显示位置 第1位，竖版大厅 第2位，Tienlen1级选场 第3位，捕鱼1级选场
+  string Picture = 12;              // 图片id
+  string Name = 13;                 // 名称
+  int32 Ad = 14;                    //是否观看广告 1，是 2，不是
+  int32 AdTime = 15;               // 观看几次广告
+  int32 RepeatTimes = 16;          // 领取次数
+  repeated int32 CoolingTime = 17; // 观看冷却时间
+  repeated int32 Label = 18;       // 标签
+  int32 Added = 19;                // 加送百分比
+  int32 Amount = 20;               // 货币金额
+  int32 Consume = 21;              // 购买消耗类型 1，金币 2，钻石 3，美金 4，柬埔寨币
+  int32 ConsumptionAmount = 22;    // 消耗数量 加送百分比（比如加送10%，就配置110）
+}
+//PACKET_CS_SHOP_INFO
+message CSShopInfo {
+  int32 NowLocation = 1;//0.通用 1.竖版 2.Tienlen 3.捕鱼
+}
+//PACKET_SC_SHOP_INFO
+message SCShopInfo {
+  repeated ShopInfo Infos = 1;    //商品信息
+}
+//PACKET_CS_SHOP_ADLOOKED
+message CSAdLooked {
+  int32 LookedResult = 1; //0.观看成功 //失败或者中断不用告知
+  int32 ShopId = 2;
+}
+//PACKET_SC_SHOP_ADLOOKED
+message SCAdLooked{
+  OpResultCode RetCode = 1;
+  ShopInfo ShopInfo = 2;//刷新商品信息
+}
+//PACKET_CS_SHOP_VCPAYSHOP
+message CSVCPayShop{
+  int32 ShopId = 1;//商品Id
+}
+//PACKET_SC_SHOP_VCPAYSHOP
+message SCVCPayShop{
+  OpResultCode RetCode = 1;
+  ShopInfo ShopInfo = 2;//刷新商品信息
+}
+message SCNotifyGiveCoinInfo {
+  int64 GiveCoin = 1;          //赠送金币
+  int32 GiveTag = 2;           //赠送类型，需要对应关系
+}
+//商城兑换记录
+//PACKET_CS_SHOP_EXCHANGERECORD
+message CSShopExchangeRecord{
+  int32 PageNo = 1;//当前页
+}
+message ShopExchangeRecord{
+  int64  CreateTs = 1;//订单创建日期
+  string Name    = 2;//名称
+  string OrderId = 3;//订单号
+  int32  State = 4;  //状态 0.等待审核 1.已通过 2.未通过
+  string Remark = 5; //订单备注
+}
+//PACKET_SC_SHOP_EXCHANGERECORD
+message SCShopExchangeRecord{
+  int32 PageNo = 1;//当前页
+  int32 PageSize = 2;//每页数量
+  int32 PageSum = 3;//总页数
+  repeated ShopExchangeRecord Infos = 4;//刷新商品信息
+}
+
+//商城兑换
+//PACKET_CS_SHOP_EXCHANGERECORD
+message CSShopExchange{
+  int32 GoodsId   = 1;//商品ID
+  string UserName = 2;//兑换人姓名
+  string Mobile   = 3;//兑换人手机号
+  string Comment  = 4; //备注信息
+}
+message SCShopExchange{
+  OpResultCode RetCode = 1;
+  int64  CreateTs = 2;//订单创建日期
+  string OrderId  = 3;//订单号
+}
+
+//PACKET_CS_SHOP_EXCHANGELIST
+message CSShopExchangeList{
+}
+message ShopExchangeInfo{
+  int32 Type = 1;     // 类型 1，话费2，实物
+  string Picture = 2; // 图片
+  string Name = 3;    // 名称
+  int32  NeedNum = 4; // 消耗V卡
+  string Rule  = 5;//规则说明
+  int32 GoodsId   = 6;//商品ID
+  int32 ShopLimit = 7;        // 剩余总数
+  int32 DayMaxLimit = 8;      // 单日限购总数
+  int32 DayPlayLimit = 9;    // 个人单日购买
+}
+message SCShopExchangeList{
+  OpResultCode RetCode = 1;
+  repeated ShopExchangeInfo  Infos = 2;//兑换商品列表
+}

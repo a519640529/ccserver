@@ -1,0 +1,180 @@
+syntax = "proto3";
+package friend;
+option go_package = ".;friend";
+
+//操作结果
+enum OpResultCode {
+  OPRC_Sucess = 0; //成功
+  OPRC_Error = 1; //失败
+  OPRC_Friend_NoPlayer = 1001; //好友不存在
+  OPRC_Friend_AlreadyAdd = 1002; //已经是好友
+  OPRC_Friend_AlreadyApply = 1003; //已经申请过添加好友
+  OPRC_Friend_FriendMax = 1004; //好友已满员
+  OPRC_Friend_DestFriendMax = 1005; //对方好友已满员
+  OPRC_Friend_DestApplyFriendMax = 1006; //对方好友申请已达上限
+  OPRC_InviteFriend_NoOnline = 1007; //好友不在线
+  OPRC_InviteFriend_NotFriend = 1008; //不是好友
+  OPRC_InviteFriend_SceneNotExist = 1009; //场景不存在
+  OPRC_InviteFriend_RoomLimit = 1010; //只能进入私有房间
+  OPRC_InviteFriend_RoomNotExist = 1011; //房间不存在
+  OPRC_InviteFriend_SceneDeleting = 1012; //场景正在删除
+  OPRC_InviteFriend_SceneClosed = 1013; //场景已关闭
+  OPRC_InviteFriend_CoinLimit = 1014; //金币不足
+  OPRC_InviteFriend_GameNotExist = 1015; //游戏不存在
+  OPRC_InviteFriend_GameNotCanEnter = 1016; //游戏已开始
+  OPRC_InviteFriend_RoomFull = 1017; //房间已满员
+  OPRC_InviteFriend_Gaming = 1018; //好友已在游戏中
+  OPRC_InviteFriend_PosIsError = 1019; //座位不存在
+  OPRC_InviteFriend_HadInRoom = 1020; //已在房间中
+  OPRC_Friend_NotOpMyself = 1021; //不能操作自己
+}
+
+//好友数据消息id
+enum FriendPacketID {
+  PACKET_FriendPACKET_ZERO = 0;                       // 弃用消息号
+  PACKET_CSFriendList = 2700; //0.好友列表 1.申请列表 2.推荐列表
+  PACKET_SCFriendList = 2701;
+  PACKET_CSFriendOp = 2702; //0.申请 1.同意 2.拒绝 3.删除
+  PACKET_SCFriendOp = 2703;
+  PACKET_CSQueryPlayerGameLog = 2704; //战绩
+  PACKET_SCQueryPlayerGameLog = 2705;
+  PACKET_CSInviteFriend = 2706; //邀请游戏
+  PACKET_SCInviteFriend = 2707;
+  PACKET_CSInviteFriendOp = 2708; //同意、拒绝邀请
+  PACKET_SCInviteFriendOp = 2709;
+  PACKET_SCFriendApplyData = 2710; // 好友申请数据
+  PACKET_SCFriendUnreadData = 2711; // 未读消息数据
+  PACKET_CSFuzzyQueryPlayer = 2712; //根据id或者昵称查询玩家
+  PACKET_SCFuzzyQueryPlayer = 2713;
+}
+
+//获取好友列表
+//PACKET_CSFriendList
+message CSFriendList {
+  int32 ListType = 1;//0.好友列表 1.申请列表 2.推荐列表
+}
+
+message FriendInfo {
+  int32 SnId = 1;
+  string Name = 2; //名字
+  int32 Sex = 3; //性别
+  int32 Head = 4; //头像
+  bool Online = 7;
+  int64 CreateTs = 9;//创建时间
+  int64 LogoutTs = 10;//离线时间
+  int64 LastChatTs = 11;//最后聊天时间
+  bool IsShield = 12;//屏蔽关系
+}
+
+//PACKET_SCFriendList
+message SCFriendList {
+  int32 ListType = 1;//0.好友列表 1.申请列表 2.推荐列表
+  repeated FriendInfo FriendArr = 2;
+  OpResultCode OpRetCode = 3; //获取结果
+}
+
+//好友操作
+//PACKET_CSFriendOp
+message CSFriendOp {
+  int32 OpCode = 1; //0.申请 1.同意 2.拒绝 3.删除
+  int32 SnId = 2;
+}
+
+//PACKET_SCFriendOp
+message SCFriendOp {
+  int32 OpCode = 1; //0.申请 1.同意 2.拒绝 3.删除
+  int32 SnId = 2;
+  FriendInfo Friend = 3;
+  OpResultCode OpRetCode = 4; //获取结果
+}
+
+//PACKET_CSQueryPlayerGameLog
+message CSQueryPlayerGameLog{
+  int32 Snid = 1;
+  int32 GameId = 2;
+  int32 Size = 3;
+}
+message PlayerGameLog{
+  int32  GameId = 1;    //游戏id
+  int32 BaseScore = 2;  //游戏底注
+  int32 IsWin =3;       //1:赢 0:平 -1:输
+  int64 Ts = 4;
+
+}
+//PACKET_SCQueryPlayerGameLog
+message SCQueryPlayerGameLog{
+  int32 Snid = 1;
+  int32 GameId = 2;
+  int32 Size = 3;
+  repeated PlayerGameLog GameLogs= 4;
+}
+
+//PACKET_CSInviteFriend
+message CSInviteFriend {
+  int32 ToSnId = 1; //被邀请者
+  int32 Pos = 2;
+}
+//PACKET_SCInviteFriend
+message SCInviteFriend {
+  int32 SrcSnId = 1; //邀请者
+  string SrcName = 2;
+  int32 SrcHead = 3;
+  int32 GameId = 4;
+  int32 RoomId = 5;
+  int32 Pos = 6;
+  OpResultCode OpRetCode = 7; //获取结果
+}
+
+//PACKET_CSInviteFriendOp
+message CSInviteFriendOp {
+  int32 OpCode = 1; //0.同意 1.拒绝
+  int32 SnId = 2; // 拒绝/同意对象
+  int32 Pos = 3;
+}
+//PACKET_SCInviteFriendOp
+message SCInviteFriendOp {
+  int32 SnId = 1; //操作者
+  string Name = 2;
+  int32 OpCode = 3; //0.同意 1.拒绝
+  int32 Pos = 4;
+  OpResultCode OpRetCode = 5; //获取结果
+}
+
+message FriendApply {
+  int32 Snid = 1;
+  string Name = 2;
+  int64 CreateTs = 3;
+}
+//PACKET_SCFriendApplyData
+message SCFriendApplyData {
+  repeated FriendApply FriendApplys = 1;
+}
+
+message FriendUnread {
+  int32 Snid = 1;
+  int32 UnreadNum = 2;
+}
+//PACKET_SCFriendUnreadData
+message SCFriendUnreadData {
+  repeated FriendUnread FriendUnreads = 1;
+}
+
+//PACKET_CSFuzzyQueryPlayer //根据id或者昵称查询玩家
+message CSFuzzyQueryPlayer {
+  string QueryContent = 1;
+}
+
+message PlayerInfo {
+  int32 SnId = 1;
+  string Name = 2; //名字
+  int32 Sex = 3; //性别
+  int32 Head = 4; //头像
+}
+//PACKET_SCFuzzyQueryPlayer
+message SCFuzzyQueryPlayer {
+  string QueryContent = 1;
+  repeated PlayerInfo Players = 2;
+}
+
+
+

@@ -1,0 +1,143 @@
+{
+	"Arr": [
+		{
+			"Name": "不是VIP",
+			"ExchangeRate": 100,
+			"RewardOutlineID": [
+				1
+			]
+		},
+		{
+			"Id": 1,
+			"Name": "VIP1",
+			"Count": 100,
+			"Param": [
+				1,
+				1,
+				1
+			],
+			"ParamName": [
+				"获得专属头像框",
+				"获得专属炮台",
+				"更多VIP功能正待开发"
+			],
+			"ExchangeRate": 100,
+			"RewardPaotaiID": [
+				11
+			],
+			"RewardOutlineID": [
+				2
+			]
+		},
+		{
+			"Id": 2,
+			"Name": "VIP2",
+			"Count": 200,
+			"Param": [
+				1,
+				1,
+				1
+			],
+			"ParamName": [
+				"获得专属头像框",
+				"获得专属炮台",
+				"更多VIP功能正待开发"
+			],
+			"ExchangeRate": 100,
+			"RewardPaotaiID": [
+				21
+			],
+			"RewardOutlineID": [
+				2
+			]
+		},
+		{
+			"Id": 3,
+			"Name": "VIP3",
+			"Count": 500,
+			"Param": [
+				1,
+				1,
+				1
+			],
+			"ParamName": [
+				"获得专属头像框",
+				"获得专属炮台",
+				"更多VIP功能正待开发"
+			],
+			"ExchangeRate": 100,
+			"RewardPaotaiID": [
+				31
+			],
+			"RewardOutlineID": [
+				3
+			]
+		},
+		{
+			"Id": 4,
+			"Name": "VIP4",
+			"Count": 1000,
+			"Param": [
+				1,
+				1,
+				1
+			],
+			"ParamName": [
+				"获得专属头像框",
+				"获得专属炮台",
+				"更多VIP功能正待开发"
+			],
+			"ExchangeRate": 100,
+			"RewardPaotaiID": [
+				41
+			],
+			"RewardOutlineID": [
+				3
+			]
+		},
+		{
+			"Id": 5,
+			"Name": "VIP5",
+			"Count": 2000,
+			"Param": [
+				1,
+				1,
+				1
+			],
+			"ParamName": [
+				"获得专属头像框",
+				"获得专属炮台",
+				"更多VIP功能正待开发"
+			],
+			"ExchangeRate": 100,
+			"RewardPaotaiID": [
+				51
+			],
+			"RewardOutlineID": [
+				4
+			]
+		},
+		{
+			"Id": 6,
+			"Name": "VIP6",
+			"Count": 3000,
+			"Param": [
+				1,
+				1,
+				1
+			],
+			"ParamName": [
+				"获得专属头像框",
+				"获得专属炮台",
+				"更多VIP功能正待开发"
+			],
+			"ExchangeRate": 100,
+			"RewardPaotaiID": [
+				61
+			],
+			"RewardOutlineID": [
+				4
+			]
+		}
+	]
+}

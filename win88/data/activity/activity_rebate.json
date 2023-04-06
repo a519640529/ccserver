@@ -1,0 +1,11 @@
+{
+	"Id":6,
+	"Name":"投资返利",
+	"Desc":"投资返利",
+	"StartTime":"2018-04-20 00:00:00",
+	"EndTime":"2025-05-02 23:59:59",
+	"TaskIds":[],
+	"IsDelTaskWhenEnd":true,
+	"IsDelActIdWhenEnd":true,
+	"Data":[]
+}

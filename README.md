@@ -1,0 +1,1 @@
+C:\Windows\System32\drivers\etc  设置windows 本地域名

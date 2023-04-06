@@ -1,0 +1,43 @@
+syntax = "proto3";
+package activity;
+option go_package = ".;activity";
+
+//操作结果
+enum OpResultCode_ActSign {
+  OPRC_Activity_Sign_Sucess = 0; //成功
+  OPRC_Activity_Sign_Error = 1; //失败
+  OPRC_Activity_Sign_Close = 1001; //活动未开启
+  OPRC_Activity_Sign_PayNum_Low = 1002; //未达到最低充值金额
+  OPRC_Activity_Sign_Config_Vip_Error = 1003; //vip不匹配
+  OPRC_Activity_Sign_Config_Day_Error = 1004; //签到天数不匹配
+  OPRC_Activity_Sign_Repeat = 1005; //重复签到
+}
+// 签到
+enum ActSignPacketID {
+  PACKET_SignZero = 0;// 弃用消息号
+  PACKET_CSSign  = 2662;// 签到
+  PACKET_SCSign  = 2663;
+	PACKET_CSSignData  = 2664;// 签到数据
+	PACKET_SCSignData  = 2665;
+}
+
+//PACKET_CSSign
+message CSSign {
+  int32 SignIndex = 1;
+  int32 SignType = 2; //0.普通签到 1.双倍签到
+}
+//PACKET_SCSign
+message SCSign {
+  int32 SignIndex = 1;
+  int32 SignType = 2; //0.普通签到 1.双倍签到
+  OpResultCode_ActSign OpRetCode = 3;
+}
+
+//PACKET_CSSignData
+message CSSignData {
+}
+//PACKET_SCSignData
+message SCSignData {
+  int32 SignCount = 1;
+  int32 TodaySign = 2; //0.未签到 1.已签到
+}

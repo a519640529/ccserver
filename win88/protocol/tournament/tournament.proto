@@ -1,0 +1,164 @@
+syntax = "proto3";
+package tournament;
+option go_package = ".;tournament";
+
+
+enum TOURNAMENTID{
+  PACKET_TM_ZERO = 0;//弃用消息号
+  PACKET_TM_CSTMInfo = 2740;//请求场次信息
+  PACKET_TM_SCTMInfos = 2741;//返回场次信息
+  PACKET_TM_CSTMRankList = 2742;//排行榜
+  PACKET_TM_SCTMRankList = 2743;//排行榜
+  PACKET_TM_CSSignRace = 2744;//报名请求
+  PACKET_TM_SCSignRace = 2745;//报名返回
+  PACKET_TM_SCSyncSignNum = 2746;//报名人数更新
+  PACKET_TM_SCPromotionInfo = 2747;//晋级信息
+  PACKET_TM_SCTMStart = 2748;//比赛开始
+  PACKET_TM_SCTMStop = 2750;//比赛结束
+  PACKET_TM_CSTMSeasonInfo = 2751;//赛季信息
+  PACKET_TM_SCTMSeasonInfo = 2752;//赛季信息
+  PACKET_TM_CSTMSeasonRank = 2753;//赛季排行榜
+  PACKET_TM_SCTMSeasonRank = 2754;//赛季排行榜
+  PACKET_TM_CSTMSeasonAward = 2755;//领取赛季奖励
+  PACKET_TM_SCTMSeasonAward = 2756;//领取赛季奖励
+}
+//比赛场场次
+//PACKET_TM_CSTMInfo
+message CSTMInfo{
+}
+message ItemInfo{
+  int32 ItemId = 1;  // 物品ID
+  int32 ItemNum = 2; // 物品数量
+  string Name = 3; // 名称
+}
+
+message MatchInfoAward {
+  repeated ItemInfo ItemInfo = 1;          // 道具
+  int64 Coin = 2;                        // 金币
+  int64 Diamond = 3;                     // 钻石、
+  int32 UpLimit = 4;                     // 名次上行
+  int32 DownLimit = 5;                   // 名次下行 例如 第一名为 UpLimit 1,DownLimit 1 4~10为 UpLimit 4,DownLimit 10
+}
+
+message TMInfo{
+  int32 Id = 1;                       // 序号
+  int32 GameFreeId = 2;               // 玩法类型 所用的玩法ID
+  int32 MatchType = 3;                // 比赛类型 1.锦标赛 2.冠军赛
+  string MatchName = 4;               // 场次名字
+  int32 MatchNumebr = 5;              // 报名人数
+  repeated int32 MatchPromotion = 6;  // 晋级方式
+  int32 MatchSwitch = 7;              // 1.开启 2.关闭
+  repeated MatchInfoAward Award = 8;  // 比赛奖励
+  int64 SignupCostCoin = 9; //报名消耗金币
+  int64 SignupCostDiamond = 10;//报名消耗钻石
+  ItemInfo SignupCostItem = 11;//报名消耗道具
+  int32 MatchTimeType = 12;//冠军赛时效类型 0无时效 1重复时间段 2一次性时间段
+  repeated int32 MatchTimeWeek = 13;//周几
+  int32 MatchTimeStartHMS = 14;//几点开始（时*10000 + 分*100 + 秒）
+  int32 MatchTimeEndHMS = 15;//几点结束（时*10000 + 分*100 + 秒）
+  repeated int64 MatchTimeStamp = 16;//哪一天（时间戳：开始时间戳-结束时间戳）
+  string TitleURL = 17;//比赛标题后台自定义
+  string AwardShow = 18;//主要奖励展示
+  string Rule = 19;
+}
+//比赛场场次 激战人数刷新也走这个
+//PACKET_TM_SCTMInfos
+message SCTMInfos{
+  repeated TMInfo TMInfo = 1;//比赛场场次信息
+}
+//单场次排行榜
+//PACKET_TM_CSTMRankList
+message CSTMRankList{
+  int32 TMId = 1;//比赛场次id
+}
+message TMRank{
+  int32 RankId = 1;//名次
+  string RankName = 2;//名字
+  int32 WinnerNum = 3;//夺冠次数
+}
+//PACKET_TM_CSTMRankList
+message SCTMRankList{
+  int32 TMId = 1;//比赛场次id
+  string TimeRange = 2;//时间周期
+  repeated TMRank TMRank = 3;//排行榜
+}
+//报名
+//PACKET_TM_CSSignRace
+message CSSignRace {
+  int32 OpCode = 1;//0.报名 1.取消报名
+  int32 TMId = 2;//报名场次 --比赛配置id
+}
+//PACKET_TM_SCSignRace
+message SCSignRace{
+  int32 OpCode = 1;//0.报名 1.取消报名
+  int32 RetCode = 2;//返回结果
+}
+//报名人数更新  --报名那个场次通知那个 暂时只能报名一个场次
+//PACKET_TM_SCSyncSignNum
+message SCSyncSignNum{
+  int32 SignNum = 1;//当前报名人数
+  int32 MaxSignNum = 2;//最大报名人数
+}
+//比赛开始
+//PACKET_TM_SCTMStart
+message SCTMStart{
+  int32 MatchId = 1;
+}
+
+//比赛结束:1.淘汰 2.决赛结束 3.非正常终止
+//PACKET_TM_SCTMStop
+message SCTMStop{
+  int32 MatchId = 1;
+}
+
+message RankAward {
+  repeated ItemInfo ItemInfo = 1;        // 道具
+  int64 Coin = 2;                        // 金币
+  int64 Diamond = 3;                     // 钻石
+}
+
+//晋级数据更新
+//PACKET_TM_SCPromotionInfo
+message SCPromotionInfo{
+  int32 RetCode = 1;//0.晋级等待匹配 1.失败退出 2.等待判断是否晋级
+  int32 Round = 2;//当前第几轮
+  int32 RoundCoin = 3;//晋级奖励金币
+  int32 RankId = 4;//当前排名
+  map<int32,int32> Record = 5;//战绩 key：-1输 0 和 1赢 value次数
+  int32 MatchId = 6;
+  repeated int32 MatchPromotion = 7; //晋级方式
+  RankAward RankAward = 8;//排名奖励
+}
+
+//赛季信息
+message CSTMSeasonInfo{
+}
+message SCTMSeasonInfo{
+  int32 Id = 1;//当前赛季
+  repeated int64 SeasonTimeStamp = 2;//（时间戳：开始时间戳-结束时间戳）
+  int32 Lv = 3;//段位
+  int32 LastLv = 4;//上赛季段位
+  bool IsAward = 5;//上赛季是否领奖
+}
+
+//赛季排行榜
+message SeasonRank {
+  int32 Snid = 1;
+  string Name = 2;
+  int32 Lv = 3;//段位
+  int32 Rank = 4;//段位排名
+}
+message CSTMSeasonRank {
+}
+message SCTMSeasonRank {
+  repeated SeasonRank ReasonRanks = 6;//排行榜 前100名 (包含自己)
+}
+
+//领取赛季奖励
+message CSTMSeasonAward {
+  int32 Lv = 1;//段位
+}
+message SCTMSeasonAward {
+  int32 Lv = 1;//段位
+  int32 Code = 2;//0成功 1失败
+}

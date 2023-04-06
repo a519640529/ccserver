@@ -1,0 +1,162 @@
+syntax = "proto3";
+package dragonvstiger;
+option go_package = ".;dragonvstiger";
+//操作结果
+enum OpResultCode {
+  OPRC_Sucess = 0; //成功
+  OPRC_Error = 1; //失败
+  OPRC_BankerLimit = 2;
+  OPRC_BankerWaiting = 3;
+  OPRC_NotBankerWaiting = 4;
+  OPRC_BankerCannotBet = 5;
+  OPRC_CoinMustReachTheValue = 6;
+  OPRC_EachBetsLimit = 7;
+  OPRC_CoinIsNotEnough = 8;
+}
+//龙虎斗
+enum DragonVsTigerPacketID{
+  PACKET_DVST_ZERO = 0;// 弃用消息号
+  PACKET_SC_DVST_ROOMINFO = 5450;    //房间信息
+  PACKET_CS_DVST_PLAYEROP = 5451;    //玩家操作（客户-》服务）
+  PACKET_SC_DVST_PLAYEROP = 5452;    //玩家操作（服务-》客户）
+  PACKET_SC_DVST_ROOMSTATE = 5453;    //房间状态
+  PACKET_SC_DVST_GAMEBILLED = 5454;    //游戏结算
+  PACKET_SC_DVST_SEATS = 5455;    //座位信息
+  PACKET_SC_DVST_PLAYERLIST = 5456;     //玩家列表
+  PACKET_SC_DVST_SENDBET = 5457;     //批量押注筹码信息
+  PACKET_SC_DVST_UPLIST = 5458;    //上庄列表
+}
+
+message DragonVsTigerPlayerData{
+  string Name = 1;  //名字
+  int32 SnId = 2;  //账号
+  int32 Head = 3;  //头像
+  int32 Sex = 4;      //性别
+  int64 Coin = 5;  //金币
+  int32 Pos = 6;    //座位位置
+  int32 Flag = 7;  //二进制标记
+  repeated string Params = 8; //其他数据 如:ip 等
+  string City = 9;  //城市
+  int64 Lately20Win = 10;//最近20局输赢 (赢的次数)
+  int64 Lately20Bet = 11;//最近20局总下注 (可能是负值)
+  int32 HeadOutLine = 12;  //头像框
+  int32 VIP = 13;
+  int32 NiceId = 14;
+}
+
+//筹码数据
+message DragonVsTigerChips{
+  int32 Chip = 1;
+  int32 Count = 2;
+}
+
+message DragonVsTigerZoneChips{
+  int32 Zone = 1;//和，龙，虎
+  repeated DragonVsTigerChips Detail = 2;//筹码类型
+}
+
+//房间信息
+message SCDragonVsTigerRoomInfo {
+  int32 RoomId = 1;  //房间id
+  int32 Creator = 2;  //创建者SnId
+  int32 GameId = 3;  //游戏id
+  int32 RoomMode = 4;//游戏模式
+  repeated int32 Params = 5;  //规则参数
+  int32 NumOfGames = 6;//当前第几局
+  repeated int32 Cards = 7;//牌数据 (没开牌之前是两个-1)
+  int32 State = 8;  //房间当前状态
+  int32 TimeOut = 9;  //等待剩余时间 单位:毫秒
+  int32 BankerId = 10;//庄家Id
+  int32 DisbandGen = 11;//解散申请
+  int32 AgentId = 12;  //代开房者
+  repeated int32 ParamsEx = 13;  //其他参数	
+  int32 SceneType = 14;  //房间模式 0:房卡模式 1:钻石模式	
+  repeated DragonVsTigerPlayerData Players = 15;  //房间内的玩家信息
+  repeated int64 TotalChips = 16;  //3个区域内的筹码总额 和，龙，虎
+  repeated DragonVsTigerZoneChips MyChips = 17;  //区域内我的筹码数据
+  repeated int32 Trend100Cur = 18;        //当前100局走势数据
+  repeated int32 Trend20Lately = 19;        //最近20龙虎走势数据
+  int32 OLNum = 20;            //在线玩家数量
+  repeated int32 OtherIntParams = 21;          //规则参数
+  int32 LoopNum = 22; // 后台控制结算结果时使用
+}
+
+//座位位置
+message SCDragonVsTigerSeats{
+  repeated DragonVsTigerPlayerData Data = 1;  //玩家信息
+  int32 PlayerNum = 2;        //玩家数量
+  int32 BankerId = 3;        //庄的id, 0：系统庄
+}
+
+
+//玩家操作
+message CSDragonVsTiggerOp{
+  int32 OpCode = 1;    //操作码 0:押注 1:获取在线玩家 2：上庄 3：下庄 4：上庄列表 5：在庄的下庄
+  repeated int64 Params = 2;    //操作参数
+}
+
+//玩家操作返回
+message SCDragonVsTiggerOp{
+  int32 SnId = 1;    //玩家ID
+  int32 OpCode = 2;    //操作码
+  repeated int64 Params = 3;    //操作参数
+  OpResultCode OpRetCode = 4;  //操作结果
+}
+
+//房间状态
+message SCDragonVsTigerRoomState{
+  int32 State = 1;    //房间当前状态
+  int32 SubState = 2;  //房间当前子状态
+  repeated int32 Params = 3;    //状态参数
+  // State==3时:Params中三个值，依次为牌,牌,比牌结果
+}
+
+//玩家列表
+message SCDragonVsTigerPlayerList {
+  repeated DragonVsTigerPlayerData Data = 1;
+  int32 OLNum = 2;  //在线人数
+}
+
+//
+message DragonVsTigerBill{
+  int32 SnId = 1;//玩家ID
+  int64 Coin = 2;//总金币
+  int64 GainCoin = 3;//输赢的金币
+}
+
+//大赢家
+message DragonVsTigerBigWinner{
+  int32 SnId = 1;  //账号
+  string Name = 2;  //名字
+  int32 Head = 3;  //头像
+  int32 HeadOutLine = 4;  //头像框
+  int32 VIP = 5;
+  int32 Sex = 6;      //性别
+  int64 Coin = 7;  //金币
+  int32 GainCoin = 8;//本局赢的钱	
+  string City = 9;  //城市
+}
+
+//结算
+message SCDragonVsTigerBilled{
+  repeated DragonVsTigerBill BillData = 1;//8个位置的结算数据
+  DragonVsTigerBigWinner BigWinner = 2;//大赢家数据
+  int32 LoopNum = 3; // 后台控制结算结果时使用
+}
+
+message DragonVsTigerBetInfo{
+  int32 SnId = 1;    //座位上的人ID
+  repeated int64 TotalChips = 2;  //3个区域内的筹码总额 和，龙，虎
+}
+
+message SCDragonVsTigerSendBet{
+  repeated DragonVsTigerBetInfo Data = 1;//所有座位筹码信息
+  repeated int64 TotalChips = 2;  //3个区域内的筹码总额 和，龙，虎
+}
+
+//上庄列表
+message SCDragonVsTiggerUpList{
+  int32 Count = 1;    //数量
+  int32 IsExist = 2;     //玩家是否已经在上庄列表  0：不在上庄列表   1：在上庄列表
+  repeated DragonVsTigerPlayerData Data = 3;  //上庄列表
+}

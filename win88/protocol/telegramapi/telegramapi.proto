@@ -1,0 +1,114 @@
+syntax = "proto3";
+package telegramapi;
+option go_package = ".;telegramapi";
+import public "google/protobuf/timestamp.proto";
+
+// 错误码定义
+enum TagCode {
+  // option allow_alias = true;
+  UNKNOWN = 0;          // 占位，不使用
+  SUCCESS = 1;          //成功
+  FAILED = 2;           //失败
+  SIGN_ERROR = 3;       //验签失败
+  PROTO_DATA_ERROR = 4; // pb数据错误
+}
+
+//[action] /api/Member/APIMemberRegisterOrLogin
+message ASLogin{
+  string TelegramId = 1;    //TelegramID
+  string PlatformTag = 2;   //包标识
+  string Username = 3;      //用户名
+  int64  Ts = 4;            //时间戳
+  string Sign = 5;         //验证商户秘钥 md5 fmt.Sprintf("%v%v%v%v%v", TelegramId, PlatformTag,Username, 商户秘钥,args.Ts)
+}
+message SALogin{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  string Token = 3;
+  int32 Snid = 4;
+}
+
+//加币
+// [action] /api/Game/APIAddCoinById
+message ASAddCoinById{
+  int32 ID = 1;//玩家id
+  int64 Gold = 2;//加币金额
+  int64 GoldEx = 3;//赠送金额
+  string Oper = 4;//操作人
+  string Desc = 5;//remark
+  int32 BillNo = 6;//订单号
+  string Platform = 7;//平台号
+  int32 LogType = 8;//日志类型（金币或者保险箱）
+  bool IsAccTodayRecharge = 9;
+  int32 NeedFlowRate = 10;
+  int32 NeedGiveFlowRate = 11;
+}
+// 返回
+message SAAddCoinById {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+
+message PlayerCoinData {
+  int32 Id = 1;
+  int64 Gold = 2;
+  int64 Bank = 3;
+}
+
+//查用户金币  /api/Member/GetMemberGoldById
+message ASMemberGold{
+  int32 Snid = 1;//用户snid
+  string Platform = 2;//平台id
+}
+message SAMemberGold{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  PlayerCoinData Data = 3; //用户金币
+}
+
+//校验碰撞游戏Hash  /api/Game/CrashVerifier
+message ASCrachHash{
+  string Hash = 1;//哈希值
+  int32 Wheel = 2;//第几轮
+}
+message SACrachHash{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  int32 Multiple = 3; //倍率
+}
+
+// 游戏记录信息
+message GameHistoryInfo{
+  string GameNumber = 1; // 游戏编号
+  int64 CreatedTime = 2; // 时间
+  int64 Multiple = 3; //下注倍率
+  string Hash = 4;    //Hash
+}
+
+// 玩家记录信息
+message PlayerHistoryInfo{
+  string SpinID = 1; // 操作id
+  int64 CreatedTime = 2; // 时间
+  int64 TotalBetValue = 3; // 总下注
+  int64 TotalPriceValue = 4; // 总赢分
+  bool IsFree = 5; // 是否免费
+  int64 TotalBonusValue = 6; // 是否免费
+  int64 Multiple = 7; //下注倍率
+}
+
+
+//获取用户注单记录游戏记录 /api/Member/GetGameHistory
+message SAPlayerHistory{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  repeated  PlayerHistoryInfo PlayerHistory = 3;
+  repeated  GameHistoryInfo GameHistory = 4;
+}
+
+//获取用户注单记录游戏记录  /api/Member/GetGameHistory
+message ASPlayerHistory{
+  int32 Snid = 1;//用户snid
+  string Platform = 2;//平台id
+  int32 GameId = 3;//游戏id
+  int32 GameHistoryModel = 4;//1:注单记录   3：游戏记录
+}

@@ -1,0 +1,64 @@
+{
+	"Arr": [
+		{
+			"Id": 110001,
+			"Parameter": 7,
+			"Turn": 1,
+			"Title": "7日计划-初级",
+			"Costype": 1,
+			"Cost": 1000,
+			"Typee": 1,
+			"Value": 300
+		},
+		{
+			"Id": 110002,
+			"Parameter": 7,
+			"Turn": 2,
+			"Title": "7日计划-中级",
+			"Costype": 1,
+			"Cost": 3000,
+			"Typee": 1,
+			"Value": 1000
+		},
+		{
+			"Id": 110003,
+			"Parameter": 7,
+			"Turn": 3,
+			"Title": "7日计划-高级",
+			"Costype": 1,
+			"Cost": 10000,
+			"Typee": 1,
+			"Value": 2500
+		},
+		{
+			"Id": 110004,
+			"Parameter": 30,
+			"Turn": 4,
+			"Title": "30日计划-初级",
+			"Costype": 1,
+			"Cost": 10000,
+			"Typee": 1,
+			"Value": 1000
+		},
+		{
+			"Id": 110005,
+			"Parameter": 30,
+			"Turn": 5,
+			"Title": "30日计划-中级",
+			"Costype": 1,
+			"Cost": 30000,
+			"Typee": 1,
+			"Value": 2500
+		},
+		{
+			"Id": 110006,
+			"Parameter": 30,
+			"Turn": 6,
+			"Title": "30日计划-高级",
+			"Costype": 1,
+			"Cost": 100000,
+			"Typee": 1,
+			"Value": 7500
+		}
+	]
+}

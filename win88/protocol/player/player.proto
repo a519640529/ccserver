@@ -1,0 +1,802 @@
+syntax = "proto3";
+package player;
+option go_package = ".;player";
+
+//操作结果
+enum OpResultCode {
+  OPRC_Sucess = 0; //成功
+  OPRC_Error = 1; //失败
+
+  OPRC_LoginFailed = 1000; //登录失败
+  OPRC_Login_NameSame = 1007; //名字已被使用
+  OPRC_Login_CreateFailed = 1009; //创建角色失败
+  OPRC_NotLogin = 1013; //未登录
+  OPRC_YourResVerIsLow = 1044; //资源版本过低
+  OPRC_YourAppVerIsLow = 1045; //APK版本过低
+  OPRC_CoinNotEnough = 1056; //金币不够
+  OPRC_NickIsNull = 1060; //昵称为空
+  OPRC_NickIsExist = 1061; //昵称已被占用
+  OPRC_Frequently = 1062; //操作过于频繁
+  OPRC_IconError = 1063; //非法头像
+  OPRC_SexError = 1064; //非法性别
+  OPRC_TelError = 1065; //手机号不正确
+  OPRC_UserNameError = 1066; //用户名格式不正确
+  OPRC_VerificationCodeError = 1067; //验证码错误
+  OPRC_TelIsExist = 1068; //手机号已被绑定
+  OPRC_SafeBoxPasswordError = 1070; //保险箱密码错误
+  OPRC_TelIsRegister = 1071; //手机号已被绑定
+  OPRC_InBlackList = 1072; //黑名单过滤
+  OPRC_NickIsTooLen = 1073; //昵称超出长度限制
+  OPRC_PasswordEqual = 1074; //新密码与老密码相同
+  OPRC_NickIsIllegal = 1083; //昵称含有非法字符
+
+  OPRC_HadSpreadInviterId = 1090; //已有邀请人
+  OPRC_InviterIdNotExist = 1091; //邀请人不存在
+  OPRC_SpreadBindFailed = 1092; //绑定上级失败
+  OPRC_InviterNoBind = 1093; //上级账号不是正式账号，请通知他绑定手机
+  OPRC_SpreadBindClosedLoop = 1094; //闭环绑定关系
+  OPRC_ImageVerifyCodeFailed = 1095; //图片验证码失败
+
+  OPRC_NickIsCantRename = 1104; //无法修改昵称
+
+  OPRC_NoPromotor = 1108;//推广员不存在
+  OPRC_NoPlatform = 1109;//平台信息不存在
+  OPRC_CantUserBind = 1110;//不允许手动绑定推广员
+  OPRC_PromoterHasBind = 1111;//已经绑定推广员
+  OPRC_PlatformNoPromoter = 1112;//推广员信息错误不存在
+
+  OPRC_UpgradeAccount_PasswordIllegal = 2003; //密码格式不正
+  OPRC_BindAlipay_AccountEmpty = 2005; //支付宝账号不能为空
+  OPRC_BindAlipay_AccNameEmpty = 2006; //支付宝账户名不能为空
+  OPRC_Safebox_PasswordIllegal = 2007; //保险箱密码不正确
+  OPRC_BindBank_NameEmpty = 2008; //银行名称不能为空
+  OPRC_BindBank_AccountEmpty = 2009; //银行账号不能为空
+  OPRC_BindBank_AccNameEmpty = 2010; //银行账户名不能为空
+  OPRC_BindBank_NameIllegal = 2011; //银行名称不合法
+  OPRC_BindBank_AccountIllegal = 2012; //银行账号不合法
+  OPRC_BindBank_AccNameIllegal = 2013; //银行账户名不合法
+  OPRC_BindAlipay_AccountIllegal = 2014; //支付宝账号不合法
+  OPRC_BindAlipay_AccNameIllegal = 2015; //支付宝账户名不合法
+  OPRC_BindAlipay_PlatformError = 2016;
+  OPRC_BindBank_PlatformError = 2017; //本平台不能绑定银行卡
+  OPRC_Account_IP_TooManyReg = 2018;
+  OPRC_BindBank_CountLimit = 2019; //该银行账号已被绑定
+  OPRC_BindAlipay_CountLimit = 2020; //该支付宝账号已被绑定
+  OPRC_BankAndAli_NotSame = 2021; //银行卡和ali名字需要相同
+  OPRC_BindBankAlipay_NameCountLimit = 2022; //该名字已经绑定了太多支付宝银行卡
+  
+  OPRC_Jyb_Receive   = 2100; //该兑换码已被使用
+  OPRC_Jyb_CodeExist = 2101; //已经兑换过该礼包
+  OPRC_Jyb_TimeErr   = 2102; //该兑换码已过期
+  OPRC_Jyb_CodeErr   = 2103; //请输入正确的兑换码
+
+  OPRC_Hundred_YouHadBetCannotLeave = 7001; //赢下注不能离开
+  OPRC_Hundred_YouHadBankerCannotLeave = 7002; //已上庄不能离开
+}
+
+//获取玩家数据消息id
+enum PlayerPacketID {
+  PACKET_PLAYERPACKET_ZERO = 0;                       // 弃用消息号
+  PACKET_CS_PLAYERDATA = 2100;
+  PACKET_SC_PLAYERDATA = 2101;
+  PACKET_SC_DAYCHANGE = 2102;
+  PACKET_CS_THIRDPLAYERDATA = 2103;
+  PACKET_SC_THIRDPLAYERDATA = 2104;
+  PACKET_SC_PLAYERDATAUPDATE = 2105;
+  PACKET_SC_PLAYERDATAEX = 2106;
+  PACKET_CS_PMCMD = 2107;
+  PACKET_CS_ROBOTCHGDATA = 2108;
+  PACKET_SC_CHANGEWECHATNUMBER = 2109;
+  PACKET_CS_CHANGEWECHATNUMBER = 2110;
+  PACKET_CS_AUTHENID = 2111;
+  PACKET_SC_AUTHENID = 2112;
+  PACKET_CS_JOINGAME = 2113;
+  PACKET_SC_JOINGAME = 2114;
+  PACKET_CS_SPREADBIND = 2115;//绑定推广关系
+  PACKET_SC_SPREADBIND = 2116;//绑定推广关系
+
+  PACKET_CS_GENCUSTOMTOKEN = 2119;//生成客服会话token
+  PACKET_SC_GENCUSTOMTOKEN = 2120;//生成客服会话token
+  PACKET_SC_CUSTOMNEWMSG = 2121;//客服新消息提醒
+  PACKET_CS_CUSTOMNEWMSGACK = 2122;//客服新消息接受回应
+  PACKET_SC_SRVMSG = 2123;//服务端消息提示toast
+  PACKET_CS_FISHJACKPOTCOIN = 2124; // Fishjackpot爆奖
+  PACKET_SC_FISHJACKPOTCOIN = 2125; // jackpot爆奖
+  PACKET_CS_FISHJACKPOTDATA = 2126; // Fishjackpot爆奖奖池
+  PACKET_SC_FISHJACKPOTDATA = 2127; // jackpot爆奖奖池
+  PACKET_SC_NICEIDREBIND = 2128;
+  PACKET_CS_BINDPROMOTER = 2129;//绑定推广员
+  PACKET_SC_BINDPROMOTER = 2130;//绑定推广员
+  PACKET_SC_BINDPROMOTERSTATE = 2131;//推送推广员状态
+  PACKET_CS_GetSpreadLWIsOpen = 2132;//请求客损是否打开
+  PACKET_SC_GetSpreadLWIsOpen = 2133;//客损是否打开
+  PACKET_SC_PayAct_State = 2134;//推送支付活动信息
+
+  PACKET_CS_CHANGENICK = 2140;
+  PACKET_SC_CHANGENICK = 2141;
+  PACKET_CS_CHANGEICON = 2142;
+  PACKET_SC_CHANGEICON = 2143;
+  PACKET_CS_CHANGESEX = 2144;
+  PACKET_SC_CHANGESEX = 2145;
+  PACKET_CS_UPGRADEACCOUNT = 2146;
+  PACKET_SC_UPGRADEACCOUNT = 2147;
+  PACKET_CS_BINDALIPAY = 2148;
+  PACKET_SC_BINDALIPAY = 2149;
+  PACKET_CS_BINDBANK = 2150;
+  PACKET_SC_BINDBANK = 2151;
+  PACKET_CS_PLAYEROPCOIN = 2152;//保险箱存取款
+  PACKET_SC_PLAYEROPCOIN = 2153;//保险箱存取款
+  PACKET_CS_CHANGEPASSWORD = 2154;//改密码
+  PACKET_SC_CHANGEPASSWORD = 2155;//改密码
+  PACKET_CS_VERIFICATIONCODE = 2156;//获取验证码
+  PACKET_SC_VERIFICATIONCODE = 2157;//获取验证码
+  PACKET_CS_GETGAMECOINLOG = 2158;//游戏记录
+  PACKET_SC_GETGAMECOINLOG = 2159;//游戏记录
+  PACKET_CS_GETSAFEBOXCOINLOG = 2160;//保险箱操作记录
+  PACKET_SC_GETSAFEBOXCOINLOG = 2161;//保险箱操作记录
+  PACKET_CS_REGISTER = 2162;//用户注册
+  PACKET_SC_REGISTER = 2163;//用户注册
+  PACKET_CS_HEADOUTLINE = 2164;//头像框
+  PACKET_SC_HEADOUTLINE = 2165;//头像框
+  PACKET_CS_INVITECODE = 2166;//领取邀请码奖励
+  PACKET_SC_INVITECODE = 2167;//领取邀请码奖励
+  PACKET_CS_WEBAPI_PLAYERPASS = 2168;//玩家API透传
+  PACKET_SC_WEBAPI_PLAYERPASS = 2169;//玩家API透传
+  PACKET_CS_WEBAPI_SYSTEMPASS = 2170;//系统API透传
+  PACKET_SC_WEBAPI_SYSTEMPASS = 2171;//系统API透传
+  PACKET_CS_GETIMAGEVERIFYCODE = 2172;//获取图片验证码
+  PACKET_SC_GETIMAGEVERIFYCODE = 2173;//获取图片验证码
+  PACKET_CS_GETSLIDERVERIFYCODE = 2174;//获取滑块验证码
+  PACKET_SC_GETSLIDERVERIFYCODE = 2175;//获取滑块验证码
+  PACKET_CS_IOSINSTALLSTABLE = 2176;//苹果包安装稳定版
+  PACKET_SC_IOSINSTALLSTABLE = 2177;//苹果包安装稳定版
+  PACKET_CS_QUERYPLAYER = 2178;
+  PACKET_SC_QUERYPLAYER = 2179;
+  PACKET_CS_GETDATALOG = 2180;
+  PACKET_SC_GETDATALOG = 2181;
+  PACKET_SC_PLAYERRECHARGEANSWER = 2182;//充值弹框协议
+  PACKET_SC_PLAYERFLAG = 2183;
+  PACKET_SC_PLAYERCOINCHANGE = 2184;
+  PACKET_SC_TRUSTEESHIPTIPS = 2185;
+  PACKET_ALL_SETTING = 2186;  // 设置界面的相关操作
+  PACKET_SCGAMEEXDROPITEMS= 2187; // 游戏额外掉落道具
+}
+
+//获取玩家基本信息
+//PACKET_CS_PLAYERDATA
+message CSPlayerData {
+  string AccId = 1; //账号ID
+  string Params = 2;
+  int32 TimeStamp = 3;
+  string DeviceInfo = 4;
+  string PlatformTag = 5;
+  string DeviceId = 6; //设备id
+}
+
+message PlayerData {
+  string AccId = 1; //账号ID
+  string Platform = 2; //平台名称
+  string Channel = 3; //渠道
+  string Name = 4; //名字
+  int32 SnId = 5; //数字账号
+  int32 Head = 6; //头像
+  int32 Sex = 7; //性别
+  int64 Coin = 8; //金币
+  int64 SafeBoxCoin = 9; //保险箱金币
+  string Tel = 10; //电话号码
+  int32 InviterId = 11; //邀请人id
+  string AlipayAccount = 12; //支付宝账号
+  string AlipayAccName = 13; //支付宝实名
+  string Bank = 14; //银行名称
+  string BankAccount = 15; //银行卡号
+  string BankAccName = 16; //银行账户名称
+  int32 GMLevel = 17; //GM等级
+  int32 SpecailFlag = 18; //特殊标记
+  int32 VIP = 19; //VIP  0:不是  1：是
+  int32 SafeBoxIsExist = 20; //是否保险箱密码进行过首次设置 0：没有  1：有
+  int32 HeadOutLine = 21;  //头像框
+  int64 CoinPayTotal = 22; //总充值金额
+  int64 CreateTs = 23;//账号创建时间
+  string Promoter = 24;//推广员
+  int64 TotalConvertibleFlow = 25;//流水值
+  int64 CanExchangeCoin = 26;//可兑换金额
+  int64 LackExchangeCoin = 27;//还差多少可兑换金额
+  int64 ExchangeType = 28;//1.显示最低兑换携带金额 2.显示还需多少
+  int64 ClubCoin = 29; //俱乐部金币
+  int64 Ticket = 30;//比赛报名券
+  int64 Grade = 31;//积分
+  int64 Diamond = 32;//钻石
+  int32 UseRoleId = 33;//使用的人物模型id
+  int32 UsePetId = 34;//使用的宠物模型id 0.为没有宠物跟随
+  int64 VCoin    = 35;//V卡
+  int32 ReliefFundTimes = 36;//破产补助剩余领取次数
+  string HeadUrl = 37;//头像地址
+}
+//断线重连小游戏中的数据 当前玩家在哪个房间 哪个游戏 对应的LogicId
+message MiniGameInfo{
+  int32 RoomId = 1;
+  int32 GameId = 2;
+  int32 LogicId = 3;
+}
+
+//PACKET_SC_PLAYERDATA
+message SCPlayerData {
+  OpResultCode OpRetCode = 1; //获取结果
+  PlayerData Data = 2; //玩家数据
+  int32 RoomId = 3; //所处房间id(用于短线重连)
+  int32 GameId = 4; //当前游戏id	(用于短线重连)
+  int32 LogicId = 5;  //当前玩家所在的房间信息
+  int32 BindOption = 6; //绑定选项
+  repeated MiniGameInfo MiniGameArr = 7;   //断线重连 当前在哪里些游戏
+}
+
+//PACKET_SC_PLAYERDATAUPDATE
+message SCPlayerDataUpdate {
+  int64 UpdateField = 1; //更新哪个字段
+  int64 Coin = 2; //金币
+  int64 SafeBoxCoin = 3; //保险箱金币
+  int32 Vip = 4;  //VIP等级
+  int64 CoinPayTotal = 5; //总充值金额
+  int64 TotalConvertibleFlow = 6; //流水值
+  int64 Ticket = 7;//比赛报名券
+  int64 Grade = 8;//积分
+  int64 Diamond = 9;//钻石
+  int64 VCoin = 10;//V卡
+}
+
+//获取第三方玩家信息
+//PACKET_CS_THIRDPLAYERDATA
+message CSThirdPlayerData {
+  int32 Id = 1; //账号ID
+}
+
+//PACKET_SC_THIRDPLAYERDATA
+message SCThirdPlayerData {
+  PlayerData Data = 1;
+}
+
+//改昵称
+//PACKET_CS_CHANGENICK
+message CSChangeNick {
+  string Nick = 1;
+}
+//PACKET_SC_CHANGENICK
+message SCChangeNick {
+  OpResultCode OpRetCode = 1; //改昵称结果
+  string Nick = 2;
+}
+
+//改密码
+//PACKET_CS_CHANGEPASSWORD
+message CSChangePassword {
+  int32 ChangeType = 1; //0：修改帐号密码  1：修改保险箱密码  2：首次设置保险箱密码
+  string OldPassword = 2; //密码 md5(原始密码+AppId)
+  string NewPassword = 3; //密码 md5(原始密码+AppId)
+  int64 TimeStamp = 4; //时间戳
+}
+//PACKET_SC_CHANGEPASSWORD
+message SCChangePassword {
+  OpResultCode OpRetCode = 1; //结果
+  int32 ChangeType = 2; //0：帐号密码  1：保险箱密码  2：设置保险箱密码
+}
+
+//更换头像
+//PACKET_CS_CHANGEICON
+message CSPlayerChangeIcon {
+  int32 Icon = 1;
+}
+//PACKET_SC_CHANGEICON
+message SCPlayerChangeIcon {
+  OpResultCode OpRetCode = 1; //操作结果
+  int32 Icon = 2;
+}
+
+//更换头像框
+//PACKET_CS_HEADOUTLINE
+message CSPlayerChangeHeadOutLine {
+  int32 HeadOutLine = 1;
+}
+//PACKET_SC_HEADOUTLINE
+message SCPlayerChangeHeadOutLine {
+  OpResultCode OpRetCode = 1; //操作结果
+  int32 HeadOutLine = 2;
+}
+
+//更换性别
+//PACKET_CS_CHANGESEX
+message CSPlayerChangeSex {
+  int32 Sex = 1;
+}
+//PACKET_SC_CHANGESEX
+message SCPlayerChangeSex {
+  OpResultCode OpRetCode = 1; //操作结果
+  int32 Sex = 2;
+}
+//获取验证码
+//PACKET_CS_VERIFICATIONCODE
+message CSPlayerVerificationCode {
+  string Tel = 1;
+  int32 OpCode = 2;
+  string PlatformTag = 3;//android包名或者ios标记
+  int32 Env = 4; //获取验证码的用途 1:注册
+  string ImgCode = 5;   //图片验证码
+  int32 Ts = 6;  //时间戳
+  string DeviceInfo = 7;//设备信息 加密后的base64
+}
+
+//PACKET_SC_VERIFICATIONCODE
+message SCPlayerVerificationCode {
+  OpResultCode OpRetCode = 1; //操作结果
+  int32 VerificationCode = 2;
+}
+
+//注册帐号
+//PACKET_CS_REGISTER
+message CSRegister {
+  string Username = 1;  //账号名
+  string Password = 2;  //密码 游客模式:md5(Username+AppId) 账号模式:md5(密码+AppId)
+  int64  TimeStamp = 3;  //时间戳
+  string Params = 4;    //其他参数
+  string Sign = 5;    //签名:=md5(Username+Password+TimeStamp+Params+AppId)
+  string Platform = 6;  //平台
+  string Channel = 7;  //渠道号
+  int32 InviterId = 8;  //邀请人ID
+  int32 ApkVer = 9;    //apk版本号
+  int32 ResVer = 10;    //资源版本号
+  string Tel = 11;  //手机号
+  string TelPassword = 12;//帐号密码
+  string VerificationCode = 13;//手机验证码
+  string PlatformTag = 14;//包标记
+  string Promoter = 15;  //推广员
+  string Package = 16;  //安卓包名或者苹果bundleid
+  int32 PromoterTree = 17;//无限代推广人id
+  string DeviceInfo = 18;//设备信息 加密后的base64
+  int32 RegistType = 19;//0 手机号注册  1账号密码注册
+}
+
+//PACKET_SC_REGISTER
+message SCRegister {
+  OpResultCode OpRetCode = 1;  //登录结果
+  string AccId = 2;    //账号ID
+  int64 SrvTs = 3;    //服务器时间戳
+}
+
+//账号升级，绑定手机，找回密码
+//PACKET_CS_UPGRADEACCOUNT
+message CSUpgradeAccount {
+  int32 ChangeType = 1; //0：绑定帐号密码  1：设置保险箱密码（不用）  2:帐号密码找回  3：保险箱密码找回
+  string Tel = 2; //手机号
+  string VerificationCode = 3; //验证码
+  string Password = 4; //密码 md5(原始密码+AppId)
+  int64 TimeStamp = 5; //时间戳
+  string PlatformTag = 6;//android包名或者ios标记
+}
+//PACKET_SC_UPGRADEACCOUNT
+message SCUpgradeAccount {
+  OpResultCode OpRetCode = 1; //操作结果
+  string Tel = 2;  //手机号
+  int32 ChangeType = 3; //0：绑定帐号密码  1：设置保险箱密码（不用）  2:帐号密码找回  3：保险箱密码找回
+}
+
+//绑定支付宝账号
+//PACKET_CS_BINDALIPAY
+message CSBindAlipay {
+  string AlipayAccount = 1; //支付宝账号
+  string AlipayAccName = 2; //支付宝账号实名
+  int64 TimeStamp = 3; //时间戳
+  string Password = 4; //保险箱密码 md5(md5(原始密码+AppId)+AppId+TimeStamp)
+}
+//PACKET_SC_BINDALIPAY
+message SCBindAlipay {
+  OpResultCode OpRetCode = 1; //操作结果
+  string AlipayAccount = 2; //支付宝账号
+  string AlipayAccName = 3; //支付宝账号实名
+}
+
+//绑定银行卡账号
+//PACKET_CS_BINDBANK
+message CSBindBank {
+  string Bank = 1; //银行名称
+  string BankAccount = 2; //银行帐号
+  string BankAccName = 3; //银行开户行账户
+  int64 TimeStamp = 4; //时间戳
+  string Password = 5; //保险箱密码 md5(md5(原始密码+AppId)+AppId+TimeStamp)
+}
+//PACKET_SC_BINDBANK
+message SCBindBank {
+  OpResultCode OpRetCode = 1; //操作结果
+  string Bank = 2; //银行名称
+  string BankAccount = 3; //银行帐号
+  string BankAccName = 4; //银行开户行账户
+}
+
+//PACKET_SC_PLAYERFLAG
+//玩家状态标记同步
+message SCPlayerFlag {
+  int32 PlayerId = 1;
+  int32 Flag = 2;
+}
+
+//PACKET_SC_PLAYERCOINCHANGE
+message SCPlayerCoinChange {
+  int32 SnId = 1;
+  int64 AddCoin = 2;
+  int64 RestCoin = 3;
+}
+//PACKET_SC_PLAYERRECHARGEANSWER
+message SCPlayerRechargeAnswer {
+  int64 OpParam = 1;// 1 加钱
+  int64 AddCoin = 2;//加多少
+  int64 Coin = 3;//加之后身上钱
+  int64 SafeBoxCoin = 4;//保险箱
+}
+//数据日志
+message DataLog {
+  int32 LogType = 1; //log记录的事件类型
+  int64 ChangeCount = 2; //变化数量
+  int64 RestCount = 3; //剩余数量
+  int32 Ts = 4; //发生时的时间戳
+  string Remark = 5; //其他备注信息
+}
+//PACKET_CS_GETDATALOG
+message CSGetDataLog {
+  int32 DataType = 1; //数据类型 0:金币log
+  int32 Ver = 2; //版本号
+}
+//PACKET_SC_GETDATALOG
+message SCGetDataLog {
+  int32 DataType = 1;
+  int32 Ver = 2;
+  repeated DataLog Datas = 3;
+}
+
+//游戏金币日志
+message GameCoinLog {
+  int32 GameId = 1; //游戏id
+  int64 EnterCount = 2; //进入时数量
+  int64 LeaveCount = 3; //离开时数量
+  int64 EnterTs = 4; //进入时的时间戳
+  int64 LeaveTs = 5; //离开时的时间戳
+}
+//PACKET_CS_GETGAMECOINLOG
+message CSGetGameCoinLog {
+  int64 Ts = 1; //最后时间戳
+}
+
+//PACKET_SC_GETGAMECOINLOG
+message SCGetGameCoinLog {
+  OpResultCode OpRetCode = 1; //操作结果
+  repeated GameCoinLog Logs = 2; //日志信息
+}
+
+//保险箱存取款
+//PACKET_CS_PLAYEROPCOIN
+message CSPlayerOpCoin {
+  int32 Op = 1; //0:存钱 1:取钱
+  int64 Coin = 2;
+  string Password = 3; //保险箱密码md5(md5(原始密码+AppId)+AppId+TimeStamp)
+  int64 TimeStamp = 4; //时间戳
+}
+
+//PACKET_SC_PLAYEROPCOIN
+message SCPlayerOpCoin {
+  OpResultCode OpRetCode = 1; //操作结果
+  int32 Op = 2; //0:存钱 1:取钱
+  int64 Coin = 3; //身上金币数量
+  int64 SafeBoxCoin = 4; //保险箱金币数量
+}
+
+//保险箱金币日志
+message SafeBoxCoinLog {
+  int32 LogType = 1; //操作类型  0:存钱 1:取钱
+  int64 OPCoin = 2; //操作金额
+  int64 OPCoinFront = 3; //操作前金额
+  int64 OPCoinLast = 4; //操作后金额
+  int64 Ts = 5; //操作时间戳
+}
+//PACKET_CS_GETSAFEBOXCOINLOG
+message CSGetSafeBoxCoinLog {
+  int64 Ts = 1; //最后时间戳
+}
+
+//PACKET_SC_GETSAFEBOXCOINLOG
+message SCGetSafeBoxCoinLog {
+  OpResultCode OpRetCode = 1; //操作结果
+  repeated SafeBoxCoinLog Logs = 2; //日志信息
+}
+
+
+//领取邀请码奖励
+//PACKET_CS_INVITECODE
+message CSPlayerInviteCode {
+  string Code = 1;
+}
+//PACKET_SC_INVITECODE
+message SCPlayerInviteCode {
+  OpResultCode OpRetCode = 1; //操作结果
+}
+
+//玩家API透传
+//PACKET_CS_WEBAPI_PLAYERPASS
+message CSWebAPIPlayerPass {
+  string ApiName = 1;
+  string Params = 2;
+  string CBData = 3;
+}
+
+//PACKET_SC_WEBAPI_PLAYERPASS
+message SCWebAPIPlayerPass {
+  OpResultCode OpRetCode = 1; //操作结果
+  string ApiName = 2;
+  string CBData = 3;
+  string Response = 4;
+}
+
+//系统API透传
+//PACKET_CS_WEBAPI_SYSTEMPASS
+message CSWebAPISystemPass {
+  string ApiName = 1;
+  string Params = 2;
+  string CBData = 3;
+}
+
+//PACKET_SC_WEBAPI_SYSTEMPASS
+message SCWebAPISystemPass {
+  OpResultCode OpRetCode = 1; //操作结果
+  string ApiName = 2;
+  string CBData = 3;
+  string Response = 4;
+}
+
+//绑定推广关系
+//PACKET_CS_SPREADBIND
+message CSSpreadBind {
+  int32 ParentId = 1;    //上级id
+}
+
+//绑定推广关系
+//PACKET_SC_SPREADBIND
+message SCSpreadBind {
+  OpResultCode OpRetCode = 1; //操作结果
+  int32 ParentId = 2;    //上级id
+}
+
+
+//绑定推广员
+//PACKET_CS_BINDPROMOTER
+message CSBindPromoter {
+  string Promoter = 1;    //推广员
+}
+
+//绑定推广员
+//PACKET_SC_BINDPROMOTER
+message SCBindPromoter {
+  OpResultCode OpRetCode = 1; //操作结果
+  string Promoter = 2;    //推广员
+}
+
+
+//通知是否显示推广员绑定信息
+//PACKET_SC_BINDPROMOTERSTATE
+message SCBindPromoterState {
+  int32 BindState = 1; //是否显示绑定0 没有绑定功能 1 绑定功能开启 2 用户已经绑定
+}
+
+
+//生成客服会话token
+//PACKET_CS_GENCUSTOMTOKEN
+message CSGenCustomerToken {
+}
+
+//生成客服会话token
+//PACKET_SC_GENCUSTOMTOKEN
+message SCGenCustomerToken {
+  string Token = 1; //token值
+}
+
+message CustomerMsg{
+  string MsgId = 1;
+  string Data = 2;
+}
+//客服新消息提醒
+//PACKET_SC_CUSTOMNEWMSG
+message SCCustomerNewMsg {
+  repeated CustomerMsg Data = 1; //透传新消息通知
+}
+
+//PACKET_CS_CUSTOMNEWMSGACK
+message CSCustomerNewMsgAck {
+  repeated string MsgIds = 1; //接受成功的msgid
+}
+
+//获取图片验证码
+//PACKET_CS_GETIMAGEVERIFYCODE
+message CSGetImgageVerifyCode {
+  string Tel = 1;
+  string PlatformTag = 2;//android包名或者ios标记
+}
+
+//获取图片验证码
+//PACKET_SC_GETIMAGEVERIFYCODE
+message SCGetImgageVerifyCode {
+  OpResultCode OpRetCode = 1; //操作结果
+  string ImageData = 2;
+}
+//玩家托管
+//PACKET_SC_TRUSTEESHIPTIPS
+message SCTrusteeshipTips{
+  int32 Trusteeship = 1; //目前为止托管的局数
+  int32 TotalNum = 2;   //可以托管的总局数
+  int32 GameFreeId = 3;  //游戏类型
+  repeated int32 OpParams = 4;    //扩展参数
+}
+
+//获取滑块验证码
+//PACKET_CS_GETSLIDERVERIFYCODE
+message CSGetSliderVerifyCode {
+  string Tel = 1;
+}
+
+//获取滑块验证码
+//PACKET_SC_GETSLIDERVERIFYCODE
+message SCGetSliderVerifyCode {
+  OpResultCode OpRetCode = 1; //操作结果
+  int32 Pos = 2;
+}
+
+//标注ios用户准备升级稳定版本
+//PACKET_CS_IOSINSTALLSTABLE
+message CSIosInstallStable {
+  int32 SnId = 1;
+  string Tel = 2;
+}
+
+//标注ios用户准备升级稳定版本
+//PACKET_SC_IOSINSTALLSTABLE
+message SCIosInstallStable {
+  OpResultCode OpRetCode = 1; //操作结果
+}
+
+message SrvMsgParam{
+  int32 IntParam = 1;
+  string StrParam = 2;
+}
+//服务端消息提示
+message SCSrvMsg{
+  int32 MsgId = 1;   //消息编号
+  repeated SrvMsgParam Params = 2;//消息参数
+}
+// PACKET_CS_FISHJACKPOTCOIN // jackpot爆奖查询
+message CSJackpotList{
+  int32 SnId = 1;
+}
+
+message FishJackpotInfo{
+  string Name = 1;
+  int32 Type = 2;
+  int64 Coin = 3;
+  int64 Ts = 4;
+}
+// PACKET_SC_FISHJACKPOTCOIN // jackpot爆奖
+message SCJackpotList{
+  repeated FishJackpotInfo JackpotList = 1;
+}
+
+// PACKET_CS_FISHJACKPOTDATA  jackpot爆奖金额
+message CSFishJackpotCoin{
+}
+
+// PACKET_SC_FISHJACKPOTDATA  jackpot爆奖奖池金额
+message SCFishJackpotCoin{
+  int64 Coin = 1;
+}
+//PACKET_SC_NICEIDREBIND
+message SCNiceIdRebind{
+  int32 SnidId = 1;
+  int32 NiceId = 2;
+}
+
+//请求客损功能是否打开
+//PACKET_CS_GetSpreadLWIsOpen
+message CSGetSpreadLWIsOpen {
+}
+
+//获取滑块验证码
+//PACKET_SC_GETSLIDERVERIFYCODE
+message SCGetSpreadLWIsOpen {
+  int32 IsOpen = 1;
+}
+
+message PayActInfo{
+  int32 Id = 1;
+  int32 GiveNum = 2;      //奖励数量
+  int32 GiveType = 3;    //奖励类型 0数量 1百分比
+  int32 StartTime = 4;
+  int32 EndTime = 5;
+  int32 State = 6;        //状态 0关闭 1开启  2已经领取
+
+}
+
+//PACKET_SC_PayAct_State
+message SCPayActState{
+  repeated PayActInfo PayState = 1;
+}
+
+//PACKET_CS_QUERYPLAYER
+message CSQueryPlayer{
+  int32 SnId = 1;
+}
+
+message RoleOrPet{
+  int32 Id = 1;
+  int32 Level = 2;
+  string Name =3;
+}
+
+//PACKET_SC_QUERYPLAYER
+message SCQueryPlayer{
+  int32 SnId = 1;   //数字账号
+  string Name = 2;    //名字
+  int32 Head = 3;   //头像
+  int32 Sex = 4;        //性别
+  int64 Coin = 5; //金币
+  int64 Diamond = 6;//钻石
+  int64 VCard = 7;//VCard
+  bool IsFriend = 8;//好友关系
+  int32 CurRoleId = 9;//当前角色
+  int32 CurPetId = 10;//当前宠物
+  repeated RoleOrPet Roles = 11;
+  repeated RoleOrPet Pets = 12;
+  bool IsShield = 13;//屏蔽关系
+}
+
+//PACKET_CS_PMCMD
+message CSPMCmd{
+  string Cmd = 1;
+}
+
+//PACKET_CS_ROBOTCHGDATA
+//获取玩家基本信息
+message CSRobotChgData{
+  repeated string Params = 1;   //其他参数
+}
+
+//物品信息 后续精简
+message ItemInfo{
+  //数据表数据
+  int32 ItemId = 1;  // 物品ID
+  int32 ItemNum = 2; // 物品数量
+  string Name = 3; // 名称
+  int32 Classify = 4; // 分页类型 1，道具类 	2，资源类	3，兑换类
+  int32 Type = 5; // 道具种类 1，宠物碎片 2，角色碎片
+  repeated int32 Function = 6; // 道具功能 1，使用 2，赠送 3，出售
+  int32 SaleGold = 7; // 出售金额
+  int32 Composition = 8;  // 能否叠加 1，能 2，不能
+  int32 CompositionMax = 9; // 叠加上限
+  int32 Time = 10; // 道具时效 0为永久
+  string Location = 11; // 跳转页面
+  string Describe = 12;  // 道具描述
+}
+
+message JybInfoAward {
+  repeated ItemInfo ItemId = 1;// 道具
+  int64 Coin = 2;// 金币
+  int64 Diamond = 3; // 钻石
+}
+
+//  PACKET_ALL_SETTING
+//  设置界面的相关操作
+message CSPlayerSetting{
+  int32  Optype = 1;   //操作 1 礼包码
+  string PackageCode = 2;   //礼包码
+}
+
+message SCPlayerSetting{
+  OpResultCode OpRetCode = 1;        //操作结果
+  JybInfoAward  GainItem = 2;     // 获得道具
+}
+
+//PACKET_SCGAMEEXDROPITEMS
+message SCGameExDropItems{
+  map<int32,int32> Items = 1;
+}

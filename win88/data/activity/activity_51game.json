@@ -1,0 +1,16 @@
+{
+	"Id":5,
+	"Name":"51活动",
+	"Desc":"对局领福袋",
+	"StartTime":"2018-04-20 00:00:00",
+	"EndTime":"2018-05-02 23:59:59",
+	"TaskIds":[],
+	"IsDelTaskWhenEnd":true,
+	"IsDelActIdWhenEnd":true,
+	"Data":[
+		{"Name":"PerDayLimit", "IntVal":3 },
+		{"Name":"CostTimes", "IntArr":[5,3] },
+		{"Name":"Prize1", "IntArr":[1,1500,60,1,2000,20,1,3000,10,4,100,6,4,200,3,4,500,1] },
+		{"Name":"Prize2", "IntArr":[1,200,40,1,300,25,1,500,15,1,800,10,1,1000,5,4,100,5] }
+	]
+}

@@ -1,0 +1,67 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"Name": "财神",
+			"Rateodds3": 100,
+			"Rateodds4": 600,
+			"Rateodds5": 1200
+		},
+		{
+			"Id": 2,
+			"Name": "弥勒",
+			"Rateodds3": 60,
+			"Rateodds4": 400,
+			"Rateodds5": 1000
+		},
+		{
+			"Id": 3,
+			"Name": "土地",
+			"Rateodds3": 60,
+			"Rateodds4": 400,
+			"Rateodds5": 1000
+		},
+		{
+			"Id": 4,
+			"Name": "锦鲤",
+			"Rateodds3": 60,
+			"Rateodds4": 200,
+			"Rateodds5": 800
+		},
+		{
+			"Id": 5,
+			"Name": "福袋",
+			"Rateodds3": 20,
+			"Rateodds4": 120,
+			"Rateodds5": 400
+		},
+		{
+			"Id": 6,
+			"Name": "如意",
+			"Rateodds3": 20,
+			"Rateodds4": 120,
+			"Rateodds5": 400
+		},
+		{
+			"Id": 7,
+			"Name": "仙桃",
+			"Rateodds3": 20,
+			"Rateodds4": 80,
+			"Rateodds5": 400
+		},
+		{
+			"Id": 8,
+			"Name": "包子",
+			"Rateodds3": 20,
+			"Rateodds4": 60,
+			"Rateodds5": 300
+		},
+		{
+			"Id": 9,
+			"Name": "糖葫芦",
+			"Rateodds3": 20,
+			"Rateodds4": 60,
+			"Rateodds5": 300
+		}
+	]
+}

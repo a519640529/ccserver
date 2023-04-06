@@ -1,0 +1,1026 @@
+{
+  "version": "0.3.0",
+  "scope": "tree",
+  "id": "7dc34556-b453-4e90-8fa4-468cb40c1a94",
+  "title": "RVBRandomBot",
+  "description": "随机下注",
+  "root": "61acd76e-6aed-4df1-8e46-a86644fd41d3",
+  "properties": {},
+  "nodes": {
+    "7a63cc18-b09a-489b-98c9-e3aec5ebb761": {
+      "id": "7a63cc18-b09a-489b-98c9-e3aec5ebb761",
+      "name": "MemSequence",
+      "category": "composite",
+      "title": "MemSequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 312,
+        "y": -348
+      },
+      "children": [
+        "636e84b3-e817-452f-874c-7f4146eef5ba",
+        "0db31a0d-b752-4850-8402-a2c8f95a3651",
+        "b716de05-b53b-4cb4-be2a-49a2961a38d5",
+        "82ef36d0-175c-4045-9aed-f900e51f649c"
+      ]
+    },
+    "0db31a0d-b752-4850-8402-a2c8f95a3651": {
+      "id": "0db31a0d-b752-4850-8402-a2c8f95a3651",
+      "name": "RandWait",
+      "category": "action",
+      "title": "RandWait(<minTime>,<maxTime>)",
+      "description": "节点暂停[minTime,maxTime)毫秒",
+      "properties": {
+        "minTime": 100,
+        "maxTime": 4000
+      },
+      "display": {
+        "x": 696,
+        "y": -420
+      }
+    },
+    "b716de05-b53b-4cb4-be2a-49a2961a38d5": {
+      "id": "b716de05-b53b-4cb4-be2a-49a2961a38d5",
+      "name": "RandomWeightComposite",
+      "category": "composite",
+      "title": "RandomWeightComposite(<weight>)",
+      "description": "根据权重随机，选择一个子节点。\n权重使用|分割。\n需要注意子节点的顺序，个数需要和权重对应",
+      "properties": {
+        "weight": "10|100"
+      },
+      "display": {
+        "x": 684,
+        "y": -264
+      },
+      "children": [
+        "44b72066-4117-42fc-8c11-12e641ac7963",
+        "61296429-2d2f-4ea2-88f7-e0bbd6f881d3"
+      ]
+    },
+    "61acd76e-6aed-4df1-8e46-a86644fd41d3": {
+      "id": "61acd76e-6aed-4df1-8e46-a86644fd41d3",
+      "name": "Priority",
+      "category": "composite",
+      "title": "Priority",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 108,
+        "y": 324
+      },
+      "children": [
+        "7a63cc18-b09a-489b-98c9-e3aec5ebb761",
+        "a95b1a70-8eb6-41e3-b938-8d88cfb807de"
+      ]
+    },
+    "a95b1a70-8eb6-41e3-b938-8d88cfb807de": {
+      "id": "a95b1a70-8eb6-41e3-b938-8d88cfb807de",
+      "name": "Sequence",
+      "category": "composite",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 360,
+        "y": 564
+      },
+      "children": [
+        "397dc2cf-c281-4992-a858-069be6a1b791",
+        "db5bac79-6fb0-43c8-a119-09925c126e28",
+        "67ac5481-3e6f-4612-a33a-a431d09163ef",
+        "4176b141-6c22-47f0-b03f-de940e092514"
+      ]
+    },
+    "397dc2cf-c281-4992-a858-069be6a1b791": {
+      "id": "397dc2cf-c281-4992-a858-069be6a1b791",
+      "name": "RVBSceneState",
+      "category": "condition",
+      "title": "RVBSceneState(<state>)",
+      "description": "红黑场景状态判定\n0 准备押注\n1 押注\n2 准备开牌\n3 开牌\n4 结算",
+      "properties": {
+        "state": 4
+      },
+      "display": {
+        "x": 600,
+        "y": 444
+      }
+    },
+    "f3b1d188-97d4-4a39-9623-5f21eda87ca1": {
+      "id": "f3b1d188-97d4-4a39-9623-5f21eda87ca1",
+      "name": "CheckPlayerCoin",
+      "category": "condition",
+      "title": "CheckPlayerCoin(<gIPCoin>,<cmp>)",
+      "description": "检查用户金币\ngIPCoin 支持@ 用户需要比较的金币\ncmp 比较\t\n 0 //小于\n 1 //小于等于\n 2 //等于\n 3 //大于\n 4 //大于等于",
+      "properties": {
+        "gIPCoin": "saveLimit",
+        "cmp": 0
+      },
+      "display": {
+        "x": 1248,
+        "y": 468
+      }
+    },
+    "1d3e262c-ec24-45af-8138-9a12d624edcc": {
+      "id": "1d3e262c-ec24-45af-8138-9a12d624edcc",
+      "name": "GetOutLimitCoin",
+      "category": "action",
+      "title": "GetOutLimitCoin(<gINKey>)",
+      "description": "获得玩家游戏踢出限制\ngINKey 保存到黑板key",
+      "properties": {
+        "gINKey": "saveLimit"
+      },
+      "display": {
+        "x": 1236,
+        "y": 396
+      }
+    },
+    "67ac5481-3e6f-4612-a33a-a431d09163ef": {
+      "id": "67ac5481-3e6f-4612-a33a-a431d09163ef",
+      "name": "RandWait",
+      "category": "action",
+      "title": "RandWait(<minTime>,<maxTime>)",
+      "description": "节点暂停[minTime,maxTime)毫秒",
+      "properties": {
+        "minTime": 500,
+        "maxTime": 3000
+      },
+      "display": {
+        "x": 588,
+        "y": 720
+      }
+    },
+    "4176b141-6c22-47f0-b03f-de940e092514": {
+      "id": "4176b141-6c22-47f0-b03f-de940e092514",
+      "name": "LeaveGame",
+      "category": "action",
+      "title": "LeaveGame",
+      "description": "离开游戏",
+      "properties": {},
+      "display": {
+        "x": 564,
+        "y": 912
+      }
+    },
+    "451ea4cd-408b-48fe-852d-a38711db5357": {
+      "id": "451ea4cd-408b-48fe-852d-a38711db5357",
+      "name": "CheckPlayerGameNum",
+      "category": "condition",
+      "title": "CheckPlayerGameNum(<gIPGameNum>,<cmp>)",
+      "description": "检查用户游戏次数\ngIPGameNum支持@ 用户需要游戏次数\ncmp 比较\t\n 0 //小于\n 1 //小于等于\n 2 //等于\n 3 //大于\n 4 //大于等于",
+      "properties": {
+        "gIPGameNum": "maxGameNum",
+        "cmp": 4
+      },
+      "display": {
+        "x": 1296,
+        "y": 648
+      }
+    },
+    "32d3b272-ee17-45ef-8681-c8593701d96a": {
+      "id": "32d3b272-ee17-45ef-8681-c8593701d96a",
+      "name": "RandIntAction",
+      "category": "action",
+      "title": "RandIntAction(<index>,<min>,<max>)",
+      "description": "随机获得一个[min,max)的整数，保存到黑板的index key中",
+      "properties": {
+        "index": "maxGameNum",
+        "min": 50,
+        "max": 80
+      },
+      "display": {
+        "x": 1272,
+        "y": 564
+      }
+    },
+    "db5bac79-6fb0-43c8-a119-09925c126e28": {
+      "id": "db5bac79-6fb0-43c8-a119-09925c126e28",
+      "name": "Priority",
+      "category": "composite",
+      "title": "Priority",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 672,
+        "y": 576
+      },
+      "children": [
+        "1efd066c-8ed8-4b1c-8ebd-257c45afafc5",
+        "62c3db0e-241c-4497-8b06-fecdf5e8d10e",
+        "e053f60d-7c4b-4810-925f-364a5a6f7f97",
+        "a9836e66-89c0-4805-bc00-d001854fb972"
+      ]
+    },
+    "1efd066c-8ed8-4b1c-8ebd-257c45afafc5": {
+      "id": "1efd066c-8ed8-4b1c-8ebd-257c45afafc5",
+      "name": "Sequence",
+      "category": "composite",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 912,
+        "y": 492
+      },
+      "children": [
+        "1d3e262c-ec24-45af-8138-9a12d624edcc",
+        "f3b1d188-97d4-4a39-9623-5f21eda87ca1"
+      ]
+    },
+    "62c3db0e-241c-4497-8b06-fecdf5e8d10e": {
+      "id": "62c3db0e-241c-4497-8b06-fecdf5e8d10e",
+      "name": "Sequence",
+      "category": "composite",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 912,
+        "y": 648
+      },
+      "children": [
+        "32d3b272-ee17-45ef-8681-c8593701d96a",
+        "451ea4cd-408b-48fe-852d-a38711db5357"
+      ]
+    },
+    "a9836e66-89c0-4805-bc00-d001854fb972": {
+      "id": "a9836e66-89c0-4805-bc00-d001854fb972",
+      "name": "CheckPlayerCoin",
+      "category": "condition",
+      "title": "CheckPlayerCoin(<gIPCoin>,<cmp>)",
+      "description": "检查用户金币\ngIPCoin 支持@ 用户需要比较的金币\ncmp 比较\t\n 0 //小于\n 1 //小于等于\n 2 //等于\n 3 //大于\n 4 //大于等于",
+      "properties": {
+        "gIPCoin": "betCoin",
+        "cmp": 0
+      },
+      "display": {
+        "x": 1008,
+        "y": 1104
+      }
+    },
+    "e6e7396f-2b1a-4d80-858a-51e5b7781d28": {
+      "id": "e6e7396f-2b1a-4d80-858a-51e5b7781d28",
+      "name": "RandIntAction",
+      "category": "action",
+      "title": "RandIntAction(<index>,<min>,<max>)",
+      "description": "随机获得一个[min,max)的整数，保存到黑板的index key中",
+      "properties": {
+        "index": "betSrcCoin",
+        "min": 15,
+        "max": 35
+      },
+      "display": {
+        "x": 720,
+        "y": -792
+      }
+    },
+    "636e84b3-e817-452f-874c-7f4146eef5ba": {
+      "id": "636e84b3-e817-452f-874c-7f4146eef5ba",
+      "name": "Sequence",
+      "category": "composite",
+      "title": "Sequence",
+      "description": "生成初始押注额度",
+      "properties": {},
+      "display": {
+        "x": 468,
+        "y": -672
+      },
+      "children": [
+        "6354ee40-1eb7-4117-96c0-ca164c722f97",
+        "e6e7396f-2b1a-4d80-858a-51e5b7781d28",
+        "06b2fa81-958e-492d-844c-63ec253a45c6",
+        "1bcebd0c-d082-4dde-9f5d-f54162699ee7",
+        "982002cc-2646-41c3-84b6-8c610e1c087f",
+        "cc63113d-9572-43e7-8f23-f6ca0678b796",
+        "871ccb22-30c2-4d0a-9d52-534ad305de4b"
+      ]
+    },
+    "cc63113d-9572-43e7-8f23-f6ca0678b796": {
+      "id": "cc63113d-9572-43e7-8f23-f6ca0678b796",
+      "name": "RVBCheckBetCoin",
+      "category": "action",
+      "title": "RVBCheckBetCoin(<gIPSrcCoin>,<gINSaveCoin>)",
+      "description": "修正押注金额，保存到黑板key\ngIPSrcCoin     押注金额支持@\ngINSaveCoin 保存后key",
+      "properties": {
+        "gIPSrcCoin": "betSrcCoin",
+        "gINSaveCoin": "betCoin"
+      },
+      "display": {
+        "x": 756,
+        "y": -552
+      }
+    },
+    "06b2fa81-958e-492d-844c-63ec253a45c6": {
+      "id": "06b2fa81-958e-492d-844c-63ec253a45c6",
+      "name": "GetPlayerCoin",
+      "category": "action",
+      "title": "GetPlayerCoin(<gINKey>)",
+      "description": "得到玩家金币\ngINKey 保存key",
+      "properties": {
+        "gINKey": "playerCoin"
+      },
+      "display": {
+        "x": 708,
+        "y": -732
+      }
+    },
+    "982002cc-2646-41c3-84b6-8c610e1c087f": {
+      "id": "982002cc-2646-41c3-84b6-8c610e1c087f",
+      "name": "SetIntDiv",
+      "category": "action",
+      "title": "SetIntDiv(<gINKey>,<gIPValue1>,<gIPValue2>)",
+      "description": "设定除法保存数据到黑板\ngINKey \ngIPValue1\ngIPValue2",
+      "properties": {
+        "gINKey": "betSrcCoin",
+        "gIPValue1": "betSrcCoin",
+        "gIPValue2": "@100"
+      },
+      "display": {
+        "x": 756,
+        "y": -612
+      }
+    },
+    "6354ee40-1eb7-4117-96c0-ca164c722f97": {
+      "id": "6354ee40-1eb7-4117-96c0-ca164c722f97",
+      "name": "RVBSceneState",
+      "category": "condition",
+      "title": "RVBSceneState(<state>)",
+      "description": "红黑场景状态判定\n0 准备押注\n1 押注\n2 准备开牌\n3 开牌\n4 结算",
+      "properties": {
+        "state": 1
+      },
+      "display": {
+        "x": 648,
+        "y": -876
+      }
+    },
+    "871ccb22-30c2-4d0a-9d52-534ad305de4b": {
+      "id": "871ccb22-30c2-4d0a-9d52-534ad305de4b",
+      "name": "RandIntAction",
+      "category": "action",
+      "title": "RandIntAction(<index>,<min>,<max>)",
+      "description": "随机获得一个[min,max)的整数，保存到黑板的index key中",
+      "properties": {
+        "index": "betArea",
+        "min": 0,
+        "max": 2
+      },
+      "display": {
+        "x": 708,
+        "y": -492
+      }
+    },
+    "82ef36d0-175c-4045-9aed-f900e51f649c": {
+      "id": "82ef36d0-175c-4045-9aed-f900e51f649c",
+      "name": "Sequence",
+      "category": "composite",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 444,
+        "y": -72
+      },
+      "children": [
+        "ef706ab5-b108-4475-97a3-c8336c48b451",
+        "01308bf4-dcb1-437f-810e-31d0487a4c9e"
+      ]
+    },
+    "ef706ab5-b108-4475-97a3-c8336c48b451": {
+      "id": "ef706ab5-b108-4475-97a3-c8336c48b451",
+      "name": "RVBSceneState",
+      "category": "condition",
+      "title": "RVBSceneState(<state>)",
+      "description": "红黑场景状态判定\n0 准备押注\n1 押注\n2 准备开牌\n3 开牌\n4 结算",
+      "properties": {
+        "state": 1
+      },
+      "display": {
+        "x": 636,
+        "y": -96
+      }
+    },
+    "01308bf4-dcb1-437f-810e-31d0487a4c9e": {
+      "id": "01308bf4-dcb1-437f-810e-31d0487a4c9e",
+      "name": "Runner",
+      "category": "action",
+      "title": "Runner",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 624,
+        "y": -12
+      }
+    },
+    "c0da4159-f259-4881-9c52-1e41cc8aa75e": {
+      "id": "c0da4159-f259-4881-9c52-1e41cc8aa75e",
+      "name": "RandWait",
+      "category": "action",
+      "title": "RandWait(<minTime>,<maxTime>)",
+      "description": "节点暂停[minTime,maxTime)毫秒",
+      "properties": {
+        "minTime": 300,
+        "maxTime": 900
+      },
+      "display": {
+        "x": 1464,
+        "y": -444
+      }
+    },
+    "25c0e6a3-b5b8-4be2-a168-83bde0188ba9": {
+      "id": "25c0e6a3-b5b8-4be2-a168-83bde0188ba9",
+      "name": "RVBBetCoin",
+      "category": "action",
+      "title": "RVBBetCoin(<gIPBetCoin>,<gIPArea>)",
+      "description": "红黑押注\ngIPBetCoin 押注金额 支持@\ngIPArea 押注区域支持@",
+      "properties": {
+        "gIPBetCoin": "betCoin",
+        "gIPArea": "@2"
+      },
+      "display": {
+        "x": 1500,
+        "y": -360
+      }
+    },
+    "e18e1e73-ff91-4a13-892c-78719aab101d": {
+      "id": "e18e1e73-ff91-4a13-892c-78719aab101d",
+      "name": "Sequence",
+      "category": "composite",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 1272,
+        "y": -408
+      },
+      "children": [
+        "c0da4159-f259-4881-9c52-1e41cc8aa75e",
+        "25c0e6a3-b5b8-4be2-a168-83bde0188ba9"
+      ]
+    },
+    "615b29db-284f-4b90-818c-2151ec030aac": {
+      "id": "615b29db-284f-4b90-818c-2151ec030aac",
+      "name": "Runner",
+      "category": "action",
+      "title": "Runner",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 1440,
+        "y": -276
+      }
+    },
+    "44b72066-4117-42fc-8c11-12e641ac7963": {
+      "id": "44b72066-4117-42fc-8c11-12e641ac7963",
+      "name": "Priority",
+      "category": "composite",
+      "title": "Priority",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 1008,
+        "y": -288
+      },
+      "children": [
+        "78a7aff1-616d-4372-9b03-1345ee67aed9",
+        "615b29db-284f-4b90-818c-2151ec030aac"
+      ]
+    },
+    "78a7aff1-616d-4372-9b03-1345ee67aed9": {
+      "id": "78a7aff1-616d-4372-9b03-1345ee67aed9",
+      "name": "Inverter",
+      "category": "decorator",
+      "title": "Inverter",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 1140,
+        "y": -372
+      },
+      "child": "e18e1e73-ff91-4a13-892c-78719aab101d"
+    },
+    "05965a4d-b80a-40f0-899e-da9291c589aa": {
+      "id": "05965a4d-b80a-40f0-899e-da9291c589aa",
+      "name": "RandWait",
+      "category": "action",
+      "title": "RandWait(<minTime>,<maxTime>)",
+      "description": "节点暂停[minTime,maxTime)毫秒",
+      "properties": {
+        "minTime": 200,
+        "maxTime": 600
+      },
+      "display": {
+        "x": 1476,
+        "y": -180
+      }
+    },
+    "7f387e61-6dfb-4e92-8123-4f8a46dcfce6": {
+      "id": "7f387e61-6dfb-4e92-8123-4f8a46dcfce6",
+      "name": "RVBBetCoin",
+      "category": "action",
+      "title": "RVBBetCoin(<gIPBetCoin>,<gIPArea>)",
+      "description": "红黑押注\ngIPBetCoin 押注金额 支持@\ngIPArea 押注区域支持@",
+      "properties": {
+        "gIPBetCoin": "betCoin",
+        "gIPArea": "betArea"
+      },
+      "display": {
+        "x": 1512,
+        "y": -96
+      }
+    },
+    "6fc1821d-dba7-408a-8297-bdcff52b2750": {
+      "id": "6fc1821d-dba7-408a-8297-bdcff52b2750",
+      "name": "Sequence",
+      "category": "composite",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 1284,
+        "y": -144
+      },
+      "children": [
+        "05965a4d-b80a-40f0-899e-da9291c589aa",
+        "7f387e61-6dfb-4e92-8123-4f8a46dcfce6"
+      ]
+    },
+    "fb22c1ec-6b73-4e0c-8332-069407b31bb6": {
+      "id": "fb22c1ec-6b73-4e0c-8332-069407b31bb6",
+      "name": "Runner",
+      "category": "action",
+      "title": "Runner",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 1428,
+        "y": 12
+      }
+    },
+    "61296429-2d2f-4ea2-88f7-e0bbd6f881d3": {
+      "id": "61296429-2d2f-4ea2-88f7-e0bbd6f881d3",
+      "name": "Priority",
+      "category": "composite",
+      "title": "Priority",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 1020,
+        "y": -24
+      },
+      "children": [
+        "555526d7-e9c7-46fd-892f-2dafa22ddc78",
+        "fb22c1ec-6b73-4e0c-8332-069407b31bb6"
+      ]
+    },
+    "555526d7-e9c7-46fd-892f-2dafa22ddc78": {
+      "id": "555526d7-e9c7-46fd-892f-2dafa22ddc78",
+      "name": "Inverter",
+      "category": "decorator",
+      "title": "Inverter",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 1152,
+        "y": -108
+      },
+      "child": "6fc1821d-dba7-408a-8297-bdcff52b2750"
+    },
+    "1bcebd0c-d082-4dde-9f5d-f54162699ee7": {
+      "id": "1bcebd0c-d082-4dde-9f5d-f54162699ee7",
+      "name": "SetIntMulti",
+      "category": "action",
+      "title": "SetIntMulti(<gINKey>,<gIPValue1>,<gIPValue2>)",
+      "description": "设置乘法，保存数值\ngINKey 保存黑版key\ngIPValue1  v1 支持@\ngIPValue2  v2 支持@",
+      "properties": {
+        "gINKey": "betSrcCoin",
+        "gIPValue1": "betSrcCoin",
+        "gIPValue2": "playerCoin"
+      },
+      "display": {
+        "x": 780,
+        "y": -672
+      }
+    },
+    "a445b081-8aeb-4a8d-859e-337c2c599763": {
+      "id": "a445b081-8aeb-4a8d-859e-337c2c599763",
+      "name": "RandIntAction",
+      "category": "action",
+      "title": "RandIntAction(<index>,<min>,<max>)",
+      "description": "随机获得一个[min,max)的整数，保存到黑板的index key中",
+      "properties": {
+        "index": "takeCoinDiv",
+        "min": 5,
+        "max": 40
+      },
+      "display": {
+        "x": 1284,
+        "y": 720
+      }
+    },
+    "e053f60d-7c4b-4810-925f-364a5a6f7f97": {
+      "id": "e053f60d-7c4b-4810-925f-364a5a6f7f97",
+      "name": "Sequence",
+      "category": "composite",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 912,
+        "y": 768
+      },
+      "children": [
+        "a445b081-8aeb-4a8d-859e-337c2c599763",
+        "04848730-ff32-4fde-b3a4-1fb1a39af240",
+        "be0f13cd-8aa5-4c15-8333-c69d4cd339ef",
+        "6cd3023a-d433-45a9-8bbe-a99a828d3be6",
+        "e47faeae-783f-4cca-8c91-91b7ac112009"
+      ]
+    },
+    "04848730-ff32-4fde-b3a4-1fb1a39af240": {
+      "id": "04848730-ff32-4fde-b3a4-1fb1a39af240",
+      "name": "GetPlayerTakeCoin",
+      "category": "action",
+      "title": "GetPlayerTakeCoin(<gINKey>)",
+      "description": "获得玩家入场携带金币\ngINKey 保存黑板key",
+      "properties": {
+        "gINKey": "takeCoin"
+      },
+      "display": {
+        "x": 1272,
+        "y": 768
+      }
+    },
+    "e47faeae-783f-4cca-8c91-91b7ac112009": {
+      "id": "e47faeae-783f-4cca-8c91-91b7ac112009",
+      "name": "CheckPlayerCoin",
+      "category": "condition",
+      "title": "CheckPlayerCoin(<gIPCoin>,<cmp>)",
+      "description": "检查用户金币\ngIPCoin 支持@ 用户需要比较的金币\ncmp 比较\t\n 0 //小于\n 1 //小于等于\n 2 //等于\n 3 //大于\n 4 //大于等于",
+      "properties": {
+        "gIPCoin": "takeCoin",
+        "cmp": 0
+      },
+      "display": {
+        "x": 1260,
+        "y": 960
+      }
+    },
+    "be0f13cd-8aa5-4c15-8333-c69d4cd339ef": {
+      "id": "be0f13cd-8aa5-4c15-8333-c69d4cd339ef",
+      "name": "SetIntMulti",
+      "category": "action",
+      "title": "SetIntMulti(<gINKey>,<gIPValue1>,<gIPValue2>)",
+      "description": "设置乘法，保存数值\ngINKey 保存黑版key\ngIPValue1  v1 支持@\ngIPValue2  v2 支持@",
+      "properties": {
+        "gINKey": "takeCoin",
+        "gIPValue1": "takeCoin",
+        "gIPValue2": "takeCoinDiv"
+      },
+      "display": {
+        "x": 1320,
+        "y": 828
+      }
+    },
+    "6cd3023a-d433-45a9-8bbe-a99a828d3be6": {
+      "id": "6cd3023a-d433-45a9-8bbe-a99a828d3be6",
+      "name": "SetIntDiv",
+      "category": "action",
+      "title": "SetIntDiv(<gINKey>,<gIPValue1>,<gIPValue2>)",
+      "description": "设定除法保存数据到黑板\ngINKey \ngIPValue1\ngIPValue2",
+      "properties": {
+        "gINKey": "takeCoin",
+        "gIPValue1": "takeCoin",
+        "gIPValue2": "@100"
+      },
+      "display": {
+        "x": 1284,
+        "y": 888
+      }
+    }
+  },
+  "display": {
+    "camera_x": 285.7500000118962,
+    "camera_y": 135.66499998217478,
+    "camera_z": 0.75,
+    "x": -96,
+    "y": 324
+  },
+  "custom_nodes": [
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RVBSceneState",
+      "category": "condition",
+      "title": "RVBSceneState(<state>)",
+      "description": "红黑场景状态判定\n0 准备押注\n1 押注\n2 准备开牌\n3 开牌\n4 结算",
+      "properties": {
+        "state": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RandIntAction",
+      "category": "action",
+      "title": "RandIntAction(<index>,<min>,<max>)",
+      "description": "随机获得一个[min,max)的整数，保存到黑板的index key中",
+      "properties": {
+        "index": "key",
+        "min": 0,
+        "max": 1
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RandWait",
+      "category": "action",
+      "title": "RandWait(<minTime>,<maxTime>)",
+      "description": "节点暂停[minTime,maxTime)毫秒",
+      "properties": {
+        "minTime": 0,
+        "maxTime": 1
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RandomWeightComposite",
+      "category": "composite",
+      "title": "RandomWeightComposite(<weight>)",
+      "description": "根据权重随机，选择一个子节点。\n权重使用|分割。\n需要注意子节点的顺序，个数需要和权重对应",
+      "properties": {
+        "weight": "\"\""
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "CheckBool",
+      "category": "condition",
+      "title": "CheckBool(<keyName>)",
+      "description": "检查一个黑板的key值",
+      "properties": {
+        "keyName": "key"
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "CheckInt",
+      "category": "condition",
+      "title": "CheckInt(<keyName>,<value>,<cmp>)",
+      "description": "检查黑板的一个值和待比较值\n 0 //小于\n 1 //小于等于\n 2 //等于\n 3 //大于\n 4 //大于等于",
+      "properties": {
+        "keyName": "key",
+        "value": 0,
+        "cmp": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "LogAction",
+      "category": "action",
+      "title": "LogAction(<info>,<level>)",
+      "description": "输出日志",
+      "properties": {
+        "info": "info",
+        "level": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RVBBetPct",
+      "category": "action",
+      "title": "RVBBetPct(<gIPpct>,<gIPArea>)",
+      "description": "红黑下注\ngIPpct 下注百分比，黑板key 支持@\ngIPArea 下注区域，黑板key 支持@",
+      "properties": {
+        "gIPpct": "key",
+        "gIPArea": 1
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RVBLastWinArea",
+      "category": "action",
+      "title": "RVBLastWinArea(<gINKey>)",
+      "description": "获得最后的下注结果保存到key，没有返回失败",
+      "properties": {
+        "gINKey": "key"
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "LeaveGame",
+      "category": "action",
+      "title": "LeaveGame",
+      "description": "离开游戏",
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "CheckPlayerCoin",
+      "category": "condition",
+      "title": "CheckPlayerCoin(<gIPCoin>,<cmp>)",
+      "description": "检查用户金币\ngIPCoin 支持@ 用户需要比较的金币\ncmp 比较\t\n 0 //小于\n 1 //小于等于\n 2 //等于\n 3 //大于\n 4 //大于等于",
+      "properties": {
+        "gIPCoin": "key",
+        "cmp": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "GetOutLimitCoin",
+      "category": "action",
+      "title": "GetOutLimitCoin(<gINKey>)",
+      "description": "获得玩家游戏踢出限制\ngINKey 保存到黑板key",
+      "properties": {
+        "gINKey": "key"
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "CheckPlayerGameNum",
+      "category": "condition",
+      "title": "CheckPlayerGameNum(<gIPGameNum>,<cmp>)",
+      "description": "检查用户游戏次数\ngIPGameNum支持@ 用户需要游戏次数\ncmp 比较\t\n 0 //小于\n 1 //小于等于\n 2 //等于\n 3 //大于\n 4 //大于等于",
+      "properties": {
+        "gIPGameNum": "key",
+        "cmp": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "CheckPlayerLastWinOrLost",
+      "category": "condition",
+      "title": "CheckPlayerLastWinOrLost(<gIPLResult>,<cmp>)",
+      "description": "检查玩家上次输赢情况\ngIPLResult 比较值 支持@\ncmp 比较",
+      "properties": {
+        "gIPLResult": "key",
+        "cmp": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "SetIntAction",
+      "category": "action",
+      "title": "SetIntAction(<gINKey>,<gIPValue>)",
+      "description": "设置int参数值\ngINKey  黑版key值\ngIPValue 设置的值，支持@",
+      "properties": {
+        "gINKey": "key",
+        "gIPValue": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RVBBetCoin",
+      "category": "action",
+      "title": "RVBBetCoin(<gIPBetCoin>,<gIPArea>)",
+      "description": "红黑押注\ngIPBetCoin 押注金额 支持@\ngIPArea 押注区域支持@",
+      "properties": {
+        "gIPBetCoin": "key",
+        "gIPArea": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RVBCheckBetCoin",
+      "category": "action",
+      "title": "RVBCheckBetCoin(<gIPSrcCoin>,<gINSaveCoin>)",
+      "description": "修正押注金额，保存到黑板key\ngIPSrcCoin     押注金额支持@\ngINSaveCoin 保存后key",
+      "properties": {
+        "gIPSrcCoin": "key",
+        "gINSaveCoin": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "SetIntMulti",
+      "category": "action",
+      "title": "SetIntMulti(<gINKey>,<gIPValue1>,<gIPValue2>)",
+      "description": "设置乘法，保存数值\ngINKey 保存黑版key\ngIPValue1  v1 支持@\ngIPValue2  v2 支持@",
+      "properties": {
+        "gINKey": "key",
+        "gIPValue1": 0,
+        "gIPValue2": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "GetPlayerCoin",
+      "category": "action",
+      "title": "GetPlayerCoin(<gINKey>)",
+      "description": "得到玩家金币\ngINKey 保存key",
+      "properties": {
+        "gINKey": "key"
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "SetIntDiv",
+      "category": "action",
+      "title": "SetIntDiv(<gINKey>,<gIPValue1>,<gIPValue2>)",
+      "description": "设定除法保存数据到黑板\ngINKey \ngIPValue1\ngIPValue2",
+      "properties": {
+        "gINKey": "key",
+        "gIPValue1": 0,
+        "gIPValue2": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "RVBHistoryIsSame",
+      "category": "condition",
+      "title": "RVBHistoryIsSame(<gIPNum>)",
+      "description": "判定是上几局都是相同的结果",
+      "properties": {
+        "gIPNum": "key",
+        "num": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "GetPlayerTakeCoin",
+      "category": "action",
+      "title": "GetPlayerTakeCoin(<gINKey>)",
+      "description": "获得玩家入场携带金币\ngINKey 保存黑板key",
+      "properties": {
+        "gINKey": "key"
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "DVTHistoryIsSame",
+      "category": "condition",
+      "title": "DVTHistoryIsSame(<gIPNum>)",
+      "description": "判定是上几局都是相同的结果\ngIPNum 支持@",
+      "properties": {
+        "gIPNum": "key"
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "DVTLastWinArea",
+      "category": "action",
+      "title": "DVTLastWinArea(<gINKey>)",
+      "description": "龙虎最后获胜的区域保存到黑板",
+      "properties": {
+        "gINKey": "key"
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "DVTBetCoin",
+      "category": "action",
+      "title": "DVTBetCoin(<gIPBetCoin>,<gIPArea>)",
+      "description": "龙虎押注",
+      "properties": {
+        "gIPBetCoin": "key",
+        "gIPArea": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "DVTCheckBetCoin",
+      "category": "action",
+      "title": "DVTCheckBetCoin(<gIPSrcCoin>,<gINSaveCoin>)",
+      "description": "龙虎检查下注额度",
+      "properties": {
+        "gIPSrcCoin": 0,
+        "gINSaveCoin": 0
+      }
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "DVTSceneState",
+      "category": "condition",
+      "title": "DVTSceneState(<state>)",
+      "description": "龙虎状态检查\n0 准备押注\n1 押注\n2 准备开牌\n3 开牌\n4 结算",
+      "properties": {
+        "state": 0
+      }
+    }
+  ]
+}

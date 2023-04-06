@@ -1,0 +1,1907 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"Name": "抢庄牛牛-新手场新手",
+			"GameFreeId": 10000001,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 10000,
+			"GameTimeUpperLimit": 10,
+			"TotalInUpperLimit": 25000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				5,
+				15
+			],
+			"MatchPriority": [
+				1,
+				2,
+				0
+			]
+		},
+		{
+			"Id": 2,
+			"Name": "抢庄牛牛-新手场正常",
+			"GameFreeId": 10000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 13000,
+			"CardValueRange": [
+				3,
+				15
+			],
+			"MatchPriority": [
+				2,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 3,
+			"Name": "抢庄牛牛-新手场赢钱",
+			"GameFreeId": 10000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 13000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				4,
+				2,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 4,
+			"Name": "抢庄牛牛-新手场亏钱",
+			"GameFreeId": 10000001,
+			"PayLowerLimit": 1000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				5,
+				20
+			],
+			"MatchPriority": [
+				3,
+				2,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 5,
+			"Name": "抢庄牛牛-大众场新手",
+			"GameFreeId": 10000002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 50000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 80000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				5,
+				15
+			],
+			"MatchPriority": [
+				5,
+				6,
+				0
+			]
+		},
+		{
+			"Id": 6,
+			"Name": "抢庄牛牛-大众场正常",
+			"GameFreeId": 10000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 11000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				3,
+				15
+			],
+			"MatchPriority": [
+				6,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 7,
+			"Name": "抢庄牛牛-大众场赢钱",
+			"GameFreeId": 10000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 11000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				8,
+				6,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 8,
+			"Name": "抢庄牛牛-大众场亏钱",
+			"GameFreeId": 10000002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				5,
+				20
+			],
+			"MatchPriority": [
+				7,
+				6,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 9,
+			"Name": "抢庄牛牛-富豪场新手",
+			"GameFreeId": 10000003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 100000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 150000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				5,
+				15
+			],
+			"MatchPriority": [
+				9,
+				10,
+				0
+			]
+		},
+		{
+			"Id": 10,
+			"Name": "抢庄牛牛-富豪场正常",
+			"GameFreeId": 10000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 10000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				3,
+				15
+			],
+			"MatchPriority": [
+				10,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 11,
+			"Name": "抢庄牛牛-富豪场赢钱",
+			"GameFreeId": 10000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 10000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				12,
+				10,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 12,
+			"Name": "抢庄牛牛-富豪场亏钱",
+			"GameFreeId": 10000003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				5,
+				20
+			],
+			"MatchPriority": [
+				11,
+				10,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 13,
+			"Name": "金花-新手场新手",
+			"GameFreeId": 40000001,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 10000,
+			"GameTimeUpperLimit": 10,
+			"TotalInUpperLimit": 25000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				10,
+				50
+			],
+			"MatchPriority": [
+				13,
+				14,
+				0
+			]
+		},
+		{
+			"Id": 14,
+			"Name": "金花-新手场正常",
+			"GameFreeId": 40000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 13000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				9,
+				35
+			],
+			"MatchPriority": [
+				14,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 15,
+			"Name": "金花-新手场赢钱",
+			"GameFreeId": 40000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 13000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				16
+			],
+			"MatchPriority": [
+				16,
+				14,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 16,
+			"Name": "金花-新手场亏钱",
+			"GameFreeId": 40000001,
+			"PayLowerLimit": 1000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				15,
+				60
+			],
+			"MatchPriority": [
+				15,
+				14,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 17,
+			"Name": "金花-大众场新手",
+			"GameFreeId": 40000002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 50000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 80000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				10,
+				50
+			],
+			"MatchPriority": [
+				17,
+				18,
+				0
+			]
+		},
+		{
+			"Id": 18,
+			"Name": "金花-大众场正常",
+			"GameFreeId": 40000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 11000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				9,
+				35
+			],
+			"MatchPriority": [
+				18,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 19,
+			"Name": "金花-大众场赢钱",
+			"GameFreeId": 40000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 11000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				16
+			],
+			"MatchPriority": [
+				20,
+				18,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 20,
+			"Name": "金花-大众场亏钱",
+			"GameFreeId": 40000002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				15,
+				60
+			],
+			"MatchPriority": [
+				19,
+				18,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 21,
+			"Name": "金花-富豪场新手",
+			"GameFreeId": 40000003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 100000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 150000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				10,
+				50
+			],
+			"MatchPriority": [
+				21,
+				22,
+				0
+			]
+		},
+		{
+			"Id": 22,
+			"Name": "金花-富豪场正常",
+			"GameFreeId": 40000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 11000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				9,
+				35
+			],
+			"MatchPriority": [
+				22,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 23,
+			"Name": "金花-富豪场赢钱",
+			"GameFreeId": 40000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 11000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				16
+			],
+			"MatchPriority": [
+				24,
+				22,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 24,
+			"Name": "金花-富豪场亏钱",
+			"GameFreeId": 40000003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				15,
+				60
+			],
+			"MatchPriority": [
+				23,
+				22,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 25,
+			"Name": "斗地主-新手场新手",
+			"GameFreeId": 30000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 10,
+			"TotalInUpperLimit": 10000,
+			"OddsUpperLimit": 10000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				0,
+				30,
+				30,
+				30,
+				10,
+				0
+			],
+			"MatchPriority": [
+				25,
+				26,
+				0
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				4000,
+				4000,
+				10000,
+				4000,
+				10000,
+				20000,
+				2000
+			]
+		},
+		{
+			"Id": 26,
+			"Name": "斗地主-新手场正常",
+			"GameFreeId": 30000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 13000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				20,
+				20,
+				30,
+				20,
+				10,
+				0
+			],
+			"MatchPriority": [
+				26,
+				0,
+				-2,
+				-1
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4000
+			]
+		},
+		{
+			"Id": 27,
+			"Name": "斗地主-新手场赢钱",
+			"GameFreeId": 30000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 13000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				10,
+				30,
+				30,
+				20,
+				10,
+				0
+			],
+			"MatchPriority": [
+				28,
+				26,
+				0,
+				-2
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4001
+			]
+		},
+		{
+			"Id": 28,
+			"Name": "斗地主-新手场亏钱",
+			"GameFreeId": 30000001,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				0,
+				30,
+				30,
+				30,
+				10,
+				0
+			],
+			"MatchPriority": [
+				27,
+				26,
+				0,
+				-1
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4002
+			]
+		},
+		{
+			"Id": 29,
+			"Name": "斗地主-大众场新手",
+			"GameFreeId": 30000002,
+			"PayLowerLimit": 1000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 7,
+			"TotalInUpperLimit": 10000,
+			"OddsUpperLimit": 10000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				0,
+				30,
+				30,
+				30,
+				10,
+				0
+			],
+			"MatchPriority": [
+				29,
+				30,
+				0
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				4000,
+				4000,
+				10000,
+				4000,
+				10000,
+				20000,
+				2000
+			]
+		},
+		{
+			"Id": 30,
+			"Name": "斗地主-大众场正常",
+			"GameFreeId": 30000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 11000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				20,
+				20,
+				30,
+				20,
+				10,
+				0
+			],
+			"MatchPriority": [
+				30,
+				0,
+				-2,
+				-1
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4000
+			]
+		},
+		{
+			"Id": 31,
+			"Name": "斗地主-大众场赢钱",
+			"GameFreeId": 30000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 11000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				10,
+				30,
+				30,
+				20,
+				10,
+				0
+			],
+			"MatchPriority": [
+				32,
+				30,
+				0,
+				-2
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4001
+			]
+		},
+		{
+			"Id": 32,
+			"Name": "斗地主-大众场亏钱",
+			"GameFreeId": 30000002,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				0,
+				30,
+				30,
+				30,
+				10,
+				0
+			],
+			"MatchPriority": [
+				31,
+				30,
+				0,
+				-1
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4002
+			]
+		},
+		{
+			"Id": 33,
+			"Name": "斗地主-富豪场新手",
+			"GameFreeId": 30000003,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 10000,
+			"OddsUpperLimit": 10000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				0,
+				30,
+				30,
+				30,
+				10,
+				0
+			],
+			"MatchPriority": [
+				33,
+				34,
+				0
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				4000,
+				4000,
+				10000,
+				4000,
+				10000,
+				20000,
+				2000
+			]
+		},
+		{
+			"Id": 34,
+			"Name": "斗地主-富豪场正常",
+			"GameFreeId": 30000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 10000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				20,
+				20,
+				30,
+				20,
+				10,
+				0
+			],
+			"MatchPriority": [
+				34,
+				0,
+				-2,
+				-1
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4000
+			]
+		},
+		{
+			"Id": 35,
+			"Name": "斗地主-富豪场赢钱",
+			"GameFreeId": 30000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 10000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				10,
+				30,
+				30,
+				20,
+				10,
+				0
+			],
+			"MatchPriority": [
+				36,
+				34,
+				0,
+				-2
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4001
+			]
+		},
+		{
+			"Id": 36,
+			"Name": "斗地主-富豪场亏钱",
+			"GameFreeId": 30000003,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				0,
+				30,
+				30,
+				30,
+				10,
+				0
+			],
+			"MatchPriority": [
+				35,
+				34,
+				0,
+				-1
+			],
+			"CardLibRate": 10000,
+			"CardLibArr": [
+				3000,
+				4000,
+				1000,
+				4000,
+				10000,
+				1000,
+				10000,
+				20000,
+				4000,
+				20000,
+				50000,
+				4002
+			]
+		},
+		{
+			"Id": 37,
+			"Name": "经典牛牛-新手场新手",
+			"GameFreeId": 10010001,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 10000,
+			"GameTimeUpperLimit": 10,
+			"TotalInUpperLimit": 25000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				5,
+				15
+			],
+			"MatchPriority": [
+				37,
+				38,
+				0
+			]
+		},
+		{
+			"Id": 38,
+			"Name": "经典牛牛-新手场正常",
+			"GameFreeId": 10010001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 13000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				3,
+				15
+			],
+			"MatchPriority": [
+				38,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 39,
+			"Name": "经典牛牛-新手场赢钱",
+			"GameFreeId": 10010001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 13000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				40,
+				38,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 40,
+			"Name": "经典牛牛-新手场亏钱",
+			"GameFreeId": 10010001,
+			"PayLowerLimit": 1000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				5,
+				20
+			],
+			"MatchPriority": [
+				39,
+				38,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 41,
+			"Name": "经典牛牛-大众场新手",
+			"GameFreeId": 10010002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 50000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 80000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				5,
+				15
+			],
+			"MatchPriority": [
+				41,
+				42,
+				0
+			]
+		},
+		{
+			"Id": 42,
+			"Name": "经典牛牛-大众场正常",
+			"GameFreeId": 10010002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 11000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				3,
+				15
+			],
+			"MatchPriority": [
+				42,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 43,
+			"Name": "经典牛牛-大众场赢钱",
+			"GameFreeId": 10010002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 11000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				44,
+				42,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 44,
+			"Name": "经典牛牛-大众场亏钱",
+			"GameFreeId": 10010002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				5,
+				20
+			],
+			"MatchPriority": [
+				43,
+				42,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 45,
+			"Name": "经典牛牛-富豪场新手",
+			"GameFreeId": 10010003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 100000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 150000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				5,
+				15
+			],
+			"MatchPriority": [
+				45,
+				46,
+				0
+			]
+		},
+		{
+			"Id": 46,
+			"Name": "经典牛牛-富豪场正常",
+			"GameFreeId": 10010003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 10000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				3,
+				15
+			],
+			"MatchPriority": [
+				46,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 47,
+			"Name": "经典牛牛-富豪场赢钱",
+			"GameFreeId": 10010003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 10000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				48,
+				46,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 48,
+			"Name": "经典牛牛-富豪场亏钱",
+			"GameFreeId": 10010003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				5,
+				20
+			],
+			"MatchPriority": [
+				47,
+				46,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 49,
+			"Name": "推筒-新手场新手",
+			"GameFreeId": 70000001,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 10000,
+			"GameTimeUpperLimit": 10,
+			"TotalInUpperLimit": 25000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				8,
+				50
+			],
+			"MatchPriority": [
+				49,
+				50,
+				0
+			]
+		},
+		{
+			"Id": 50,
+			"Name": "推筒-新手场正常",
+			"GameFreeId": 70000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 13000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				5,
+				50
+			],
+			"MatchPriority": [
+				50,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 51,
+			"Name": "推筒-新手场赢钱",
+			"GameFreeId": 70000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 13000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				52,
+				50,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 52,
+			"Name": "推筒-新手场亏钱",
+			"GameFreeId": 70000001,
+			"PayLowerLimit": 1000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				8,
+				50
+			],
+			"MatchPriority": [
+				51,
+				50,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 53,
+			"Name": "推筒-大众场新手",
+			"GameFreeId": 70000002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 50000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 80000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				8,
+				50
+			],
+			"MatchPriority": [
+				53,
+				54,
+				0
+			]
+		},
+		{
+			"Id": 54,
+			"Name": "推筒-大众场正常",
+			"GameFreeId": 70000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 11000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				5,
+				50
+			],
+			"MatchPriority": [
+				54,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 55,
+			"Name": "推筒-大众场赢钱",
+			"GameFreeId": 70000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 11000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				56,
+				54,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 56,
+			"Name": "推筒-大众场亏钱",
+			"GameFreeId": 70000002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				8,
+				50
+			],
+			"MatchPriority": [
+				55,
+				54,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 57,
+			"Name": "推筒-富豪场新手",
+			"GameFreeId": 70000003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 100000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 150000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				8,
+				50
+			],
+			"MatchPriority": [
+				57,
+				58,
+				0
+			]
+		},
+		{
+			"Id": 58,
+			"Name": "推筒-富豪场正常",
+			"GameFreeId": 70000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 10000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				5,
+				50
+			],
+			"MatchPriority": [
+				58,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 59,
+			"Name": "推筒-富豪场赢钱",
+			"GameFreeId": 70000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 10000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				10
+			],
+			"MatchPriority": [
+				60,
+				58,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 60,
+			"Name": "推筒-富豪场亏钱",
+			"GameFreeId": 70000003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				8,
+				50
+			],
+			"MatchPriority": [
+				59,
+				58,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 61,
+			"Name": "德州扑克-新手场新手",
+			"GameFreeId": 220000001,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 10000,
+			"GameTimeUpperLimit": 10,
+			"TotalInUpperLimit": 25000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				29,
+				86
+			],
+			"MatchPriority": [
+				61,
+				62,
+				0
+			]
+		},
+		{
+			"Id": 62,
+			"Name": "德州扑克-新手场正常",
+			"GameFreeId": 220000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 13000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				25,
+				86
+			],
+			"MatchPriority": [
+				62,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 63,
+			"Name": "德州扑克-新手场赢钱",
+			"GameFreeId": 220000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 13000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				50
+			],
+			"MatchPriority": [
+				64,
+				62,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 64,
+			"Name": "德州扑克-新手场亏钱",
+			"GameFreeId": 220000001,
+			"PayLowerLimit": 1000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				29,
+				86
+			],
+			"MatchPriority": [
+				63,
+				62,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 65,
+			"Name": "德州扑克-大众场新手",
+			"GameFreeId": 220000002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 50000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 80000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				29,
+				86
+			],
+			"MatchPriority": [
+				65,
+				66,
+				0
+			]
+		},
+		{
+			"Id": 66,
+			"Name": "德州扑克-大众场正常",
+			"GameFreeId": 220000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 11000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				25,
+				86
+			],
+			"MatchPriority": [
+				66,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 67,
+			"Name": "德州扑克-大众场赢钱",
+			"GameFreeId": 220000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 11000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				50
+			],
+			"MatchPriority": [
+				68,
+				66,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 68,
+			"Name": "德州扑克-大众场亏钱",
+			"GameFreeId": 220000002,
+			"PayLowerLimit": 25000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				29,
+				86
+			],
+			"MatchPriority": [
+				67,
+				66,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 69,
+			"Name": "德州扑克-富豪场新手",
+			"GameFreeId": 220000003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 100000,
+			"GameTimeUpperLimit": 5,
+			"TotalInUpperLimit": 150000,
+			"OddsUpperLimit": 10000,
+			"CardValueRange": [
+				29,
+				86
+			],
+			"MatchPriority": [
+				69,
+				70,
+				0
+			]
+		},
+		{
+			"Id": 70,
+			"Name": "德州扑克-富豪场正常",
+			"GameFreeId": 220000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 9000,
+			"OddsUpperLimit": 10000,
+			"LuckyRate": 3000,
+			"CardValueRange": [
+				25,
+				86
+			],
+			"MatchPriority": [
+				70,
+				0,
+				-2,
+				-1
+			]
+		},
+		{
+			"Id": 71,
+			"Name": "德州扑克-富豪场赢钱",
+			"GameFreeId": 220000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsLowerLimit": 10000,
+			"OddsUpperLimit": 100000000,
+			"ChangeCardRate": 5000,
+			"CardValueRange": [
+				0,
+				50
+			],
+			"MatchPriority": [
+				72,
+				70,
+				0,
+				-2
+			]
+		},
+		{
+			"Id": 72,
+			"Name": "德州扑克-富豪场亏钱",
+			"GameFreeId": 220000003,
+			"PayLowerLimit": 50000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"LuckyRate": 4000,
+			"ChangeCardRate": 3000,
+			"CardValueRange": [
+				29,
+				86
+			],
+			"MatchPriority": [
+				71,
+				70,
+				0,
+				-1
+			]
+		},
+		{
+			"Id": 73,
+			"Name": "天天捕鱼-新手场未充值",
+			"GameFreeId": 520010001,
+			"PayUpperLimit": 5000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 100000000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				74
+			]
+		},
+		{
+			"Id": 74,
+			"Name": "天天捕鱼-新手场已充值",
+			"GameFreeId": 520010001,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 100000000,
+			"MatchPriority": [
+				74,
+				0
+			],
+			"ExcludeMatch": [
+				73
+			]
+		},
+		{
+			"Id": 75,
+			"Name": "天天捕鱼-大众场未充值",
+			"GameFreeId": 520010002,
+			"PayUpperLimit": 5000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				76
+			]
+		},
+		{
+			"Id": 76,
+			"Name": "天天捕鱼-大众场已充值",
+			"GameFreeId": 520010002,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"MatchPriority": [
+				76,
+				0
+			],
+			"ExcludeMatch": [
+				75
+			]
+		},
+		{
+			"Id": 77,
+			"Name": "天天捕鱼-富豪场未充值",
+			"GameFreeId": 520010003,
+			"PayUpperLimit": 5000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				78
+			]
+		},
+		{
+			"Id": 78,
+			"Name": "天天捕鱼-富豪场已充值",
+			"GameFreeId": 520010003,
+			"PayLowerLimit": 5000,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 9000,
+			"MatchPriority": [
+				78,
+				0
+			],
+			"ExcludeMatch": [
+				77
+			]
+		},
+		{
+			"Id": 79,
+			"Name": "干瞪眼-新手场真实玩家",
+			"GameFreeId": 490000001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 100000000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				79
+			]
+		},
+		{
+			"Id": 80,
+			"Name": "干瞪眼-大众场真实玩家",
+			"GameFreeId": 490000002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 100000000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				80
+			]
+		},
+		{
+			"Id": 81,
+			"Name": "干瞪眼-富豪场真实玩家",
+			"GameFreeId": 490000003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 100000000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				81
+			]
+		},
+		{
+			"Id": 82,
+			"Name": "干瞪眼极速版-新手场真实玩家",
+			"GameFreeId": 490010001,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 100000000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				82
+			]
+		},
+		{
+			"Id": 83,
+			"Name": "干瞪眼极速版-大众场真实玩家",
+			"GameFreeId": 490010002,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 100000000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				83
+			]
+		},
+		{
+			"Id": 84,
+			"Name": "干瞪眼极速版-富豪场真实玩家",
+			"GameFreeId": 490010003,
+			"PayUpperLimit": 2000000000,
+			"GameTimeUpperLimit": 1000000000,
+			"TotalInUpperLimit": 1900000000,
+			"OddsUpperLimit": 100000000,
+			"MatchPriority": [
+				0
+			],
+			"ExcludeMatch": [
+				84
+			]
+		}
+	]
+}

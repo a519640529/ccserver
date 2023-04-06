@@ -1,0 +1,14 @@
+del /F/S gatesrv\gatesrv
+del /F/S gatesrv\gatesrv.exe
+del /F/S gamesrv\gamesrv
+del /F/S gamesrv\gamesrv.exe
+del /F/S mgrsrv\mgrsrv
+del /F/S mgrsrv\mgrsrv.exe
+del /F/S worldsrv\worldsrv
+del /F/S worldsrv\worldsrv.exe
+del /F/S robot\robot
+del /F/S robot\robot.exe
+del /F/S dbproxy\dbproxy
+del /F/S dbproxy\dbproxy.exe
+del /F/S minigame\minigame
+del /F/S minigame\minigame.exe

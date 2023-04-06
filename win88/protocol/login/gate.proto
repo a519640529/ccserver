@@ -1,0 +1,53 @@
+syntax = "proto3";
+package login;
+option go_package = ".;login";
+
+//gate消息id
+enum GatePacketID {
+	PACKET_Gate_ZERO = 0;                       // 弃用消息号
+    PACKET_CS_AUTH = -1004;			//验证
+    PACKET_SC_AUTH = -1006;			//验证
+	PACKET_SS_DICONNECT = 2001;
+	PACKET_CS_PING = 2002;
+	PACKET_SC_PONG = 2003;
+	PACKET_CS_BINDBUNDLE = 2004;
+	PACKET_SC_BINDBUNDLE = 2005;
+	PACKET_CS_LOGICACK = 2006;
+}
+
+//PACKET_CS_PING
+message CSPing {
+	int64 TimeStamp = 1;
+}
+
+//PACKET_SC_PONG
+message SCPong {
+	int64 TimeStamp = 1;
+}
+
+//PACKET_CS_BINDBUNDLE
+message CSBindBundle{
+	string BundleKey = 1;
+}
+
+//PACKET_SC_BINDBUNDLE
+message SCBindBundle{
+	int32 BundleId = 1;
+	string Sid = 2;
+	int32 SrvId = 3;
+}
+
+//PACKET_CS_LOGICACK
+message CSLogicAck{
+	uint32 LogicNo = 1;
+}
+
+//PACKET_CS_AUTH
+message SSPacketAuth {
+	string AuthKey = 1;
+	int64 Timestamp = 2;
+}
+//PACKET_SC_AUTH
+message SSPacketAuthAck {
+	string Msg = 1;
+}

@@ -1,0 +1,84 @@
+syntax = "proto3";
+package fortunegod;
+option go_package = ".;fortunegod";
+//财神到协议
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+}
+//财神到
+enum FortuneGodPacketID {
+    PACKET_FORTUNEGOD_ZERO = 0;                       // 弃用消息号
+    PACKET_SC_FORTUNEGOD_ROOMINFO = 5100; //房间信息
+    PACKET_CS_FORTUNEGOD_PLAYEROP = 5101; //玩家操作（客户-》服务）
+    PACKET_SC_FORTUNEGOD_PLAYEROP = 5102; //玩家操作（服务-》客户）
+    PACKET_SC_FORTUNEGOD_ROOMSTATE = 5103; //房间状态
+    PACKET_SC_FORTUNEGOD_GAMEBALANCE = 5104; //游戏结算
+}
+
+message FortuneGodPlayerData {
+    string Name = 1; //名字
+    int32 SnId = 2; //账号
+    int32 Head = 3; //头像
+    int32 Sex = 4; //性别
+    int64 Coin = 5; //金币
+    int32 HeadOutLine = 6; //头像框
+    int32 VIP = 7;
+}
+
+//每条线的结算数据
+message FortuneGodLinesInfo {
+    repeated int32 Pos = 1; //中奖位置 索引从0开始
+    int32 WinScore = 2; //中奖分数
+    int32 WinItem = 3; //中奖的元素
+    int32 Rate = 4; //中奖倍数
+    int32 LineCount = 5; //中了几行
+    int32 PosLen = 6; //多少个元素中的
+}
+//发送给客户端的数据 结算
+message SC_FORTUNEGOD_GAMEBALANCE {
+    repeated int32 Cards = 1; //需要翻出的牌，数组15个,如：[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    int64 AllWinScore = 2; //中奖的总分数
+    repeated FortuneGodLinesInfo Lines = 3; //中奖的结果数组,存每条线的情况
+    int32 FreeTimes = 4; //剩余免费转动次数
+    int32 FreeType = 5; //免费转动类型
+    int32 Coin = 6; //玩家身上的钱
+    int32 AllFreeWinScore = 7; //玩家免费次数得到的钱
+}
+
+//房间信息
+message SC_FORTUNEGOD_ROOMINFO {
+    int32 RoomId = 1; //房间id
+    int32 Creator = 2; //创建者SnId
+    int32 GameId = 3; //游戏id
+    int32 RoomMode = 4; //游戏模式
+    repeated int32 Params = 5; //规则参数
+    repeated int32 Cards = 6; //牌数据 (没开牌之前是两个-1)
+    int32 State = 7; //房间当前状态
+    repeated int32 BetMap = 8; // 房间下注数组
+    repeated FortuneGodPlayerData Players = 9; //房间内的玩家信息
+    int32 Chip = 10; //当前选择的筹码
+    int32 LeftFreeTimes = 11; //剩余免费转动次数
+    int32 SceneType = 12;
+    int32 GameFreeId = 13;
+}
+
+//玩家操作
+message CS_FORTUNEGOD_PLAYEROP {
+    int32 OpCode = 1; //操作码 1:开始{1,押注倍数} 2:快速开始{1,押注倍数} 3：自动开始{1,押注倍数} 4：开始小游戏 
+    repeated int64 Params = 2; //操作参数
+}
+
+//玩家操作返回
+message SC_FORTUNEGOD_PLAYEROP {
+    int32 SnId = 1; //玩家ID
+    int32 OpCode = 2; //操作码
+    repeated int64 Params = 3; //操作参数
+    OpResultCode OpRetCode = 4; //操作结果
+}
+
+//房间状态
+message SC_FORTUNEGOD_ROOMSTATE {
+    int32 State = 1; //房间当前状态
+}

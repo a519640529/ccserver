@@ -1,0 +1,53 @@
+{
+    "netlib": {
+    },
+	"tx": {
+		"TxSkeletonName": "github.com/idealeak/goserver/srvlib/txcommskeleton"
+	},
+	"module": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+	"executor": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 31002
+			},
+		"Worker": {
+			"WorkerCnt": 8,
+			"Options": {
+				"QueueBacklog": 1024,
+				"MaxDone": 1024,
+				"Interval": 0
+			}
+		}
+	},
+	"timer": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+
+    "core": {
+	    "MaxProcs": 4
+    },
+	"cmdline": {
+		"SupportCmdLine": true
+	},
+	"signal":{
+		"SupportSignal": true
+	},
+	"admin": {
+		"SupportAdmin": true,
+		"AdminHttpPort": 80
+	},
+	"profile": {},
+	"common": {},
+	"costum": {}
+}

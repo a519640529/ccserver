@@ -1,0 +1,28 @@
+{
+  "srcPath": "E:/gocode/trunk/src/games.yol.com/win88/protocol",
+  "destPath":"E:/ccc_client/protocol",
+  "cmdPath": "C:/Users/Administrator/AppData/Roaming/npm",
+  "mapCc": [
+    "activity",
+    "bag",
+    "chat",
+    "fishing",
+    "friend",
+    "fruits",
+    "gamehall",
+    "gradeshop",
+    "login",
+    "message",
+    "pets",
+    "player",
+    "qpapi",
+    "richblessed",
+    "server",
+    "shop",
+    "task",
+    "telegramapi",
+    "tienlen",
+    "tournament",
+    "welfare"
+  ]
+}

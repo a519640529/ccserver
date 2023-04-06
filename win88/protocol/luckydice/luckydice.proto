@@ -1,0 +1,147 @@
+syntax = "proto3";
+package luckydice;
+option go_package = ".;luckydice";
+
+//幸运骰子
+enum LuckyDicePacketID {
+    PACKET_LUCKYDICE_ZERO = 0;              //弃用消息号
+    PACKET_SC_LUCKYDICE_ROOMINFO = 5280;    //房间信息
+    PACKET_CS_LUCKYDICE_PLAYEROP = 5281;    //玩家操作（客户->服务）
+    PACKET_SC_LUCKYDICE_PLAYEROP = 5282;    //玩家操作（服务->客户）
+    PACKET_SC_LUCKYDICE_ROOMSTATE = 5283;   //房间状态
+    PACKET_SC_LUCKYDICE_BETCHANGE = 5284;   //投注变化
+    PACKET_SC_LUCKYDICE_GAMEBILLED = 5285;  //游戏结算
+    PACKET_SC_LUCKYDICE_PLAYERHISTORY = 5286;  //玩家押注记录
+    PACKET_SC_LUCKYDICE_ROUNDBETDATA = 5287;   //单局押注记录
+    PACKET_SC_LUCKYDICE_DICEHISTORY = 5288;    //牌局骰子记录
+}
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+    OPRC_CoinNotEnough = 2; //钱不够
+}
+
+message LuckyDicePlayerData {
+    string Name = 1;       //名字
+    int32 SnId = 2;        //账号
+    int32 Head = 3;        //头像
+    int32 Sex = 4;         //性别
+    int64 Coin = 5;        //金币
+    int32 HeadOutLine = 6; //头像框
+    int32 VIP = 7;
+    int64 Bet = 8;         //下注金额
+    int32 BetSide = 9;     //押大押小 0大 1小
+    int64 Award = 10;      //奖金
+	repeated string Params = 11;    //其他数据 如:ip 等
+}
+
+message LuckyDiceRoundSimpleInfo {
+    int32 WinSide = 1;     //赢大赢小 0大 1小
+    int32 RoundId = 2;     //当局ID
+}
+
+//房间信息
+message SCLuckyDiceRoomInfo {
+    int32 RoomId = 1;                 //房间id
+    int32 GameId = 2;                 //游戏id
+    int32 RoomMode = 3;               //游戏模式
+    repeated int32 Params = 4;                 //规则参数
+    int32 State = 5;                  //房间当前状态
+    int32 TimeOut = 6;	               //该状态已经历时间 单位:秒
+    repeated int32 StateTimes = 7;             //各状态总时间
+    repeated int32 Dices = 8;                  //骰子值 展示结果状态用
+    repeated int64 TotalBet = 9;               //总投注：[0]押大总投注 [1]押小总投注
+    repeated int32 TotalPlayer = 10;           //总人数：[0]押大总人数 [1]押小总人数
+    repeated LuckyDiceRoundSimpleInfo RoundHistory = 11;   //17个历史牌局输赢结果 0大 1小
+	int32 RoundId = 12;                 //当前局数ID
+    repeated LuckyDicePlayerData Players = 13;   //房间内的玩家信息
+	repeated int32 ParamsEx = 14;                //其他参数
+    int32 GameFreeId = 15;
+}
+
+//玩家操作
+message CSLuckyDiceOp {
+    int32 OpCode = 1;      //操作码 0:押注 1:查看自己历史下注 2:查看某局下注结果 3:查看近100局骰子值
+    repeated int64 Params = 2;      //操作参数 0押注:Params[0]投注金额[1]押大押小 2查看下注:Params[0]牌局Id
+}
+
+//玩家操作返回
+message SCLuckyDiceOp {
+    int32 SnId = 1;                //玩家ID
+    int32 OpCode = 2;              //操作码
+    repeated int64 Params = 3;              //操作参数 0押注:Params[0]投注总金额;Params[1]玩家余额
+    OpResultCode OpRetCode = 4;    //操作结果
+}
+
+//投注变化
+message SCLuckyDiceBetChange {
+    repeated int64 TotalBet = 1;              //总投注：[0]押大总投注 [1]押小总投注
+    repeated int32 TotalPlayer = 2;           //总人数：[0]押大总人数 [1]押小总人数
+}
+
+//发送给客户端的数据 结算
+message SCLuckyDiceGameBilled {
+	int32 RoundId = 1;            //牌局ID
+	repeated int32 Dices = 2;              //骰子值
+	int64 Bet = 3;                //总下注
+    int64 Refund = 4;             //返还押注数
+    int64 Award = 5;              //获奖金额
+	int64 Balance = 6;            //玩家余额
+}
+
+// 玩家押注记录信息
+message LuckyDicePlayerHistoryInfo{
+    int32 RoundId = 1;           //牌局id
+    int64 CreatedTime = 2;       //时间
+    repeated int32 Dices = 3;             //骰子值
+    int32 BetSide = 4;           //押大押小 0大 1小
+    int64 Bet = 5;               //总下注
+    int64 Refund = 6;            //返还押注数
+    int64 Award = 7;             //获奖金额
+}
+// 玩家押注记录
+message SCLuckyDicePlayerHistory{
+    repeated LuckyDicePlayerHistoryInfo PlayerHistory = 1;
+}
+
+message LuckyDiceRoundPlayerBet{
+    int64 BetTime = 1;           //押注时间
+    string UserName = 2;         //昵称
+    int64 Bet = 3;               //总下注
+    int64 Refund = 4;            //返还押注数
+}
+// 单局押注记录
+message SCLuckyDiceRoundBetHistory{
+    int32 RoundId = 1;           //牌局id
+    repeated int32 Dices = 2;             //骰子值
+    repeated int64 TotalBet = 3;          //所有人总押注 [0]押大总数 [1]押小总数
+    repeated LuckyDiceRoundPlayerBet BigBetters = 4;    //押大玩家列表
+    repeated LuckyDiceRoundPlayerBet SmallBetters = 5;  //押小玩家列表
+}
+
+// 牌局骰子记录
+message SCLuckyDiceDiceHistory{
+    repeated int32 Dice1 = 1;             //骰子1
+    repeated int32 Dice2 = 2;             //骰子2
+    repeated int32 Dice3 = 3;             //骰子3
+}
+
+
+// 大奖记录信息
+message LuckyDiceWinRankInfo{
+    int32 RankIndex = 1;   //排行id
+    int64 TotalWin = 2;    //总赢分
+    string UserName = 3;   //昵称
+}
+// 大奖记录
+message SCLuckyDiceWinRank{
+    repeated LuckyDiceWinRankInfo WinRank = 1;
+}
+
+//房间状态
+message SCLuckyDiceRoomState {
+    int32 State = 1; //房间当前状态
+    repeated int32 Params = 2;
+}

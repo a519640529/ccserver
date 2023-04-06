@@ -1,0 +1,75 @@
+{
+    "netlib": {
+    },
+	"tx": {
+		"TxSkeletonName": "github.com/idealeak/goserver/srvlib/txcommskeleton"
+	},
+	"module": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+	"executor": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 31004
+			},
+		"Worker": {
+			"WorkerCnt": 8,
+			"Options": {
+				"QueueBacklog": 1024,
+				"MaxDone": 1024,
+				"Interval": 0
+			}
+		}
+	},
+	"timer": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+
+    "core": {
+	    "MaxProcs": 4
+    },
+
+	"cmdline": {
+		"SupportCmdLine": true
+	},
+	"signal":{
+		"SupportSignal": true
+	},
+	"admin": {
+		"SupportAdmin": true,
+		"AdminHttpPort": 8089
+	},
+	"srvctrl": {
+		"StartScript": "",
+		"IsDevMode": true
+	},
+	"cmgo": {
+	  	"CfgFile": "./etc/mgo.json"
+    },
+	"common":{
+		"AppId": "5c56d1644966f078bfb90c71",
+		"IsDevMode":true
+	},
+	"costum":{
+		"MgoRpcCliNet": "tcp",
+		"MgoRpcCliAddr": "127.0.0.1:8999",
+		"RabbitMQURL": "amqp://win88:123456@192.168.10.230:5672/win88",
+		"RMQExchange": "win88",
+		"RMQQosPrefetchCount":2,
+		"RMQQosPrefetchSize":0,
+		"RMQQosGlobal":true,
+		"etcdurl":["192.168.10.230:2379"],
+		"etcduser":"root",
+		"etcdpwd":"win88"
+	},
+	"profile":{}
+}

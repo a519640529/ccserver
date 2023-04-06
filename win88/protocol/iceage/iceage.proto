@@ -1,0 +1,134 @@
+syntax = "proto3";
+package iceage;
+option go_package = ".;iceage";
+
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+    OPRC_CoinNotEnough = 1056; //金币不足
+}
+//冰河世纪
+enum IceAgePacketID {
+    PACKET_IceAge_ZERO = 0;                       // 弃用消息号
+    PACKET_SC_ICEAGE_ROOMINFO = 7950;    //房间信息
+    PACKET_CS_ICEAGE_PLAYEROP = 7951;    //玩家操作（客户->服务）
+    PACKET_SC_ICEAGE_PLAYEROP = 7952;    //玩家操作（服务->客户）
+    PACKET_SC_ICEAGE_ROOMSTATE = 7953;   //房间状态
+    PACKET_SC_ICEAGE_GAMEBILLED = 7954;  //游戏结算
+    PACKET_SC_ICEAGE_PLAYERHISTORY = 7955;  //游戏记录
+    PACKET_SC_ICEAGE_BIGWINHISTORY = 7956;  //大奖记录
+}
+
+message IceAgePlayerData {
+    string Name = 1;       //名字
+    int32 SnId = 2;        //账号
+    int32 Head = 3;        //头像
+    int32 Sex = 4;         //性别
+    int64 Coin = 5;        //金币
+    int32 HeadOutLine = 6; //头像框
+    int32 VIP = 7;
+	repeated string Params = 8;     //其他数据 如:ip 等
+}
+
+//房间信息
+message SCIceAgeRoomInfo {
+    int32 RoomId = 1;                           //房间id
+    int32 Creator = 2;                          //创建者SnId
+    int32 GameId = 3;                           //游戏id
+    int32 RoomMode = 4;                         //游戏模式
+    repeated int32 Params = 5;                  //规则参数
+    int32 State = 6;                            //房间当前状态
+    repeated int64 BetLines = 7;                //玩家下注选线数组
+	int32 Chip = 8;                             //当前选择的押注
+    repeated IceAgePlayerData Players = 9;      //房间内的玩家信息
+	int32 FreeTimes = 10;                       //免费转动次数
+	int64 Jackpot = 11;                         //奖池金额
+	int64 TotalPriceBonus = 12;                 //总bonus分 大于0时代表小游戏还未结束
+	int64 SpinID = 13;                          //操作ID
+	repeated int32 ParamsEx = 14;               //其他参数
+    int32 GameFreeId = 15;
+    GameBilledData BilledData = 16;             //上一局结算信息，用于断线重连
+}
+
+
+//玩家操作
+message CSIceAgeOp {
+    int32 OpCode = 1;      //操作码 0:开始{0押注倍数,1-n选线} 1:玩家记录信息 2:大奖记录 3:小游戏选择{SpinID操作ID}
+    repeated int64 Params = 2;      //操作参数
+}
+
+//玩家操作返回
+message SCIceAgeOp {
+    int32 SnId = 1;                //玩家ID
+    int32 OpCode = 2;              //操作码
+    repeated int64 Params = 3;              //操作参数
+    OpResultCode OpRetCode = 4;    //操作结果
+}
+
+//每条线的结算数据
+message IceAgeLinesInfo {
+	int32 LineID = 1;          //中奖线路，20条线路中的一条
+    int64 PrizeID = 2;         //中线ID
+    int64 PrizeValue = 3;      //中奖分数
+    int32 Turn = 4;            //消除次数
+    int64 PrizesFreespin = 5;  //免费次数
+    int64 PrizesJackport = 6;  //中奖分数
+    repeated int64 PrizesBonus = 7;     //小游戏奖励选项
+    repeated int32 Items = 8;           //中奖位置编号
+	int32 RoleID = 9;          //图标ID
+}
+
+//图标数据
+message IceAgeCards {
+    repeated int32 Card = 1;    //需要翻出的牌，数组15个,如：[1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 6]
+}
+message GameBilledData {
+    int64 SpinID = 1;            //操作ID
+    repeated IceAgeCards SlotsData = 2;   //图标数据
+    repeated IceAgeLinesInfo PrizesData = 3;   //中奖的结果数组,存每条线的情况
+    int64 TotalBetValue = 4;     //总下注
+    int64 TotalPriceValue = 5;   //中奖的总分数
+    bool IsJackpot = 6;          //是否爆奖
+    int64 Jackpot = 7;           //奖池金额
+    int64 Balance = 8;           //玩家余额
+    int32 TotalFreeSpin = 9;     //剩余免费转动次数
+    int64 TotalPriceBonus = 10;  //总bonus数
+    int64 TotalJackpot = 11;     //爆奖金额
+    int64 ResponseStatus = 12;   //状态码
+}
+//发送给客户端的数据 结算
+message SCIceAgeGameBilled {
+	GameBilledData BilledData = 1;//结算信息
+}
+
+// 玩家记录信息
+message IceAgePlayerHistoryInfo{
+    string SpinID = 1; // 操作id
+    int64 CreatedTime = 2; // 时间
+    int64 TotalBetValue = 3; // 总下注
+    int64 TotalPriceValue = 4; // 总赢分
+    bool IsFree = 5; // 是否免费
+    int64 TotalBonusValue = 6; // 是否免费
+}
+// 玩家记录
+message SCIceAgePlayerHistory{
+    repeated  IceAgePlayerHistoryInfo PlayerHistory = 1;
+}
+// 大奖记录信息
+message IceAgeBigWinHistoryInfo{
+    string SpinID = 1; // 操作id
+    int64 CreatedTime = 2; // 时间
+    int64 RoomID = 3; // 房间ID
+    int64 PriceValue = 4; // 大奖赢分
+    string UserName = 5; // 昵称
+}
+// 大奖记录
+message SCIceAgeBigWinHistory{
+    repeated  IceAgeBigWinHistoryInfo BigWinHistory = 1;
+}
+
+//房间状态
+message SCIceAgeRoomState {
+    int32 State = 1; //房间当前状态
+}

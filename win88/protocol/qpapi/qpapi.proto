@@ -1,0 +1,109 @@
+syntax = "proto3";
+package qpapi;
+option go_package = ".;qpapi";
+import public "google/protobuf/timestamp.proto";
+
+// 错误码定义
+enum TagCode {
+  // option allow_alias = true;
+  UNKNOWN = 0;          // 占位，不使用
+  SUCCESS = 1;          //成功
+  FAILED = 2;           //失败
+  SIGN_ERROR = 3;       //验签失败
+  PROTO_DATA_ERROR = 4; // pb数据错误
+}
+
+//[action] /api/Member/QPAPIRegisterOrLogin
+message ASLogin{
+  string MerchantTag = 1;      //商户标识  相当于平台标识
+  string UserName = 2;         //用户名  //保证唯一性
+  int64  Ts = 3;               //时间戳
+  string Sign = 4;             //验证商户秘钥 md5 fmt.Sprintf("%v%v%v%v", MerchantTag,UserName, 商户秘钥,args.Ts)
+}
+message SALogin{
+  TagCode Tag = 1;         //错误码
+  string Msg = 2;          //错误信息(选填)
+  string Token = 3;
+  int32 Snid = 4;
+}
+
+//加币
+// [action] /api/Game/QPAPIAddSubCoinById
+message ASAddCoinById{
+  string Username = 1;      //用户名  //保证唯一性
+  int64 Gold = 2;           //加币金额
+  int64 BillNo = 3;         //订单号
+  string MerchantTag = 4;   //商户标识  相当于平台标识
+  int64  Ts = 5;            //时间戳
+  string Sign = 6;          //验证商户秘钥 md5 fmt.Sprintf("%v%v%v%v%v%v", Username,Gold,BillNo，MerchantTag, 商户秘钥,args.Ts)
+}
+// 返回
+message SAAddCoinById {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+
+message PlayerCoinData {
+  string Username = 1;      //用户名
+  int64 Gold = 2;
+  int64 Bank = 3;
+}
+
+//查用户金币  /api/Member/QPGetMemberGoldById
+message ASMemberGold{
+  string Username = 1;      //用户名  //保证唯一性
+  string MerchantTag = 2;   //商户标识  相当于平台标识
+  int64  Ts = 3;            //时间戳
+  string Sign = 4;          //验证商户秘钥 md5 fmt.Sprintf("%v%v%v%v", Username,MerchantTag, 商户秘钥,args.Ts)
+}
+message SAMemberGold{
+  TagCode Tag = 1;         //错误码
+  string Msg = 2;          //错误信息(选填)
+  PlayerCoinData Data = 3; //用户金币
+}
+
+// 游戏记录信息
+message GameHistoryInfo{
+  string GameNumber = 1; // 游戏编号
+  int64 CreatedTime = 2; // 时间
+  int64 Multiple = 3;    //下注倍率
+  string Hash = 4;       //Hash
+}
+
+// 玩家记录信息
+message PlayerHistoryInfo{
+  string SpinID = 1;           // 操作id
+  int64 CreatedTime = 2;       // 时间
+  int64 TotalBetValue = 3;     // 总下注
+  int64 TotalPriceValue = 4;   // 总赢分
+  bool IsFree = 5;             // 是否免费
+  int64 TotalBonusValue = 6;   // 是否免费
+  int64 Multiple = 7;          //下注倍率
+  string Logid = 8;            //logid
+  int32 Gameid = 9;            //游戏id
+  string UserName = 10;        //用户名
+}
+
+
+//获取用户注单记录游戏记录 /api/Member/QPGetGameHistory
+message SAPlayerHistory{
+  TagCode Tag = 1;                  //错误码
+  string Msg = 2;                   //错误信息(选填)
+  int32 PageNo = 3;                 //当前页码
+  int32 PageSize = 4;               //每页数量
+  int32 PageSum = 5;                //总页码
+  repeated  PlayerHistoryInfo PlayerHistory = 6;
+  repeated  GameHistoryInfo GameHistory = 7;
+}
+
+message ASPlayerHistory{
+  string Username = 1;       //用户名  //保证唯一性
+  string MerchantTag = 2;    //商户标识  相当于平台标识
+  int32 GameHistoryModel = 3;//1:注单记录   3：游戏记录
+  int64 StartTime = 4;       //查询开始时间
+  int64 EndTime = 5;         //查询结束时间
+  int32 PageNo = 6;          //当前页码
+  int32 PageSize = 7;        //每页数量
+  int64  Ts = 8;             //时间戳
+  string Sign = 9;           //验证商户秘钥 md5 fmt.Sprintf("%v%v%v%v%v%v%v%v%v", Username,MerchantTag,GameHistoryModel，StartTime,EndTime,PageNo,PageSize, 商户秘钥,args.Ts)
+}

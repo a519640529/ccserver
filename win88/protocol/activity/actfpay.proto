@@ -1,0 +1,102 @@
+syntax = "proto3";
+package activity;
+option go_package = ".;activity";
+
+//操作结果
+enum OpResultCode_ActFPay {
+    OPRC_Sucess_ActFPay = 0; //成功
+    OPRC_Error_ActFPay = 1; //失败
+    OPRC_Activity_FPAY_NoStart = 6301; //活动关闭中
+    OPRC_Activity_FPAY_IsBusy = 6302; //繁忙，稍后重试
+    OPRC_Activity_FPAY_PAY_NoEnough = 6303; //充值额度暂时不足
+    OPRC_Activity_FPAY_Has_Sign = 6304; //已经报名
+    OPRC_Activity_FPAY_Has_Get = 6305; //已经领取
+    OPRC_Activity_FPAY_Cant_Get = 6306; //暂时无法领取
+    OPRC_Activity_FPAY_Lock = 6307; //用户被锁定，请联系客服
+}
+
+// fpay活动
+enum FPayPacketID {
+    PACKET_FPay_ZERO    =0;
+    PACKET_CS_FPay_Info 				= 2620; 				// 首充信息
+    PACKET_SC_FPay_Info 				= 2621; 				// 首充信息返回
+    PACKET_CS_FPay_Get  				= 2622; 				// 领取
+    PACKET_SC_FPay_Get  				= 2623; 				// 领取返回
+	PACKET_SC_Notify_ActFPay_State  	= 2624;     			// 通知活动状态
+	PACKET_SC_Notify_ActFPayGet_State  	= 2625;  				// 通知奖励领取状态变化
+    PACKET_CS_FPay_Sign  				= 2626; 				// 报名
+    PACKET_SC_FPay_Sign  				= 2627; 				// 报名返回
+}
+
+
+//赢取比例
+message ActFPayWinConfig {
+	int32 WinType 			=1; //类型
+	int32 WinRate 			=2; //赢取比例
+}
+
+//显示信息
+message FPayInfo {
+    int32 	FPayCoin   			= 1;    //需要充值数量
+    int32  PlayerNum   		= 2;    //玩家数量 
+    int32  FPayGiveCoin   		= 3;    //赠送金额
+    int32  FPayGiveType   		= 4;    //赢取金币需求类型 0 固定 1比例	
+	int32 	NeedWinCoin   		= 5;    //需要赢取数量
+    int32 	StartTime   		= 6;    //开始时间
+    int32 	EndTime   			= 7;    //结束时间
+	repeated ActFPayWinConfig WinConfig = 8;   	//赢取比例	
+}
+
+//领取信息
+message FPayGetInfo {
+    int32  WinCoin   			= 1;    //目前赢取金币
+    int32  State   	    	= 2;    //状态 0 无法报名 1 可以报名  2 无法领取  3 可以领取 4 已经领取	
+}
+
+// 首充奖励信息返回
+message SCFPayInfo {
+    FPayInfo Info 		= 1;   	// 首充信息	
+}
+
+// 获得首充奖励信息
+message CSFPayInfo {
+
+}
+
+
+// 领取奖励返回
+message SCGetFPay {
+    OpResultCode_ActFPay OpRetCode		= 1;    // 错误码
+}
+
+// 领取奖励
+message CSGetFPay {
+
+}
+
+
+// 通知活动状态变化
+message SCNotifyFPayState {
+    int32 State = 1;    // 状态 0 关闭 1开启
+}
+
+// 通知领取变化
+message SCNotifyFPayGetState {
+    FPayGetInfo GetInfo = 1;    // 领取信息
+}
+
+// 报名返回
+message SCFPaySign {
+    OpResultCode_ActFPay OpRetCode		= 1;    // 错误码
+}
+
+//报名
+message CSFPaySign {
+}
+
+
+
+
+
+
+

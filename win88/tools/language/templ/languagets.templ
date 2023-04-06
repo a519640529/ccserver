@@ -1,0 +1,20 @@
+{{define "languagets"}}const win = window as any;
+
+export let languages = {
+    // Data
+{{range $index, $Language :=  .Languages}}    "{{$Language.Excel}}": {
+{{range $key, $val :=  .Data}}        "{{$key}}": {{index . $.Idx}},
+{{end}}    },
+{{end}}};
+
+if (!win.languages) {
+    win.languages = {};
+}
+if (win.languages.zh) {
+    for (let item in languages) {
+        win.languages.zh[item] = languages[item];
+    }
+} else {
+    win.languages.zh = languages;
+}
+{{end}}

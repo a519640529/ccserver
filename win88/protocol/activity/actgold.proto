@@ -1,0 +1,118 @@
+syntax = "proto3";
+package activity;
+option go_package = ".;activity";
+
+//操作结果
+enum OpResultCode_ActGold {
+	OPRC_Sucess_ActGold = 0; //成功
+	OPRC_Error_ActGold = 1; //失败
+	//财神任务
+	OPRC_Activity_GoldTask_TaskIdError = 6200; //没有这个奖励
+	OPRC_Activity_GoldTask_NotReach = 6201; //未达成目标, 不能领取这个奖励
+	OPRC_Activity_GoldTask_TodayLimit = 6202; //今日奖励已领完
+}
+//财神任务
+enum GoldPacketID {
+   PACKET_Gold_ZERO    =0;
+   PACKET_CS_GOLDTASK_DATA      = 2630;   //财神任务数据
+   PACKET_SC_GOLDTASK_DATA      = 2631;   //财神任务数据
+
+   PACKET_CS_GOLDTASK_GET      	= 2632;   //领取奖励
+   PACKET_SC_GOLDTASK_GET      	= 2633;   //领取奖励
+   PACKET_SC_GOLDTASK_CHG       = 2634;   //任务进度变化
+   PACKET_SC_GOLDTASK_DEL       = 2635;   //任务删除
+      
+   //----------------------------------------------------------------
+   PACKET_CS_GOLDCOME_DATA      = 2636;   //财神降临数据
+   PACKET_SC_GOLDCOME_DATA      = 2637;   //财神降临数据
+   
+   PACKET_CS_GOLDCOME_RANK      = 2638;   //财神降临排行榜
+   PACKET_SC_GOLDCOME_RANK      = 2639;   //财神降临排行榜
+}
+
+//PACKET_CS_GOLDTASK_DATA
+message CSGoldTaskData {
+}
+//奖励信息
+message  GoldTaskData {
+	int32 TaskId = 1;
+	int64 Data = 2;
+	int32 CompletedTimes = 3;  //已完成次数
+	int32 Status = 4;          //任务状态0: 进行中 1:今日已领完
+}
+//PACKET_SC_GOLDTASK_DATA
+message SCGoldTaskData {
+	repeated GoldTaskData Datas = 1;
+	string Config = 2;         //配置数据,原webapi返回的json串
+}
+
+//PACKET_CS_GOLDTASK_GET
+message CSGoldTaskGet {
+	int32 TaskId = 1;	//任务ID
+}
+//PACKET_SC_GOLDTASK_GET
+message SCGoldTaskGet {
+	int32 TaskId = 1;	//任务ID
+	GoldTaskData Data = 2;
+	int64 Score = 3;
+	OpResultCode_ActGold OpRetCode = 4;		//返回错误码
+}
+
+//任务进度改变
+//PACKET_SC_GOLDTASK_CHG
+message SCGoldTaskChg{
+    repeated GoldTaskData Tasks = 1;
+}
+
+//删除任务
+//PACKET_SC_GOLDTASK_DEL
+message SCGoldTaskDel{
+	repeated int32 TaskIds = 1;
+}
+
+//财神降临
+//----------------------------------------------------------------
+//PACKET_CS_GOLDCOME_DATA
+message CSGoldComeData {
+    bool NeedCfg = 1;
+}
+//奖励信息
+message  GoldComeData {
+	int32 TaskId = 1;
+	int64 Score = 2;
+	int64 GameTimes = 3;
+}
+
+//PACKET_SC_GOLDCOME_DATA
+message SCGoldComeData {
+	repeated GoldComeData Datas = 1;
+	string Config = 2;         //配置数据,原webapi返回的json串
+}
+
+//PACKET_CS_GOLDCOME_RANK
+message CSGoldComeRank {
+	int32 TaskId = 1;
+}
+
+//奖励信息
+message  GoldComePlayerData {
+  int32 Rank = 1; //排名
+	int32 SnId = 2;
+	int32 HeadIcon = 3;
+	string NickName = 4;
+	int64 Score = 5;//比赛得分 
+	int64 GameTimes = 6;//参赛局数 
+	int64 Reward = 7;	
+}
+message  GoldComeDailyTaskRank {
+  repeated GoldComePlayerData RankData = 1; //排名	
+  repeated int32 ActTime = 2;//[YYYY,MM,DD,HH,mm,HH,mm]
+  int32 ActState = 3;//0 未开始；1，进行中；2，已发奖
+}
+
+//PACKET_SC_GOLDCOME_RANK
+message SCGoldComeRank {
+	int32 TaskId = 1;
+	repeated GoldComeDailyTaskRank RankList = 2;
+	repeated int32 NextActTime = 3;//[YYYY,MM,DD,HH,mm,HH,mm]
+}

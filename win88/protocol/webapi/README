@@ -1,0 +1,35 @@
+
+
+关于webapi协议生成:
+
+把 protocol/server/pbdata.proto  
+
+拷贝到  protocol/webapi/ 目录下
+
+并修改 pbdata.proto  文件
+
+package pbdata;
+option go_package = ".;webapi";
+
+然后再修改 win88/gen_go.bat脚本
+
+	rem if %%s NEQ webapi (
+		cd %%s
+ 		for %%b in (,*.proto) do (
+ 	    	echo %%b
+	    	%protoc% --plugin=protoc-gen-go=%protoc-gen-go-plugin-path% --go_out=. %%b
+		)
+		cd ..
+	rem )
+----------------------------------------------------------------------------------
+	
+然后双击
+ gen_go.bat脚本执行编译
+ 
+生成之后 删除 protocol/webapi/ 目录下 pbdata.proto  pbdata.pb  
+
+修改  protocol/webapi/common.pb 文件
+
+*DB_GameFree  需要引用 server.DB_GameFree
+
+对比原来文件 只修改自己修改的数据字段

@@ -1,0 +1,304 @@
+syntax = "proto3";
+package login;
+option go_package = ".;login";
+
+//操作结果
+enum OpResultCode {
+	OPRC_Sucess = 0; //成功
+	OPRC_Error = 1; //失败
+	OPRC_LoginFailed = 1000; //登录失败
+	OPRC_LoginSignErr = 1001; //签名错误
+	OPRC_LoginOtherPlace = 1002; //在其他地方登录
+	OPRC_LoginPassError = 1003; //密码错误
+	OPRC_Login_CreateAccSuccess = 1004;
+	OPRC_Login_CreateAccError = 1005;
+	OPRC_Login_NameLang = 1006; //名字太长
+	OPRC_Login_NameSame = 1007; //名字已被使用
+	OPRC_Login_NameError = 1008; //名字中有非法字符
+	OPRC_Login_CreateFailed = 1009; //创建角色失败
+	OPRC_AccountBeFreeze = 1010; //账号被冻结
+	OPRC_YourResVerIsLow = 1044; //资源版本过低
+	OPRC_YourAppVerIsLow = 1045; //APK版本过低
+	OPRC_SceneServerMaintain = 1054; //服务器维护中,请稍后创建
+	OPRC_TelError = 1065; //手机号不正确
+}
+//登陆模块消息id
+enum LoginPacketID {
+	PACKET_Login_ZERO = 0;                       // 弃用消息号
+	PACKET_CS_LOGIN = 2051;
+	PACKET_SC_LOGIN = 2052;
+	PACKET_CS_LOGOUT = 2053;
+	PACKET_SC_LOGOUT = 2054;
+	PACKET_SC_GAMECONFIG = 2055;//向平台推送游戏配置
+	PACKET_SC_BULLETIONINFO = 2056;
+	PACKET_CS_BULLETIONINFO = 2057;
+	PACKET_CS_CUSTOMERINFOLIST = 2058;
+	PACKET_SC_CUSTOMERINFOLIST = 2059;
+	PACKET_CS_CUSTOMSERVICE = 2060;//客服地址
+	PACKET_SC_CUSTOMSERVICE = 2061;//客服地址
+	PACKET_CS_PLATFORMCFG = 2062;//平台配置信息
+	PACKET_SC_PLATFORMCFG = 2063;//平台配置信息
+	PACKET_SC_ACTIVITYCHECK = 2064;
+	PACKET_CS_VERIFYTYPE = 2065;
+	PACKET_SC_VERIFYTYPE = 2066;
+	PACKET_CS_REGISTERVERIFYTYPE = 2067;
+	PACKET_SC_REGISTERVERIFYTYPE = 2068;
+	PACKET_SC_SYNCGAMEFREE = 2069;
+	PACKET_SC_ACTSWITCHCFG = 2070;//所有活动开关
+	PACKET_CS_GETTHRGAMECFG = 2071;//请求三方游戏配置
+	PACKET_SC_GETTHRGAMECFG = 2072;//请求三方游戏配置
+    PACKET_CS_ACCOUNTINVALID = 2073;//机器人自毁账号
+
+}
+//PACKET_CS_LOGIN
+message CSLogin {
+	string Username = 1;	//账号名	
+	string Password = 2;	//密码 游客模式:md5(md5(Username+AppId)+AppId+TimeStamp) 账号模式:md5(md5(密码+AppId)+AppId+TimeStamp)
+	int64	TimeStamp = 3;	//时间戳
+	string Params = 4;		//其他参数
+	string Sign = 5;		//签名:=md5(Username+Password+TimeStamp+Params+AppId)
+	string Platform = 6;	//平台
+	string Channel = 7;	//渠道号
+	int32 InviterId = 8;	//邀请人ID
+	int32 ApkVer = 9;		//apk版本号
+	int32 ResVer = 10;		//资源版本号
+	int32 LoginType = 11;  //登录类型  0:游客登录  1：帐号登录 6.谷歌,facebook
+	string PlatformTag = 12;//android包名或者ios标记
+	string DeviceOs = 13;	//系统android，ios，windows
+	string Promoter = 14;	//推广员
+	string Package = 15;	//安卓包名或者苹果bundleid
+	int32 PromoterTree = 16;//无限代推广人id
+	string DeviceInfo = 17;//设备信息 加密后的base64
+	string DeviceId = 18;//设备号
+	string Token = 19;//API用户登录
+	string Name = 20;//三方账户名
+	string HeadUrl = 21;//三方头像
+}
+
+//游戏版本号
+message GameVer{
+	int32 GameId = 1;		//游戏ID
+	int32 MinApkVer = 2;	//最低apk版本号
+	int32 LatestApkVer = 3;//最新apk版本号
+	int32 MinResVer = 4;	//最低资源版本号
+	int32 LatestResVer = 5;//最新资源版本号
+}
+
+//游戏配置
+message GameConfig{
+	int32 GameId = 1;	   //游戏ID
+    int32 LogicId = 2;    //对应DB_GameFree.xlsx中的id
+	int32 GameMode = 3;   //游戏模式
+	bool State = 4;      //开关  false：不开启   true：开启
+	int32 LimitCoin = 5;  //进房下限
+	int32 MaxCoinLimit = 6;//入场上限
+	int32 BaseScore = 7;   //底分	
+	repeated int32 OtherIntParams = 8;      //其他参数
+	int32 BetScore = 9;   //押注限制
+	repeated int32 MaxBetCoin = 10;   //多门押注限制
+	int32 MatchMode = 11;//0:默认1:队列
+    string LotteryCfg = 12;//彩金池配置
+    int64 LotteryCoin = 13;//彩金池
+}
+
+message LoginGameConfig{
+    int32 LogicId = 1;    //对应DB_GameFree.xlsx中的id
+	int32 LimitCoin = 2;  //进房下限
+	int32 MaxCoinLimit = 3;//入场上限
+	int32 BaseScore = 4;   //底分	
+	repeated int32 OtherIntParams = 5;      //其他参数
+	int32 BetScore = 6;   //押注限制
+	repeated int32 MaxBetCoin = 7;   //多门押注限制
+	int32 MatchMode = 8;//0:默认1:队列
+	int64 LotteryCoin = 9;//彩金池
+	string LotteryCfg = 10;//彩金池配置
+}
+
+message LoginGameInfo{
+    int32 GameId = 1;	   //游戏ID
+    int32 LogicId = 2;    //对应DB_GameFree.xlsx中的id
+	int64 LotteryCoin = 3;//彩金池
+}
+
+message LoginThrGameConfig{
+    int32 LogicId = 1;    //对应DB_GameFree.xlsx中的id
+	int32 LimitCoin = 2;  //进房下限
+}
+
+//PACKET_SC_GAMECONFIG
+message SCGameConfig {
+    repeated GameConfig GameCfg = 1;//游戏配置
+}
+
+//PACKET_SC_LOGIN
+message SCLogin {
+	OpResultCode OpRetCode = 1;	//登录结果
+	string AccId = 2;		//账号ID
+	int64 SrvTs = 3;		//服务器时间戳
+	int32 MinApkVer = 4;	//最低apk版本号
+	int32 LatestApkVer = 5;//最新apk版本号
+	int32 MinResVer = 6;	//最低资源版本号
+	int32 LatestResVer = 7;//最新资源版本号
+	repeated GameVer SubGameVer = 8;//子游戏版本号
+	repeated LoginGameInfo GameInfo = 9;//游戏信息
+    repeated int32 ThrGameId = 10;//三方游戏id
+}
+//公告参数
+message Bulletion{
+	int32 Id = 1;	   			//公告logid
+	string NoticeTitle = 3;   	//公告标题
+	string NoticeContent = 4;  //公告内容
+	string UpdateTime = 5;   	//更新时间
+	int32 Sort = 6;	   		//排序字段
+	
+}
+//公告列表
+//PACKET_SC_BULLETIONINFO
+message SCBulletionInfo{
+	int32 id = 1;
+	repeated Bulletion bulletionList = 2;
+}
+//请求公告
+//PACKET_CS_BULLETIONINFO
+message CSBulletionInfo{
+	string PlatformTag = 1;//android包名或者ios标记
+}
+//招商信息
+message Customer{
+	int32 id = 1;				//招商id
+	string weixin_account = 2;	//招商微信账号
+	string headurl = 3;		//头像地址
+	string nickname = 4;		//招商代理名字
+	string ext = 5;			//额外数据
+	string qq_account = 6;		//招商QQ账号
+}
+//招商列表
+//PACKET_SC_CUSTOMERINFOLIST
+message SCCustomerInfoList{
+	repeated Customer customerList = 1;
+}
+//请求招商列表
+//PACKET_CS_CUSTOMERINFOLIST
+message CSCustomerInfoList{
+}
+
+//PACKET_CS_LOGOUT
+message CSLogout{
+    int32 Type = 1;
+    int64 Sid = 2;
+}
+
+// PACKET_SC_LOGOUT
+message SCLogout{
+    OpResultCode OpRetCode = 1;	//登出结果
+    int32  Type = 2;
+}
+// PACKET_CS_CUSTOMSERVICE
+message CSCustomService {
+}
+message SCCustomService {
+    string Url = 1;//客户服务地址
+    int32 OpenFlag = 2;//打开标记
+    int32 CustomType = 3;//客服类型 0:live800 1:美洽 2:cc
+}
+
+enum SSDisconnectTypeCode{
+	SSDTC_ZERO   = 0;	//占位
+    SSDTC_Repeate = 1;
+    SSDTC_Freeze = 2;
+    SSDTC_ServerError = 3;
+    SSDTC_ServerMaintenance = 4;
+    SSDTC_ResVerLow = 5;
+    SSDTC_GameVerLow = 6;
+    SSDTC_BlackList = 7;
+}
+//PACKET_SS_DICONNECT
+message SSDisconnect{
+	int64 SessionId = 1;
+	int32 Type = 2;	//1:顶号 2:封号 3:服务器错误 4:服务器维护 5:资源版本过低 6:程序版本过低 7:黑名单
+}
+
+
+//PACKET_CS_PLATFORMCFG
+message CSPlatFormConfig {
+   string PlatformTag = 1;//android包名或者ios标记
+}
+message RebateCfg{
+	bool RebateSwitch    =1; 	//返利开关
+	int32 ReceiveMode    =2;	//领取方式  0实时领取  1次日领取
+	int32 NotGiveOverdue =3;	//0不过期   1过期不给  2过期邮件给
+}
+message ClubCfg{
+    bool IsOpenClub = 1;    //是否开放俱乐部
+    int64 CreationCoin = 2; //创建俱乐部金额
+    int64 IncreaseCoin = 3; //升级俱乐部金额
+    int32 ClubInitPlayerNum = 4; //俱乐部初始人数
+    int32 IncreasePlayerNum = 5; //升级人数增加
+    bool CreateClubCheckByManual = 6; //创建俱乐部人工审核
+    bool EditClubNoticeByManual = 7; //修改公告人工审核
+    int64 CreateRoomAmount = 8; //创建房间金额（分/局）
+    repeated int64 GiveCoinRate = 9; //会长充值额外赠送比例
+}
+//PACKET_CS_PLATFORMCFG
+message SCPlatFormConfig {
+	string Platform = 1;//平台号
+    OpResultCode OpRetCode = 2;		//返回错误码
+    int32 UpgradeAccountGiveCoin = 3;  //升级账号奖励金币(单位分)
+    int32 ExchangeMin = 4;             //最小兑换金额(单位分)
+    int32 ExchangeLimit = 5;           //兑换后身上需要保留的最小余额(单位分)
+    int32 ExchangeTax = 6;             //兑换税收比例(万分比)
+    repeated int32 VipRange = 7;                //VIP配置区间(单位分)
+    string OtherParams = 8;            //其他透传参数json串
+	int32 ExchangeFlow = 9;            //兑换流水比例
+	int32 SpreadConfig = 10;           //0:等级返点 1:保底返佣
+	string CustomService = 11;         //客服url
+	RebateCfg Rebate = 12;          	//返利开关
+	ClubCfg Club = 13;                 //俱乐部相关配置
+	int32 ExchangeBankMax = 14;        //兑换银行卡最大限制 0 不限制
+	int32 ExchangeAlipayMax = 15;      //兑换apay最大限制 0 不限制
+	int32 ExchangeMultiple = 16;       //兑换基数（只能兑换此数的整数倍）
+}
+message SCActivityCheck{
+	OpResultCode OpRetCode = 1;
+}
+message CSVerifyType{
+	string PlatformTag = 1;//android包名或者ios标记
+	string Tel = 2;
+}
+message SCVerifyType{
+	OpResultCode OpRetCode = 1;		//返回错误码
+	int32 VerifyType = 2;
+}
+
+message CSRegisterVerifyType{
+	string PlatformTag = 1;//android包名或者ios标记
+}
+message SCRegisterVerifyType{
+	OpResultCode OpRetCode = 1;		//返回错误码
+	int32 VerifyType = 2;
+}
+
+//后台的参数变化同步到前端,为啥没用roominfo，因为添加了选场，选场的时候还没有进room
+message SCSyncGameFree {
+	repeated GameConfig Data = 1;
+}
+
+//PACKET_SC_ACTSWITCHCFG
+message SCActSwitchCfg{
+	repeated int32 ActSwitchCfg = 1;
+}
+
+//PACKET_CS_GETTHRGAMECFG 请求三方游戏配置 
+message CSGetThrGameCfg{
+	string Platform = 1;	//平台
+	string Channel = 2;	//渠道号
+}
+//PACKET_SC_GETTHRGAMECFG
+message SCGetThrGameCfg{
+	repeated LoginThrGameConfig ThrGameCfg =1;//三方游戏配置
+}
+
+//失效的机器人账号
+message CSAccountInvalid {
+	string Acc = 1;
+}

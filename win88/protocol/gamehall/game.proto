@@ -1,0 +1,806 @@
+syntax = "proto3";
+package gamehall;
+option go_package = ".;gamehall";
+
+//操作结果
+enum OpResultCode_Game {
+  OPRC_Sucess_Game = 0; //成功
+  OPRC_Error_Game = 1; //失败
+  OPRC_RoomNotExist_Game = 1016; //房间不存在
+  OPRC_GameNotExist_Game = 1017; //游戏不存在
+  OPRC_RoomIsFull_Game = 1019; //房间已满
+  OPRC_RoomHadExist_Game = 1020; //已经创建过房间了
+  OPRC_GameStarting_Game = 1022; //抱歉,战斗已经开始,不能再加入了
+  OPRC_CannotWatchReasonInOther_Game = 1024; //你在别的场里,不能进去观看
+  OPRC_MoneyNotEnough_Game = 1040; //钻石不够了
+  OPRC_CannotWatchReasonRoomNotStart_Game = 1042; //房间未开始,不能进去观看
+  OPRC_OnlyAllowClubMemberEnter_Game = 1043; //只允许俱乐部成员进入
+  OPRC_YourResVerIsLow_Game = 1044; //资源版本过低
+  OPRC_YourAppVerIsLow_Game = 1045; //APK版本过低
+  OPRC_ScenePosFull_Game = 1048; //位置满了不能再坐人
+  OPRC_SceneEnterForWatcher_Game = 1050; //可以进入观战
+  OPRC_RoomHadClosed_Game = 1053; //牌局已结束，正在结算
+  OPRC_SceneServerMaintain_Game = 1054; //服务器维护中,请稍后创建
+  OPRC_SameIpForbid_Game = 1055; //同ip不可进
+  OPRC_CoinNotEnough_Game = 1056; //金币不足
+  OPRC_CoinTooMore_Game = 1058; //金币太多了,请换高倍场
+  OPRC_OpYield_Game = 1082; //操作被挂起
+  OPRC_AllocRoomIdFailed_Game = 1097; //房间id获取失败
+  OPRC_PrivateRoomCountLimit_Game = 1098; //私人房间上限
+
+  OPRC_LowerRice_ScenceMax_Game = 1075;  //超过最大下米数量
+  OPRC_LowerRice_PlayerMax_Game = 1076;    //超过单个用户最大下米数
+  OPRC_LowerRice_PlayerDownMax_Game = 1077;
+  OPRC_YourAreGamingCannotLeave_Game = 1078;
+  OPRC_ThirdPltProcessing_Game = 1096; //三方平台正在处理中
+  OPRC_RoomGameTimes_Game = 1103;//超过最大游戏次数
+  OPRC_MustBindPromoter_Game = 1113; //必须绑定推广员
+
+  Oprc_Club_ClubIsClose_Game = 5023; //俱乐部没有开放
+  //DG
+  OPRC_Dg_RegistErr_Game = 9000;
+  OPRC_Dg_LoginErr_Game = 9001;
+  OPRC_Dg_PlatErr_Game = 9002;
+  OPRC_Dg_QuotaNotEnough_Game = 9003; //平台DG配额不足
+  OPRC_Thr_GameClose_Game = 9010;  //游戏维护中
+}
+//消息id 2200-2319
+enum GameHallPacketID {
+  PACKET_GameHall_ZERO = 0;                       // 弃用消息号
+  PACKET_CS_JOINGAME = 2200;
+  PACKET_SC_JOINGAME = 2201;
+  PACKET_CS_CREATEROOM = 2202;
+  PACKET_SC_CREATEROOM = 2203;
+  PACKET_CS_ENTERROOM = 2204;
+  PACKET_SC_ENTERROOM = 2205;
+  PACKET_CS_RETURNROOM = 2206;
+  PACKET_SC_RETURNROOM = 2207;
+  PACKET_CS_AUDIENCE_ENTERROOM = 2208;
+  PACKET_CS_ENTERGAME = 2209;
+  PACKET_SC_ENTERGAME = 2210;
+
+  PACKET_CS_QUITGAME = 2211;
+  PACKET_SC_QUITGAME = 2212;
+  PACKET_SC_CARDGAINWAY = 2213;
+  PACKET_CS_TASKLIST = 2214;
+  PACKET_SC_TASKLIST = 2215;
+  PACKET_SC_TASKCHG = 2216;
+  PACKET_SC_TACKCOMPLETE = 2217;
+  PACKET_SC_TASKDEL = 2218;
+  PACKET_CS_TACKDRAWPRIZE = 2219;
+  PACKET_SC_TACKDRAWPRIZE = 2220;
+
+  PACKET_CS_GETAGENTGAMEREC = 2223;
+  PACKET_SC_GETAGENTGAMEREC = 2224;
+  PACKET_CS_DELAGENTGAMEREC = 2225;
+  PACKET_CS_SHOPBUY = 2226;
+  PACKET_SC_SHOPBUY = 2227;
+  PACKET_SC_LIMITLIST = 2228;
+  PACKET_CS_GETLATELYGAMEIDS = 2229;
+  PACKET_SC_GETLATELYGAMEIDS = 2230;
+
+  PACKET_CS_GETGAMECONFIG = 2231;
+  PACKET_SC_GETGAMECONFIG = 2232;
+  PACKET_SC_CHANGEGAMESTATUS = 2233;
+  PACKET_CS_ENTERHALL = 2240;
+  PACKET_SC_ENTERHALL = 2241;
+  PACKET_CS_LEAVEHALL = 2242;
+  PACKET_SC_LEAVEHALL = 2243;
+  PACKET_CS_HALLROOMLIST = 2244;
+  PACKET_SC_HALLROOMLIST = 2245;
+  PACKET_SC_ROOMPLAYERENTER = 2246;
+  PACKET_SC_ROOMPLAYERLEAVE = 2247;
+  PACKET_SC_ROOMSTATECHANG = 2248;
+  PACKET_SC_HALLPLAYERNUM = 2249;
+  PACKET_SC_BULLETIONINFO = 2250;
+
+  PACKET_CS_BULLETIONINFO = 2251;
+  PACKET_CS_CUSTOMERINFOLIST = 2252;
+  PACKET_SC_CUSTOMERINFOLIST = 2253;
+  PACKET_CS_ENTERDGGAME = 2254;
+  PACKET_SC_ENTERDGGAME = 2255;
+  PACKET_CS_LEAVEDGGAME = 2256;
+  PACKET_SC_LEAVEDGGAME = 2257;
+  PACKET_SC_PLAYERRECHARGEANSWER = 2258;//充值弹框协议
+  PACKET_CS_THRIDACCOUNTSTATICSTIC = 2259;
+  PACKET_SC_THRIDACCOUNTSTATICSTIC = 2260;
+
+  PACKET_CS_THRIDACCOUNTTRANSFER = 2261;
+  PACKET_SC_THRIDACCOUNTTRANSFER = 2262;
+  PACKET_CS_ENTERTHRIDGAME = 2263;
+  PACKET_SC_ENTERTHRIDGAME = 2264;
+  PACKET_CS_LEAVETHRIDGAME = 2265;
+  PACKET_SC_LEAVETHRIDGAME = 2266;
+  PACKET_CS_THRIDGAMELIST = 2267;
+  PACKET_SC_THRIDGAMELIST = 2268;
+  PACKET_CS_THRIDGAMEBALANCEUPDATE = 2269;
+  PACKET_SC_THRIDGAMEBALANCEUPDATE = 2270;
+
+  PACKET_SC_THRIDGAMEBALANCEUPDATESTATE = 2271;
+  PACKET_CS_CREATEPRIVATEROOM = 2272;
+  PACKET_SC_CREATEPRIVATEROOM = 2273;
+  PACKET_CS_GETPRIVATEROOMLIST = 2274;
+  PACKET_SC_GETPRIVATEROOMLIST = 2275;
+  PACKET_CS_GETPRIVATEROOMHISTORY = 2276;
+  PACKET_SC_GETPRIVATEROOMHISTORY = 2277;
+  PACKET_CS_DESTROYPRIVATEROOM = 2278;
+  PACKET_SC_DESTROYPRIVATEROOM = 2279;
+  PACKET_CS_QUERYROOMINFO = 2280;
+
+  PACKET_SC_QUERYROOMINFO = 2281;
+  PACKET_SC_GAMESUBLIST = 2283;
+  PACKET_CS_GAMEOBSERVE = 2284;
+  PACKET_SC_GAMESTATE = 2285;
+  PACKET_SC_SYNCGAMEFREE = 2286;
+  PACKET_SC_LOTTERYSYNC = 2287;
+  PACKET_CS_LOTTERYLOG = 2288;
+  PACKET_SC_LOTTERYLOG = 2289;
+  PACKET_SC_LOTTERYBILL = 2290;
+
+  PACKET_CS_UPLOADLOC = 2291;
+  PACKET_SC_UPLOADLOC = 2292;
+  PACKET_CS_AUDIENCESIT = 2293;
+  PACKET_SC_AUDIENCESIT = 2294;
+  PACKET_CS_COMNOTICE = 2295;
+  PACKET_SC_COMNOTICE = 2296;
+
+  PACKET_CS_LEAVEROOM = 8001;
+  PACKET_SC_LEAVEROOM = 8002;
+  PACKET_CS_DESTROYROOM = 8003;
+  PACKET_SC_DESTROYROOM = 8004;
+  PACKET_CS_FORCESTART = 8005;
+  PACKET_SC_FORCESTART = 8006;
+  PACKET_CS_AUDIENCE_LEAVEROOM = 8007;
+  PACKET_CS_PLAYER_SWITCHFLAG = 8008;
+}
+//进入游戏大厅
+//PACKET_CS_ENTERHALL
+message CSEnterHall{
+  int32 HallId = 1;    //厅id(详见:DB_GameFree.xlxs中的id)
+}
+
+//PACKET_SC_ENTERHALL
+message SCEnterHall{
+  int32 HallId = 1;    //厅id(详见:DB_GameFree.xlxs中的id)
+  OpResultCode_Game OpRetCode = 2;  //结果
+}
+
+//离开游戏大厅
+//PACKET_CS_LEAVEHALL
+message CSLeaveHall{
+}
+
+//PACKET_SC_LEAVEHALL
+message SCLeaveHall{
+  int32 HallId = 1;
+}
+
+//房间内玩家信息
+message RoomPlayerInfo{
+  int32 SnId = 1;    //数字账号
+  int32 Head = 2;    //头像
+  int32 Sex = 3;        //性别
+  string Name = 4;    //名字
+  int32 Pos = 5;      //位置
+  int32 Flag = 6;    //状态
+  int32 HeadOutLine = 7;  //头像框
+  int32 VIP = 8;
+}
+
+//房间信息
+message RoomInfo{
+  int32 RoomId = 1;    //房号
+  bool Starting = 7;    //牌局是否开始
+  repeated RoomPlayerInfo Players = 5;
+}
+
+//PACKET_CS_HALLROOMLIST
+message CSHallRoomList{
+  int32 HallId = 1;    //厅id(详见:DB_GameFree.xlxs中的id)
+}
+
+//大厅人数
+message HallInfo{
+  int32 SceneType = 1;    //场
+  int32 PlayerNum = 2;    //人数
+}
+
+//PACKET_SC_HALLPLAYERNUM
+message HallPlayerNum{
+  repeated HallInfo HallData = 1;  //大厅人数
+}
+//PACKET_SC_HALLROOMLIST
+message SCHallRoomList{
+  int32 HallId = 1;    //厅id
+  int32 GameId = 2;    //游戏id
+  int32 GameMode = 3;  //游戏模式
+  bool IsAdd = 4;    //是否新增
+  repeated int32 Params = 5;    //游戏规则参数
+  repeated RoomInfo Rooms = 6;  //房间列表
+  repeated HallInfo HallData = 7;  //大厅人数
+}
+
+//PACKET_SC_ROOMPLAYERENTER
+message SCRoomPlayerEnter{
+  int32 RoomId = 1;
+  RoomPlayerInfo Player = 2;
+}
+
+//PACKET_SC_ROOMPLAYERLEAVE
+message SCRoomPlayerLeave{
+  int32 RoomId = 1;
+  int32 Pos = 2;
+}
+
+//PACKET_SC_ROOMSTATECHANG
+message SCRoomStateChange{
+  int32 RoomId = 1;
+  bool Starting = 2;
+  int32 State = 3;
+}
+
+//PACKET_CS_CREATEROOM
+message CSCreateRoom{
+  int32 GameId = 1; //游戏模式
+  int32 BaseCoin = 2;  //底分
+  int32 SceneMode = 3;//牌桌类型 0.公共 2.私人
+  int32 MaxPlayerNum = 4;//人数
+  repeated int32 Params = 5;    //场参数
+}
+//PACKET_SC_CREATEROOM
+message SCCreateRoom{
+  int32 GameId = 1; //游戏模式
+  int32 BaseCoin = 2;  //底分
+  int32 SceneMode = 3;//牌桌类型 0.公共 2.私人
+  int32 MaxPlayerNum = 4;//人数
+  repeated int32 Params = 5;    //场参数
+  OpResultCode_Game OpRetCode = 6;  //结果
+}
+
+//PACKET_CS_DESTROYROOM
+message CSDestroyRoom{
+}
+//PACKET_SC_DESTROYROOM
+message SCDestroyRoom{
+  int32 RoomId = 1;    //房间编号
+  OpResultCode_Game OpRetCode = 2;  //结果
+  int32 IsForce = 3;  //是否强制销毁
+}
+
+//PACKET_CS_ENTERROOM
+//PACKET_CS_AUDIENCE_ENTERROOM
+//玩家请求进入游戏
+message CSEnterRoom{
+  int32 RoomId = 1;    //房间编号
+  int32 GameId = 2;    //游戏编号
+}
+
+//PACKET_SC_ENTERROOM
+message SCEnterRoom{
+  int32 GameId = 1;    //游戏ID
+  int32 ModeType = 2;  //场类型
+  repeated int32 Params = 3;    //场参数
+  int32 RoomId = 4;    //房间编号
+  int32 HallId = 5;    //厅id
+  OpResultCode_Game OpRetCode = 6;  //结果
+  int32 ClubId = 7;
+}
+
+//PACKET_CS_LEAVEROOM
+//PACKET_CS_AUDIENCE_LEAVEROOM
+//玩家离开房间,返回大厅
+message CSLeaveRoom{
+  int32 Mode = 1;  //离开方式 0:退出 1:暂离(占着座位,返回大厅)
+}
+
+//PACKET_SC_LEAVEROOM
+message SCLeaveRoom{
+  OpResultCode_Game OpRetCode = 1;  //结果
+  int32 Reason = 2;//原因 0:主动退出 1:被踢出
+  int32 RoomId = 3;//房间ID
+  int32 Mode = 4;
+}
+
+//PACKET_CS_RETURNROOM
+message CSReturnRoom{
+  int32 ApkVer = 1;
+  int32 ResVer = 2;
+  bool IsLoaded = 3;
+  int32 RoomId = 4;
+  //int32 LogicId = 5;		//这个字段是冗余的
+}
+
+//PACKET_SC_RETURNROOM
+message SCReturnRoom{
+  OpResultCode_Game OpRetCode = 1;  //结果
+  int32 RoomId = 2;    //房间ID
+  int32 GameId = 3;    //游戏ID
+  int32 ModeType = 4;  //场类型
+  repeated int32 Params = 5;    //场参数
+  int32 HallId = 6;    //厅id
+  int32 MinApkVer = 7;  //最低apk版本号
+  int32 LatestApkVer = 8;//最新apk版本号
+  int32 MinResVer = 9;  //最低资源版本号
+  int32 LatestResVer = 10;//最新资源版本号
+  bool IsLoaded = 11;  //加载完成标记
+  int32 ClubId = 12;
+}
+
+
+
+//获取游戏记录
+//PACKET_CS_GETGAMEREC
+message CSGetGameRec{
+  int32 Ver = 1;
+  int32 GameId = 2;
+}
+
+message PlayerGameRec{
+  int32 Id = 1;
+  string Name = 2;
+  int32 Head = 3;
+  int64 Coin = 4;
+  int32 Pos = 5;
+  repeated int32 OtherParams = 6;
+}
+
+message GameRec{
+  int32 RecId = 1;
+  repeated PlayerGameRec Datas = 2;
+  int64 Ts = 3;
+  int32 RoomId = 4;
+  int32 GameMode = 5;
+  int32 SceneType = 6;
+  int32 GameId = 7;
+  int32 TotalOfGames = 8;
+  int32 NumOfGames = 9;
+  int32 RoomFeeMode = 10;
+  int32 RoomCardCnt = 11;
+  repeated int32 Params = 12;
+  int32 GameTime = 13;
+}
+
+//PACKET_SC_GETGAMEREC
+message SCGetGameRec{
+  repeated GameRec Recs = 1;
+  int32 Ver = 2;
+  int32 GameId = 3;
+}
+
+//PACKET_CS_SHARESUC
+message CSShareSuc{
+  int32 ShareType = 1;  //分享类型 1:微信好友 2:朋友圈
+}
+
+//PACKET_SC_SHARESUC
+message SCShareSuc{
+  OpResultCode_Game OpRetCode = 1;  //结果
+}
+
+//PACKET_CS_FORCESTART
+message CSForceStart{
+}
+
+//PACKET_SC_FORCESTART
+message SCForceStart{
+  OpResultCode_Game OpRetCode = 1;  //结果
+}
+
+//PACKET_CS_INVITEROBOT
+message CSInviteRobot{
+  int32 GameId = 1;
+  bool IsAgent = 2;  //0:自己玩 1:机器人代替我
+}
+
+//玩家设置标记
+//PACKET_CS_PLAYER_SWITCHFLAG
+message CSPlayerSwithFlag{
+  int32 Flag = 1;
+  int32 Mark = 2; //1:设置 0:取消
+}
+
+//玩家商城购买
+//PACKET_CS_SHOPBUY
+message CSShopBuy{
+  int32 Id = 1;    //商品ID
+  int32 Count = 2;  //数量
+}
+
+//PACKET_SC_SHOPBUY
+message SCShopBuy{
+  int32 Id = 1;
+  OpResultCode_Game OpRetCode = 2;  //结果
+  int32 CostType = 3;  //消耗类型
+  int32 CostNum = 4;    //消耗数量
+  int32 GainType = 5;  //获得类型
+  int32 GainNum = 6;    //获得数量
+}
+
+//CS_JOINGAME
+//请求的通知
+message CSJoinGame{
+  int32 MsgType = 1;//0.请求信息1.确认信息
+  int32 SnId = 2;//type=1发送，为服务器下发的数据，原数据发送
+  int32 Pos = 3;//type=0时发送，为申请坐下的位置，索引0开始
+  bool Agree = 4;//type=1时发送，true为同意,false为拒绝
+}
+//SC_TJOINGAME
+//请求的通知
+message SCJoinGame{
+  int32 MsgType = 1;//0.请求信息1.确认信息
+  string Name = 2;//type=0为申请者的昵称，和snid同步发送，广播范围是房间内用户
+  int32 SnId = 3;//type=0申请者ID
+  OpResultCode_Game OpRetCode = 4;//type=1时，为申请的结果，为0成功，其他的为错误代码 1 座位已满 2 观战人数已满
+}
+//PACKET_CS_ENTERDGGAME
+message CSEnterDgGame{
+  int32 LoginType = 1;//0.试玩登录1.正常登录
+  int32 DgGameId = 2;//游戏ID
+  string Domains = 3;//sdk
+
+}
+message SCEnterDgGame{
+  OpResultCode_Game OpRetCode = 1;  //结果
+  string LoginUrl = 2;
+  string Token = 3;
+  int32 DgGameId = 4;//游戏ID
+  int32 CodeId = 5;
+  string Domains = 6;
+  repeated string List = 7;
+}
+//PACKET_CS_LEAVEDGGAME
+message CSLeaveDgGame{
+}
+message SCLeaveDgGame{
+  OpResultCode_Game OpRetCode = 1;  //结果
+}
+
+//第三方个人账户信息统计
+message CSThridAccountStatistic{
+  int32  ReqId = 1;  //-1返回全部平台信息，0为系统平台
+}
+message ThridAccount{
+  int32  ThridPlatformId = 1;
+  string Name = 2;
+  int32  Status = 3;        //200正常，403异常
+  int64  Balance = 4;
+}
+message SCThridAccountStatistic{
+  int32  ReqId = 1;
+  repeated ThridAccount Accounts = 2;
+}
+
+//第三方个人账户余额转入转出
+message CSThridAccountTransfer{
+  int32  FromId = 1;
+  int32  ToId = 2;
+  int64  Amount = 3;
+}
+message SCThridAccountTransfer{
+  OpResultCode_Game OpRetCode = 1;  //结果
+  repeated ThridAccount Accounts = 2;    //OpRetCode为0时，两条数据 分别是from to
+}
+
+message CSEnterThridGame{
+  int32 ThridGameId = 2;//第三方游戏ID
+}
+message SCEnterThridGame{
+  OpResultCode_Game OpRetCode = 1;  //结果
+  string EnterUrl = 2;
+  int32 ScreenOrientationType = 3;
+  int32 ThridGameId = 4;//第三方游戏ID
+}
+
+message CSLeaveThridGame{
+}
+message SCLeaveThridGame{
+  OpResultCode_Game OpRetCode = 1;  //结果
+}
+
+message CSThridGameList{
+}
+
+message ThridGameDatas{
+  string ThridGameId = 1;//第三方游戏ID
+  string ThridGameName = 2;//游戏名
+}
+
+message ThridGamePlatforms{
+  int32 ThridPlatformId = 1;
+  string ThridPlatformName = 2;//平台名
+  repeated ThridGameDatas GameDatas = 3;
+}
+
+message SCThridGameList{
+  OpResultCode_Game OpRetCode = 1;  //结果
+  repeated ThridGamePlatforms GamePlatforms = 2;
+}
+
+message CSThridGameBalanceUpdate{
+}
+message SCThridGameBalanceUpdate{
+  OpResultCode_Game OpRetCode = 1;  //结果
+  int64 Coin = 2;//玩家的余额
+}
+message SCThridGameBalanceUpdateState{
+  OpResultCode_Game OpRetCode = 1;  //结果
+}
+
+//创建私人房间
+//PACKET_CS_CREATEPRIVATEROOM
+message CSCreatePrivateRoom{
+  int32 GameFreeId = 1;  //游戏id
+  repeated int32 Params = 2;    //场参数 1:局数索引(从1开始) 2:中途加入 3:同IP
+}
+
+//创建私人房间
+//PACKET_SC_CREATEPRIVATEROOM
+message SCCreatePrivateRoom{
+  //游戏ID
+  int32 GameFreeId = 1;  //游戏id
+  repeated int32 Params = 2;    //场参数 1:局数索引(从1开始) 2:中途加入 3:同IP
+  int32 RoomId = 3;    //房间编号
+  OpResultCode_Game OpRetCode = 4;  //结果
+}
+
+//个人创建的房间信息
+message PrivateRoomInfo{
+  int32 GameFreeId = 1;  //游戏id
+  int32 RoomId = 2;      //房间编号
+  int32 CurrRound = 3;   //当前第几轮
+  int32 MaxRound = 4;    //最多多少轮
+  int32 CurrNum = 5;     //当前人数
+  int32 MaxPlayer = 6;   //最大人数
+  int32 CreateTs = 7;    //创建时间戳
+}
+
+//获取代开的房间列表
+//PACKET_CS_GETPRIVATEROOMLIST
+message CSGetPrivateRoomList{
+}
+
+//PACKET_SC_GETPRIVATEROOMLIST
+message SCGetPrivateRoomList{
+  repeated PrivateRoomInfo Datas = 1; //房间列表
+}
+
+//获取代开的房间历史记录
+//PACKET_CS_GETPRIVATEROOMHISTORY
+message CSGetPrivateRoomHistory{
+  int32 QueryTime = 1;   //查询日期 YYYYMMDD
+}
+
+//已开房间历史记录
+message PrivateRoomHistory{
+  int32 GameFreeId = 1;  //游戏id
+  int32 RoomId = 2;      //房间编号
+  int32 CreateTime = 3;  //创建时间，时间戳
+  int32 DestroyTime = 4; //结束时间，时间戳
+  int32 CreateFee = 5;   //房费
+}
+
+//PACKET_SC_GETPRIVATEROOMHISTORY
+message SCGetPrivateRoomHistory{
+  int32 QueryTime = 1;           //查询日期
+  repeated PrivateRoomHistory Datas = 2;  //历史开房记录
+}
+
+//PACKET_CS_DESTROYPRIVATEROOM
+message CSDestroyPrivateRoom{
+  int32 RoomId = 1;
+}
+
+//PACKET_SC_DESTROYPRIVATEROOM
+message SCDestroyPrivateRoom{
+  int32 RoomId = 1;    //房间编号
+  OpResultCode_Game OpRetCode = 2;  //结果
+  int32 State = 3;  //状态 0:删除中 1:已删除
+}
+
+//PACKET_CS_QUERYROOMINFO
+message CSQueryRoomInfo{
+  repeated int32 GameIds = 1;
+  int32 GameSite = 2; //1.初级 2.中级 3.高级
+}
+
+//个人创建的房间信息
+message QRoomInfo{
+  int32 GameFreeId = 1;  //游戏id
+  int32 GameId = 2;
+  int32 RoomId = 3;      //房间编号
+  int32 BaseCoin = 4;
+  int32 LimitCoin = 5;
+  int32 CurrNum = 6;     //当前人数
+  int32 MaxPlayer = 7;   //最大人数
+  int32 Creator = 8;
+  int32 CreateTs = 9;    //创建时间戳
+}
+
+//PACKET_SC_QUERYROOMINFO
+message SCQueryRoomInfo{
+  repeated int32 GameIds = 1;
+  int32 GameSite = 2; //1.初级 2.中级 3.高级
+  repeated QRoomInfo RoomInfo = 3;  //房间列表
+  OpResultCode_Game OpRetCode = 4;  //结果
+}
+//注册观察者，用于推送游戏的状态信息
+//PACKET_CS_GAMEOBSERVE
+message CSGameObserve{
+  int32 GameId = 1;    //游戏ID
+  bool StartOrEnd = 2;  //打开或者关闭
+}
+//PACKET_SC_GAMESUBLIST
+message GameSubRecord {
+  int32 GameFreeId = 1;
+  int32 LogCnt = 2;
+  int32 NewLog = 3;      //新结果
+  repeated int32 TotleLog = 4;      //最近几局的中奖结果
+}
+message SCGameSubList {
+  repeated GameSubRecord List = 1;
+}
+//游戏中的状态
+message GameState {
+  int32 GameFreeId = 1;
+  int64 Ts = 2;
+  int32 Sec = 3;
+}
+message SCGameState {
+  repeated GameState List = 1;
+}
+
+//奖金池数据
+message LotteryData {
+  int32 GameFreeId = 1;
+  int64 Value = 2;
+}
+//奖金池同步 PACKET_SC_LOTTERYSYNC
+message SCLotterySync {
+  repeated LotteryData Datas = 1;
+}
+
+//PACKET_CS_LOTTERYLOG = 2288;
+message CSLotteryLog {
+  int32 GameFreeId = 1;
+}
+
+//奖池中奖记录
+message LotteryLog {
+  int32 Time = 1;
+  string NickName = 2;
+  repeated int32 Card = 3;
+  int32 Kind = 4;
+  int32 Coin = 5;
+}
+
+//PACKET_SC_LOTTERYLOG = 2289;
+message SCLotteryLog {
+  int32 GameFreeId = 1;
+  repeated LotteryLog Logs = 2;
+}
+
+//PACKET_SC_LOTTERYBILL = 2290
+message SCLotteryBill {
+  int32 GameFreeId = 1;
+  int32 SnId = 2;
+  string Name = 3;
+  int32 Kind = 4;
+  repeated int32 Card = 5;
+  int64 Value = 6;
+}
+
+message GameConfig1{
+  int32 LogicId = 1;    //对应DB_GameFree.xlsx中的id
+  int32 LimitCoin = 2;  //进房下限
+  int32 MaxCoinLimit = 3;//入场上限
+  int32 BaseScore = 4;   //底分
+  repeated int32 OtherIntParams = 5;      //其他参数
+  int32 BetScore = 6;   //押注限制
+  repeated int32 MaxBetCoin = 7;   //多门押注限制
+  int32 MatchMode = 8;//0:默认1:队列
+  int64 LotteryCoin = 9;//彩金池
+  string LotteryCfg = 10;//彩金池配置
+  bool Status = 11;    //游戏开关  全局开关&&平台开关
+}
+//PACKET_CS_GETGAMECONFIG = 2231
+message CSGetGameConfig {
+  string Platform = 1;  //平台
+  string Channel = 2;  //渠道号
+  int32 GameId = 3;    //游戏id
+}
+//PACKET_SC_GETGAMECONFIG = 2232
+message SCGetGameConfig {
+  repeated GameConfig1 GameCfg = 1;//指定游戏的配置信息
+}
+
+//PACKET_SC_CHANGEGAMESTATUS == 2233
+message SCChangeGameStatus {
+  repeated GameConfig1 GameCfg = 1;  //全局游戏状态发生变动，且自身平台游戏转台处于开启
+}
+
+//PACKET_CS_ENTERGAME
+message CSEnterGame {
+  int32 Id = 1;  //游戏id
+  repeated int32 OpParams = 2;
+  string Platform = 3;
+  int32 ApkVer = 4;
+  int32 ResVer = 5;
+}
+//PACKET_SC_ENTERGAME
+message SCEnterGame {
+  OpResultCode_Game OpCode = 1;  //操作码
+  int32 Id = 2;          //
+  repeated int32 OpParams = 3;
+  int32 MinApkVer = 4;      //最低apk版本号
+  int32 LatestApkVer = 5;      //最新apk版本号
+  int32 MinResVer = 6;      //最低资源版本号
+  int32 LatestResVer = 7;      //最新资源版本号
+}
+//PACKET_CS_QUITGAME
+message CSQuitGame {
+  int32 Id = 1;  //游戏id
+  bool IsAudience = 2; //是否是观众
+}
+//PACKET_SC_QUITGAME
+message SCQuitGame {
+  OpResultCode_Game OpCode = 1;  //操作码
+  int32 Id = 2;
+  int32 Reason = 3;//原因
+}
+//PACKET_CS_UPLOADLOC
+message CSUploadLoc{
+  int32 Longitude = 1;  //经度
+  int32 Latitude = 2;  //纬度
+  string City = 3;    //城市 例:中国-河南省-郑州市
+}
+
+//PACKET_SC_UPLOADLOC
+message SCUploadLoc{
+  int32 Pos = 1;
+  int32 Longitude = 2;  //经度
+  int32 Latitude = 3;  //纬度
+  string City = 4;    //城市 例:中国-河南省-郑州市
+}
+
+//PACKET_CS_AUDIENCESIT
+message CSAudienceSit{
+  int32 RoomId = 1;    //房号
+}
+//PACKET_SC_AUDIENCESIT
+message SCAudienceSit{
+  int32 RoomId = 1;    //房号
+  OpResultCode_Game OpCode = 2;  //操作码
+}
+
+//PACKET_CS_COMNOTICE
+message CSRecordAndNotice{
+  	int32 PageNo   = 1; // 页码 
+	int32 PageSize = 2; // 每页数量
+	int32 Opt      = 3; // 操作 0查询公告 1 获取战绩列表 2 获取当日战绩
+	int64  StartTime = 4;
+}
+message CommonNotice {
+  int32  Sort = 1;
+  string Title = 2;
+  string Content = 3;
+  string TypeName = 4;
+  int32  Type = 5;
+  int32  StartTime = 6;
+  int32  EndTime = 7;
+  string Platform = 8;
+}
+message PlayerRecord {
+  int32  GameFreeid = 1;        // 游戏类型
+  string GameDetailedLogId = 2; // 游戏记录id
+  int64  TotalIn = 3;           //本局投入
+  int64  TotalOut = 4;          //本局产出
+  int32  Ts = 5;                //记录时间
+}
+
+//PACKET_SC_COMNOTICE
+message SCRecordAndNotice{
+  OpResultCode_Game OpCode = 1;    // 操作码
+  repeated CommonNotice List = 2;  // 公告信息
+  repeated PlayerRecord Glist = 3; // 战绩
+  repeated int64 GlistTs = 4;        // 战绩日期列表
+}

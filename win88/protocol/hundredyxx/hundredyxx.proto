@@ -1,0 +1,216 @@
+syntax = "proto3";
+package hundredyxx;
+option go_package = ".;hundredyxx";
+
+//鱼虾蟹
+enum HundredYXXPacketID{
+	PACKET_HundredYxx_ZERO 		= 0;       //弃用消息号
+    PACKET_SC_HYXX_ROOMINFO		= 5390;    //房间信息
+    PACKET_SC_HYXX_ROOMSTATE	= 5391;    //房间状态
+    PACKET_CS_HYXX_PLAYEROP		= 5392;    //玩家操作
+    PACKET_SC_HYXX_PLAYEROP		= 5393;    //玩家操作
+    PACKET_SC_HYXX_GAMEBILLED	= 5394;    //游戏结算
+    PACKET_SC_HYXX_UPLIST       = 5395;    //上庄列表
+    PACKET_SC_HYXX_TREND        = 5396;    //走势
+    PACKET_SC_HYXX_SEATS        = 5397;    //座位信息
+    PACKET_SC_HYXX_OPENDICE     = 5398;    //开骰子
+    PACKET_SC_HYXX_PLAYERLIST   = 5399;    //玩家列表
+    PACKET_SC_HYXX_SYNCCHIP     = 5400;    //同步总下注额
+    PACKET_SC_HYXX_BET          = 5401;    //下注
+}
+
+//操作结果
+enum OpResultCode {
+	OPRC_Sucess = 0; //成功
+	OPRC_Error = 1; //失败
+	OPRC_Hundred_CoinMustReachTheValue = 7005; //抱歉,xx筹码以上才能下注
+	OPRC_Hundred_CoinIsNotEnough = 7006; //你的金币不足，无法下注
+	OPRC_Hundred_BankerWaiting = 7007; //你已经在上庄等待区了
+	OPRC_Hundred_BankerLimit = 7008; //不满足上庄条件
+	OPRC_Hundred_NotBankerWaiting = 7009; //你已经在上庄等待区了
+	OPRC_Hundred_BankerCannotBet = 7010; //庄家不能下注
+	OPRC_Hundred_SelfBetLimitRate = 7011; //下注总额不能超过自身携带的1/6
+}
+
+message HundredYXXPlayerData{
+	string Name = 1;	//名字
+	int32 SnId = 2;	//账号
+	int32 Head = 3;	//头像
+	int32 Sex = 4;    	//性别
+	int64 Coin = 5;	//金币
+	int32 Pos = 6;		//座位位置
+	int32 Flag = 7;	//二进制标记
+	repeated string Params = 8;//其他数据 如:ip 等
+	string City = 9;	//城市
+	int64 Lately20Win = 10;//最近20局输赢 (赢的次数)
+	int64 Lately20Bet = 11;//最近20局总下注 (可能是负值)
+	int32 HeadOutLine = 12;  //头像框
+	int32 VIP = 13;
+	int64 BetTotal = 14;   //本局下注总额  (玩家金币余额=Coin-BetTotal)
+	int32 NiceId = 15;
+}
+
+//玩家下注|座位上的玩家下注
+//PACKET_SC_HYXX_BET
+message SCHundredYXXBet{
+	int32 SnId = 1;//玩家id
+	int32 BetPos = 2;//下注区域 1:天 2:地 3:玄 4:黄
+	int64 BetChip = 3;//下注数量
+	int64 BetPosBetTotal = 4;//玩家在这个区域的总下注额
+	int64 BetTotal = 5;//玩家本局总的下注额
+	int64 Coin = 6;    //玩家总的金币
+}
+
+//同步筹码，暂定1秒1次
+//PACKET_SC_HYXX_SYNCCHIP
+message SCHundredYXXSyncChip{
+    repeated int64 ChipTotal = 2;//4个区域总的押注信息
+}
+
+//牌型信息
+//	CardsKind_Normal             = 0    //单子
+//	CardsKind_Double             = 1    //对子
+//	CardsKind_ThreeSort          = 2    //顺子
+//	CardsKind_SameColor          = 3    //同花
+//	CardsKind_SameColorSort      = 4    //同花顺
+//	CardsKind_ThreeSame          = 5    //豹子
+message HundredYXXCardsInfo{
+	int32 Pos = 1;	    //位置 0:庄 1:天 2:地 3:玄 4:黄
+	int32 CardMask = 2;//最佳组合掩码，二进制，如：01011 表示，第1,2,4张牌为最大组合
+	int32 CardKind = 3;//牌型 0~6
+	int32 Multiple = 4;//倍数
+	int32 IsWin = 5;   //是否输赢 -1:输 1:赢
+	repeated int32 Cards = 6;   //手牌
+}
+
+//房间信息 PACKET_SC_HYXX_ROOMINFO
+message SCHundredYXXRoomInfo {
+	int32 RoomId = 1;	//房间id
+	int32 GameFreeId = 2;	//场次id
+	int32 GameId = 3;	//游戏id
+	int32 RoomMode = 4;//游戏模式
+	repeated int32 Params = 5;	//规则参数
+	int32 NumOfGames = 6;//当前第几局
+	int32 State = 7;	//房间当前状态
+	int32 TimeOut = 8;	//等待剩余时间 单位:毫秒
+	int32 BankerId = 9;//庄家位置
+	int32 LimitCoin = 10;  //进房金币下限
+	int32 MaxCoinLimit = 11;  //进房金币上限
+	int32 BankerLimit = 12;//上庄条件
+	int32 BaseScore = 13;   //底分
+	int32 LowerThanKick = 14;   //低于多少踢出房间
+	int32 BetRateLimit = 15; //押注限制(区域押注总额不能超过自身携带的百分比)
+	repeated int32 MaxBetCoin = 16;   //各区域的押注限制
+	repeated int32 ParamsEx = 17;	//其他参数
+	int32 SceneType = 18;	//房间模式
+	int32 PlayerNum = 19;	//在线玩家数量
+	repeated int64 ChipData = 20;   //筹码信息
+	repeated int64 MyChipData = 21;   //玩家各个区域的筹码信息
+	repeated int32 DicePoints = 22; //骰子数值
+	repeated HundredYXXPlayerData Players = 23;	//房间内的玩家信息
+	int32 BetLimit = 24;   //压注限制，低于xxx不能下注
+	repeated int64 MyPreChipData = 25;   //玩家上一局的下注信息(用于短线重连续投)
+}
+
+//座位位置 PACKET_SC_HYXX_SEATS
+message SCHundredYXXSeats{
+	int32 BankerId = 1;		    //庄的id, 0：系统庄
+	int32 PlayerNum = 2;		    //玩家数量
+    repeated HundredYXXPlayerData Data = 3; //玩家信息
+}
+
+//上庄列表 PACKET_SC_HYXX_UPLIST
+message SCHundredYXXUpList{
+	int32 Count = 1;		        //数量
+	int32 IsExist = 2;             //玩家是否已经在上庄列表  0：不在上庄列表   1：在上庄列表
+    repeated HundredYXXPlayerData Data = 3;	//上庄列表
+}
+
+//走势图 PACKET_SC_HYXX_TREND
+message SCHundredYXXTrend{
+    repeated int32 Data = 1;    //每个值二进制前4位依次表示 黑红梅方4个位置的输赢情况 1:赢 0:输
+}
+
+//玩家操作 PACKET_CS_HYXX_PLAYEROP
+//	HundredYXXPlayerOpBet           = 0 //下注
+//	HundredYXXPlayerOpUpBanker      = 1 //上庄
+//	HundredYXXPlayerOpDwonBanker    = 2 //下庄
+//	HundredYXXPlayerOpUpList        = 3 //上庄列表
+//	HundredYXXTrend                 = 4	//走势
+//	HundredYXXPlayerList            = 5 //玩家列表
+//	HundredYXXPlayerOpNowDwonBanker = 6 //在庄的下庄
+message CSHundredYXXOp{
+	int32 OpCode = 1;		//操作码
+	repeated int64 Params = 2;		//操作参数
+}
+
+//玩家操作返回 PACKET_SC_HYXX_PLAYEROP
+message SCHundredYXXOp{
+	int32 SnId = 1;		//玩家ID
+	int32 OpCode = 2;		//操作码
+	repeated int64 Params = 3;		//操作参数
+	OpResultCode OpRetCode = 4;	//操作结果
+}
+
+//房间状态 PACKET_SC_HYXX_ROOMSTATE
+message SCHundredYXXRoomState{
+	int32 State = 1;		//房间当前状态
+	int32 SubState = 2;	//房间当前子状态
+	repeated int64 Params = 3;		//状态参数
+}
+
+//玩家列表 PACKET_SC_HYXX_PLAYERLIST
+message SCHundredYXXPlayerList {
+	int32 PlayerNum = 1;		//玩家数量
+	repeated HundredYXXPlayerData Data = 2;
+}
+
+//发牌每个位置的牌信息 PACKET_SC_HYXX_OPENDICE
+message SCHundredYXXOpenDice{
+	repeated int32 DicePoints = 1;//三个骰子点数 0-5
+}
+
+//玩家区域内的输赢
+message HundredYXXWinLost{
+	int32 Pos=1;//玩家位置
+	int32 PlayerID=2;//玩家id
+	int64 WinCoin=3;//本区域输赢金币 (税前)
+}
+
+//下注区域输赢情况
+message HundredYXXBetField{
+	int32 IsWin=1;//0表示输  1表示赢
+	int64 Coin=2;//总金币
+    repeated HundredYXXWinLost PalyerData = 3;//玩家信息
+}
+
+//大赢家
+message HundredYXXBigWinner{
+	int32 SnId = 1;	//账号
+	string Name = 2;	//名字
+	int32 Head = 3;	//头像
+	int32 HeadOutLine = 4;  //头像框
+	int32 VIP = 5;
+	int32 Sex = 6;    	//性别
+	string City = 7;	//城市
+	int64 Coin = 8;	//金币
+	int64 GainCoin = 9;//本局赢的钱
+}
+
+message HundredYXXPlayerFinalWinLost{
+	int32 Pos=1;//玩家位置
+	int32 PlayerID=2;//玩家id
+	int64 GainCoin=3;//输赢金币 (税后)
+	int64 Coin=4;//玩家最终身上结余
+}
+
+//结算 PACKET_SC_HYXX_GAMEBILLED
+message SCHundredYXXGameBilled{
+    repeated HundredYXXBetField BetPosData = 1;//下注区域输赢情况
+	int32 Explosion = 2;//是否爆庄
+	HundredYXXBigWinner BigWinner = 3;//大赢家
+	int32 NumOfGame = 4;   //第几局
+	int32 NewTrend = 5; //新的开奖结果
+    repeated HundredYXXPlayerFinalWinLost PlayerData = 6;   //玩家最终汇总后的输赢信息
+}
+

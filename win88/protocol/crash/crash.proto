@@ -1,0 +1,164 @@
+syntax = "proto3";
+package crash;
+option go_package = ".;crash";
+
+//操作结果
+enum OpResultCode {
+  OPRC_Sucess = 0;               //成功
+  OPRC_Error = 1;                //失败
+  OPRC_CoinMustReachTheValue = 2;//提示低于多少不能下注
+  OPRC_CoinIsNotEnough = 3;      //金币不足
+  OPRC_OnlyBet = 4;              //已下注，不可重复下注
+  OPRC_OnlyMultiple = 5;         //跳伞失败,跳伞倍率错误
+}
+//碰撞游戏
+enum CrashPacketID{
+  PACKET_CRASH_ZERO = 0;             // 弃用消息号
+  PACKET_SC_CRASH_ROOMINFO = 5140;   //房间信息
+  PACKET_CS_CRASH_PLAYEROP = 5141;   //玩家操作（客户-》服务）
+  PACKET_SC_CRASH_PLAYEROP = 5142;   //玩家操作（服务-》客户）
+  PACKET_SC_CRASH_ROOMSTATE = 5143;  //房间状态
+  PACKET_SC_CRASH_GAMEBILLED = 5144; //游戏结算
+  PACKET_SC_CRASH_SEATS = 5145;      //座位信息
+  PACKET_SC_CRASH_PLAYERLIST = 5146; //玩家列表
+  PACKET_SC_CRASH_SENDBET = 5147;    //批量押注筹码信息
+  PACKET_SC_CRASH_SENDTime = 5148;    //时间频率更新
+  PACKET_SC_CRASH_Parachute = 5149;    //跳伞推送
+}
+
+//时间 PACKET_SC_CRASH_SENDTime
+message CrashTime{
+  int64 Millisecond = 1;     //毫秒
+  int32 Multiple = 2;        //下注倍数
+}
+
+message CrashPlayerData{
+  string Name = 1;           //名字
+  int32 SnId = 2;            //账号
+  int32 Head = 3;            //头像
+  int32 Sex = 4;             //性别
+  int64 Coin = 5;            //金币
+  int32 Pos = 6;             //座位位置
+  int32 Flag = 7;            //二进制标记
+  repeated string Params = 8;//其他数据 如:ip 等
+  string City = 9;           //城市
+  int64 Lately20Win = 10;    //最近20局输赢 (赢的次数)
+  int64 Lately20Bet = 11;    //最近20局总下注 (可能是负值)
+  int32 HeadOutLine = 12;    //头像框
+  int32 VIP = 13;
+  int32 NiceId = 14;
+}
+
+//筹码数据 PACKET_SC_CRASH_Parachute
+message CrashChips{
+  int64 Chip = 1;     //下注金额
+  int32 Multiple = 2; //下注倍数
+  int32 SnId = 3;     //玩家ID
+
+}
+
+message CrashZoneChips{
+  repeated CrashChips Data = 1;//筹码
+}
+
+//房间信息
+message SCCrashRoomInfo {
+  int32 RoomId = 1;  //房间id
+  int32 Creator = 2;  //创建者SnId
+  int32 GameId = 3;  //游戏id
+  int32 RoomMode = 4;//游戏模式
+  repeated int32 Params = 5;  //规则参数
+  int32 NumOfGames = 6;//当前第几局
+  repeated int32 Cards = 7;//牌数据
+  int32 State = 8;  //房间当前状态
+  int32 TimeOut = 9;  //等待剩余时间 单位:毫秒
+  int32 BankerPos = 10;//庄家位置
+  int32 DisbandGen = 11;//解散申请
+  int32 AgentId = 12;  //代开房者
+  repeated int32 ParamsEx = 13;  //其他参数
+  int32 SceneType = 14;  //房间模式 0:房卡模式 1:钻石模式
+  repeated CrashPlayerData Players = 15;  //房间内的玩家信息
+  repeated CrashZoneChips OtherChips = 16;  //其它人的筹码数据
+  repeated CrashZoneChips MyChips = 17;  //我的筹码数据
+  repeated int32 Trend100Cur = 18;        //当前100局走势数据
+  repeated int32 Trend20Lately = 19;        //最近20局走势数据
+  repeated int32 Trend20CardKind = 20;      //最近20局牌型数据
+  int32 AllOnlinePlayerNum = 21;            //在线玩家数量
+  repeated int32 OtherIntParams = 22;          //规则参数
+  int32 LoopNum = 23; // 后台控制结算结果时使用
+  int64 AllBetCoin = 24;//总下注筹码
+  int32 AllBetPlayerNum = 25;//已下注的玩家数量
+  int32 ParachutePlayerNum = 26;//已跳伞玩家数量
+  int64 ParachutePlayerCoin = 27;//已跳伞玩家下注金额
+}
+
+//座位位置
+message SCCrashSeats{
+  repeated CrashPlayerData Data = 1;    //玩家信息
+  int32 PlayerNum = 2;        //玩家数量
+}
+
+
+//玩家操作
+message CSCrashOp{
+  int32 OpCode = 1;    //操作码 0:押注 1:获取在线玩家  2:跳伞
+  repeated int64 Params = 2;    //操作参数
+}
+
+//玩家操作返回
+message SCCrashOp{
+  int32 SnId = 1;    //玩家ID
+  int32 OpCode = 2;    //操作码
+  repeated int64 Params = 3;    //操作参数
+  OpResultCode OpRetCode = 4;  //操作结果
+}
+
+//房间状态
+message SCCrashRoomState{
+  int32 State = 1;    //房间当前状态
+  int32 SubState = 2;  //房间当前子状态
+  repeated int32 Params = 3;    //状态参数
+  // State==3时:Params中9个值，依次为黑方3张牌,红方3张牌,黑方牌型,红方牌型,比牌结果
+}
+
+//玩家列表
+message SCCrashPlayerList {
+  repeated CrashPlayerData Data = 1;
+  int32 OLNum = 2;  //在线人数
+}
+
+//
+message CrashBill{
+  int32 SnId = 1;//玩家ID
+  int64 Coin = 2;//总金币
+  int64 GainCoin = 3;//本局输赢金币  这个含税了
+
+}
+
+//大赢家
+message CrashBigWinner{
+  int32 SnId = 1;  //账号
+  string Name = 2;  //名字
+  int32 Head = 3;  //头像
+  int32 HeadOutLine = 4;  //头像框
+  int32 VIP = 5;
+  int32 Sex = 6;      //性别
+  int64 Coin = 7;  //金币
+  int32 GainCoin = 8;//本局赢的钱
+  string City = 9;  //城市
+}
+
+//结算
+message SCCrashBilled{
+  repeated CrashBill BillData = 1;//8个位置的结算数据
+  CrashBigWinner BigWinner = 2;//大赢家
+  int32 LoopNum = 3; // 后台控制结算结果时使用
+}
+
+//批量下注消息
+message SCCrashSendBet{
+  repeated CrashChips Data = 1;//前20位筹码信息
+  int64 AllBetCoin = 2;//总下注筹码
+  int32 AllOnlinePlayerNum = 3;//所有在线人数
+  int32 AllBetPlayerNum = 4;//已下注的玩家数量
+}

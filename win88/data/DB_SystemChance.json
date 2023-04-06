@@ -1,0 +1,59 @@
+{
+	"Arr": [
+		{
+			"Desc": "大众",
+			"ChanceType": 1,
+			"Coin": 5,
+			"Rate": 1990
+		},
+		{
+			"Id": 1,
+			"Desc": "雷克萨斯",
+			"ChanceType": 1,
+			"Coin": 5,
+			"Rate": 1990
+		},
+		{
+			"Id": 2,
+			"Desc": "宝马",
+			"ChanceType": 1,
+			"Coin": 5,
+			"Rate": 1990
+		},
+		{
+			"Id": 3,
+			"Desc": "奔驰",
+			"ChanceType": 1,
+			"Coin": 5,
+			"Rate": 1990
+		},
+		{
+			"Id": 4,
+			"Desc": "保时捷",
+			"ChanceType": 1,
+			"Coin": 10,
+			"Rate": 990
+		},
+		{
+			"Id": 5,
+			"Desc": "玛莎拉蒂",
+			"ChanceType": 1,
+			"Coin": 20,
+			"Rate": 490
+		},
+		{
+			"Id": 6,
+			"Desc": "兰博基尼",
+			"ChanceType": 1,
+			"Coin": 30,
+			"Rate": 320
+		},
+		{
+			"Id": 7,
+			"Desc": "法拉利",
+			"ChanceType": 1,
+			"Coin": 40,
+			"Rate": 240
+		}
+	]
+}

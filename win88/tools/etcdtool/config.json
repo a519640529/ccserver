@@ -1,0 +1,75 @@
+{
+	"module": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+	"executor": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 0
+		},
+		"Worker": {
+			"WorkerCnt": 8,
+			"Options": {
+				"QueueBacklog": 1024,
+				"MaxDone": 1024,
+				"Interval": 0
+			}
+		}
+	},
+	"timer": {
+		"Options": {
+			"QueueBacklog": 1024,
+			"MaxDone": 1024,
+			"Interval": 100
+		}
+	},
+	"core": {
+		"MaxProcs": 4
+	},
+	"costum":{
+		"GameIds":"23,24,25,26,27",
+		"gamesrv":"http://192.168.88.111:9595",
+		"etcdurl":["127.0.0.1:2379"],
+		"etcduser":"root",
+		"etcdpwd":"123456",
+		"UseBlacklistBindPlayerinfo":true
+	},
+	"common": {
+		"AppId": "5a7553560c9cf51c105678f3",
+		"IsDevMode": true
+	},
+	"webapi": {
+		"GameApiURL": "http://96.9.70.209/api/game_srv",
+		"DgApiUrl":"http://dg.oceaneet.com",
+		"HboApiUrl":"http://96.9.70.209:8088",
+		"WwgAddr":"http://96.9.70.209:8089/",
+		"WwgReqTimeout":30,
+		"FgAddr":"http://96.9.70.209:8089/",
+		"FgReqTimeout":30,
+		"AmebaAddr":"http://96.9.70.209:8089/",
+		"AmebaReqTimeout":30
+	},
+	"data": {
+		"RootPath": "../../data",
+		"Files": [
+			"DB_Sensitive_Words.dat",
+			"DB_MatchFree.dat",
+			"DB_MatchRule.dat",
+			"DB_Task.dat",
+			"DB_GameFree.dat",
+			"DB_GameRule.dat",
+			"DB_SystemChance.dat",
+			"DB_AnimalColor.dat",
+			"DB_Fish.dat"
+		],
+		"LoadLib": true
+	},
+	"signal":{
+		"SupportSignal": true
+	}
+}

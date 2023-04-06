@@ -1,0 +1,752 @@
+syntax = "proto3";
+package webapi;
+option go_package = ".;webapi";
+import public "google/protobuf/timestamp.proto";
+import "common.proto";
+/*
+ * =====================================================
+ * 与游服交互的协议文件，AS api请求游服  SA 游服请求api服务器
+ * 通讯签名方式： action 建议定义为链接url md5小写
+ * sign = md5(action + time.Now().UnixNano() + APPID) 然后拼接到url中  md5(appid,path,Body,nano)
+ * nano: 纳秒
+ * sign: 签名
+ * 例如：http://xxx.com/api/report/query_online_reportList?sign=xxxxxxxx&nano=1530027865231834600
+ * 建议游服监听http的时候url与action相匹配
+ * 例如：游服监听url为：api/report/query_online_reportList 那么
+ * action就可以定义为 api/report/query_online_reportList
+ * 后台请求游服的需要游服提供action
+ * 游服请求后台的后台提供action
+ * =====================================================
+ */
+
+// 错误码定义
+enum TagCode {
+  // option allow_alias = true;
+  UNKNOWN = 0;          // 占位，不使用
+  SUCCESS = 1;          //成功
+  FAILED = 2;           //失败
+  SIGN_ERROR = 3;       //验签失败
+  PROTO_DATA_ERROR = 4; // pb数据错误
+  JYB_DATA_ERROR   = 5; // 兑换卷输入信息错误
+  JYB_CODE_EXIST   = 6; // 兑换卷已存在
+  Play_NotEXIST    = 7; // 找不到玩家
+}
+
+// ===================================================
+// 后台api
+// ===================================================
+
+// 游服api模式初始化的时候从后台获取平台配置
+// [action] /game_srv/platform_list
+message SAPlatformInfo {
+  int32 PlatformId = 1; //可选参数，如果加了id说明只获取指定平台信息即可
+}
+
+// 后台返回给游服的数据，如果是单个平台的话，获取数组第一个即可
+// [action] /game_srv/platform_list
+message ASPlatformInfo {
+  TagCode Tag = 1;                    //错误码
+  string Msg = 2;                     //错误信息(选填)
+  repeated pb.Platform Platforms = 3; //平台列表
+}
+
+// ======= 游戏配置 =======
+
+
+// 游服请求游戏配置
+// [action] /game_srv/game_config_list
+message SAGameConfig {
+  int32 PlatformId = 1; //可选参数，如果加了id说明只获取指定平台信息即可
+  int32 Id = 2; //可选参数 excel 游戏ID，如果!=0  PlatformId必须填写
+}
+
+// 返回游戏配置
+message ASGameConfig {
+  TagCode Tag = 1;                         //错误码
+  string Msg = 2;                          //错误信息(选填)
+  repeated pb.PlatformGameConfig Configs = 3; //配置列表
+}
+
+// ======= 游戏配置组 =======
+
+// 游服请求游戏配置组信息
+// [action] /game_srv/game_config_group
+
+// 后台返回游戏配置组信息
+message ASGameConfigGroup {
+  TagCode Tag = 1;                 //错误码
+  string Msg = 2;                  //错误信息(选填)
+  repeated pb.GameConfigGroup GameConfigGroup = 3; //游戏组配置信息
+}
+
+// ======= 全局游戏开关 =======
+
+// [action] /game_srv/game_config_global
+// 无参数请求
+
+// 后台返回
+message ASGameConfigGlobal {
+  TagCode Tag = 1;                 // 错误码
+  string Msg = 2;                  // 错误信息(选填)
+  pb.GameConfigGlobal GameStatus = 3; // 全局游戏开关
+}
+
+
+// ======= 数据库配置 =======
+
+// [action] /game_srv/db_config
+message SADbConfig{
+  int32 PlatformId = 1; //可选参数，如果加了id说明只获取指定平台的数据库配置
+}
+// 后台返回
+message ASDbConfig{
+  TagCode Tag = 1;                            // 错误码
+  string Msg = 2;                             // 错误信息(选填)
+  repeated pb.PlatformDbConfig DbConfigs = 3; // 平台数据库配置列表
+}
+
+// ===================================================
+// 游服api
+// ===================================================
+
+// 后台修改平台数据后推送给游服
+
+// [action] /game_srv/platform_config
+message ASUpdatePlatform {
+  repeated pb.Platform Platforms = 1; // 平台信息
+}
+
+// 游服返回修改结果
+// [action]
+message SAUpdatePlatform {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+
+
+
+// 更新全局游戏开关
+//[action] /game_srv/update_global_game_status
+message ASUpdateGameConfigGlobal {
+  pb.GameConfigGlobal GameStatus = 1;
+}
+// 返回
+message SAUpdateGameConfigGlobal {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+
+// 更新游戏配置
+//[action] /game_srv/update_game_configs
+message ASUpdateGameConfig {
+  pb.PlatformGameConfig Config = 1; //配置列表
+}
+// 返回
+message SAUpdateGameConfig {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+
+// 更新游戏分组配置
+// [action] /game_srv/game_config_group
+message ASUpdateGameConfigGroup {
+  pb.GameConfigGroup GameConfigGroup = 1; //游戏组配置信息
+}
+// 返回
+message SAUpdateGameConfigGroup {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+///////////////////////////////////////////////////////////////////////////////////////
+//加币
+// [action] /api/Game/AddCoinById
+message ASAddCoinById{
+  int32 ID = 1;//玩家id
+  int64 Gold = 2;//加币金额
+  int64 GoldEx = 3;//赠送金额
+  string Oper = 4;//操作人
+  string Desc = 5;//remark
+  int64 BillNo = 6;//订单号
+  string Platform = 7;//平台号
+  int32 LogType = 8;//日志类型（金币或者保险箱或者钻石）
+  bool IsAccTodayRecharge = 9;
+  int32 NeedFlowRate = 10;
+  int32 NeedGiveFlowRate = 11;
+}
+// 返回
+message SAAddCoinById {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//重置水池
+// [action] /api/Game/ResetGamePool
+message ASResetGamePool{
+  int32 GameFreeId = 1;
+  string Platform = 2;
+  int32 ServerId = 3;
+  int32 GroupId = 4;
+  int32 PoolType = 5;//1:水池 2:营收池
+  sint32 value = 6;//-1:表示清除 水池的话回到初始水位 营收池清0；否则按照指定的值设置
+}
+message SAResetGamePool{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//更新水池
+// [action] /api/Game/UpdateGamePool
+message ASUpdateGamePool{
+  int32 GameFreeId = 1;
+  string Platform = 2;
+  int32 ServerId = 3;
+  int32 GroupId = 4;
+  pb.CoinPoolSetting CoinPoolSetting = 5;
+}
+message SAUpdateGamePool{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//可以更新的字段
+//InitValue
+//LowerLimit
+//UpperLimit
+//UpperOffsetLimit
+//MaxOutValue
+//ChangeRate
+//MinOutPlayerNum
+//BaseRate
+//CtroRate
+//HardTimeMin
+//HardTimeMax
+//NormalTimeMin
+//NormalTimeMax
+//EasyTimeMin
+//EasyTimeMax
+//EasrierTimeMin
+//EasrierTimeMax
+//CpCangeType
+//CpChangeInterval
+//CpChangeTotle
+//CpChangeLower
+//CpChangeUpper
+//ProfitRate
+//CoinPoolMode
+//ResetTime
+////////////////////////////////////////////////////
+//查询水池gameid
+// [action] /api/Game/QueryGamePoolByGameId
+message ASQueryGamePoolByGameId{
+  int32 GameId = 1;
+  int32 GameMode = 2;
+  string Platform = 3;
+  int32 GroupId = 4;
+}
+message SAQueryGamePoolByGameId{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  repeated pb.CoinPoolSetting CoinPoolSetting = 3;
+}
+//查询水池
+// [action] /api/Game/QueryAllGamePool
+message ASQueryAllGamePool{
+  int32 PageNo = 1;
+  int32 PageSize = 2;
+}
+message CoinPoolStatesInfo{
+  string Platform = 1;
+  repeated pb.CoinPoolSetting CoinPoolSetting = 2;
+}
+message SAQueryAllGamePool{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  repeated CoinPoolStatesInfo CoinPoolStatesInfo = 3;
+}
+//房间
+// [action] /api/Cache/ListRoom
+message ASListRoom{
+  string Platform = 1;
+  int32 GameId = 2;
+  int32 GameMode = 3;
+  int32 GroupId = 4;
+  int32 SnId = 5;
+  int32 SceneId = 6;
+  int32 PageNo = 7;
+  int32 PageSize = 8;
+  int32 ClubId = 9;
+  int32 RoomType = 10;//roomType=0所有房间，roomType=1俱乐部房间，roomType=2个人房间
+  int32 GamefreeId = 11;
+}
+message SAListRoom{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  int32 PageNo = 3;
+  int32 PageCount = 4;
+  int32 TotalList = 5;
+  repeated pb.RoomInfo RoomInfo = 6;
+}
+// [action] /api/Cache/GetRoom
+message ASGetRoom{
+  int32 SceneId = 1;
+  int32 SnId = 2;
+}
+message SAGetRoom{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  pb.RoomInfo RoomInfo = 3;
+}
+//销毁房间
+// [action] /api/Cache/DestroyRoom
+message ASDestroyRoom{
+  repeated int32 SceneIds = 1;
+  string Platform = 2;
+  int32 DestroyType = 3; // 0 删除指定ID 1 删除空房间 2 删除未开始
+}
+message SADestroyRoom{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//单控
+// [action] /api/Game/SinglePlayerAdjust
+//PACKET_WG_SINGLEADJUST
+message ASSinglePlayerAdjust{
+  int32 Opration = 1;//1.add 2.edit 3.del 4.查询最新的
+  pb.PlayerSingleAdjust PlayerSingleAdjust = 2;
+}
+message SASinglePlayerAdjust{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  pb.PlayerSingleAdjust PlayerSingleAdjust = 3;
+}
+//玩家信息
+//获取玩家信息
+// [action] /api/Player/PlayerData
+message ASGetPlayerData{
+  string Platform = 1;//平台号
+  int32 ID = 2;//玩家id
+}
+message SAGetPlayerData{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  pb.PlayerData PlayerData = 3;//玩家信息
+}
+// [action] /api/Player/MorePlayerData
+message ASMorePlayerData{
+  repeated int32 SnIds = 1;
+  string Platform = 2;//平台号
+}
+message SAMorePlayerData{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  repeated pb.PlayerData PlayerData = 3;//玩家信息
+}
+// [action] /api/Player/KickPlayer
+message ASKickPlayer{
+  int32 SnId = 1;
+  string Platform = 2;
+  int32 Minute = 3;
+}
+message SAKickPlayer{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+/////////////////////////////////////////////////
+message PlayerEleArgs{
+  string Key = 1;
+  string Val = 2;
+}
+// [action] /api/Cache/UpdatePlayerElement
+message ASUpdatePlayerElement{
+  int32 SnId = 1;
+  string Platform = 2;
+  repeated PlayerEleArgs PlayerEleArgs = 3;
+}
+message SAUpdatePlayerElement{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//黑白名单
+// [action] /api/Player/WhiteBlackControl
+message ASWhiteBlackControl{
+  string Platform = 1;
+  int32 SnId = 2;
+  sint32 WBLevel = 3;//白:[1,10] 黑:[-1,-10]
+  int64 WBCoinLimit = 4;
+  int64 ResetTotalCoin = 5;
+  int32 MaxNum = 6;//黑白名单最大干预次数
+  repeated int32 SnIds = 7;
+}
+message SAWhiteBlackControl{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//跑马灯
+// [action] /api/Message/QueryHorseRaceLampList
+message ASQueryHorseRaceLampList{
+  int32 PageNo = 1;
+  int32 PageSize = 2;
+  string Platform = 3;
+  int32 State = 4;
+  int32 MsgType = 5;
+}
+message SAQueryHorseRaceLampList{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  int32 PageCount = 3;
+  repeated pb.HorseRaceLamp HorseRaceLamp = 4;
+}
+// [action] /api/Message/CreateHorseRaceLamp
+message ASCreateHorseRaceLamp{
+  string Platform = 1;
+  string Title = 2;
+  string Content = 3;
+  string Footer = 4;
+  int32 Count = 5;
+  int32 State = 6;
+  int64 StartTime = 7;
+  int32 Priority = 8;
+  int32 MsgType = 9;
+  int32 StandSec = 10;
+  repeated int32 Target = 11;
+}
+message SACreateHorseRaceLamp{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+// [action] /api/Message/GetHorseRaceLampById
+message ASGetHorseRaceLampById{
+  string NoticeId = 1;
+  string Platform = 2;
+}
+message SAGetHorseRaceLampById{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  pb.HorseRaceLamp HorseRaceLamp = 3;
+}
+// [action] /api/Message/EditHorseRaceLamp
+message ASEditHorseRaceLamp{
+  pb.HorseRaceLamp HorseRaceLamp = 1;
+}
+message SAEditHorseRaceLamp{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+// [action] /api/Message/RemoveHorseRaceLampById
+message ASRemoveHorseRaceLampById{
+  string HorseRaceId = 1;
+  string Platform = 2;
+}
+message SARemoveHorseRaceLampById{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//通过SnId设置黑名单
+// [action] /api/Player/BlackBySnId
+message ASBlackBySnId{
+  string Platform = 1;
+  int32 SnId = 2;
+  int32 BlacklistType = 3;//0是不限制 第1位是游戏登录 第2位是兑换 第3位是充值
+}
+message SABlackBySnId{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//邮件
+// [action] /api/Game/CreateShortMessage
+message ASCreateShortMessage{
+  string NoticeTitle = 1;
+  string NoticeContent = 2;
+  string Platform = 3;
+  int32 SrcSnid = 4;
+  int32 DestSnid = 5;
+  int32 MessageType = 6;
+  int64 Coin = 7;
+  int64 Diamond = 8;
+  int64 ShowId = 9;
+  repeated int32 Params = 10;
+}
+message SACreateShortMessage{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+// [action] /api/Game/QueryShortMessageList
+message ASQueryShortMessageList{
+  int64 StartTime = 1;
+  int64 EndTime = 2;
+  int32 PageNo = 3;
+  int32 PageSize = 4;
+  int32 MessageType = 5;
+  string Platform = 6;
+  int32 DestSnid = 7;
+}
+message SAQueryShortMessageList{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  int32 Count = 3;
+  repeated pb.MessageInfo MessageInfo = 4;
+}
+// [action] /api/Game/DeleteShortMessage
+message ASDeleteShortMessage{
+  string Id = 1;
+  string Platform = 2;
+}
+message SADeleteShortMessage{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//在线列表
+// [action] /api/Report/QueryOnlineReportList
+message ASQueryOnlineReportList{
+  string Platform = 1;
+  int32 GameId = 2;
+  int32 PageNo = 3;
+  int32 PageSize = 4;
+  int32 OrderColumn = 5;//排序：0不排序 1、按照充值排序 2、兑换3、税收 4、注册时间 5.房间号
+  int32 OrderType = 6;//排序方式 0,、倒序 1、正序
+  int32 GameFreeId = 7;
+}
+message SAQueryOnlineReportList{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  repeated pb.PlayerData PlayerData = 3;//玩家信息
+  int32 PageCount = 4;
+  int32 PageNo = 5;
+  int32 PageSize = 6;
+}
+//关闭服务
+// [action] /api/Ctrl/SrvCtrlClose
+message ASSrvCtrlClose{
+  int32 SrvType = 2;//0.所有 4.网管 6.大厅.7游戏
+}
+message SASrvCtrlClose{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//发送公告
+// [action] /api/Ctrl/SrvCtrlNotice
+message ASSrvCtrlNotice{
+  int32 OpNotice = 1;//0.创建  1.停止
+  int32 Times = 2;//次数
+  int32 Interval = 3;//间隔秒数
+  string Notice = 4;//公告内容
+}
+message SASrvCtrlNotice{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//执行脚本
+// [action] /api/Ctrl/SrvCtrlStartScript
+message ASSrvCtrlStartScript{
+}
+message SASrvCtrlStartScript{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//显示各个服务器状态
+// [action] /api/Ctrl/ListServerStates
+message ASListServerStates{
+  int32 SrvId = 1;
+  int32 SrvType = 2;
+}
+message SAListServerStates{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  repeated pb.ServerInfo ServerInfo = 3;
+}
+//切换状态
+// [action] /api/Ctrl/ServerStateSwitch
+message ASServerStateSwitch{
+  int32 SrvId = 1;
+  int32 SrvType = 2;//4.网管 6.大厅.7游戏
+}
+message SAServerStateSwitch{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//重置Etcd 连接和数据
+// [action] /api/Ctrl/ResetEtcdData
+message ASResetEtcdData{
+}
+message SAResetEtcdData{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//获取在线统计
+//[action] /api/Report/OnlineReportTotal
+message ASOnlineReportTotal{
+  string Platform = 1;
+  string Channel = 2;
+  string Promoter = 3;
+}
+message SAOnlineReportTotal{
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+  pb.OnlineReport OnlineReport = 3;
+}
+///////////////////////////////////////////////////////////////////////////////////////
+//加币
+// [action] /api/Game/AddCoinByIdAndPT
+message ASAddCoinByIdAndPT{
+  int32 ID = 1;//玩家id
+  string Platform = 2;//平台号
+  int32 LogType = 3;//日志类型（金币或者钻石）
+  int64 Gold = 4;//加币金额
+  string Oper = 5;//操作人
+  string Desc = 6;//remark
+  int64 BillNo = 7;//订单号
+}
+// 返回
+message SAAddCoinByIdAndPT {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+
+
+message JybInfoAward {
+  repeated pb.ItemInfo ItemId = 1;// 道具
+  int64 Coin = 2;// 金币
+  int64 Diamond = 3; // 钻石
+}
+
+//生成兑换码
+// [action] /api/Game/CreateJYB
+message ASCreateJYB {
+  string           Platform = 1;   // 平台
+  string           Name = 2;       // 礼包名称
+  int64            StartTime = 3;  // 开始时间 Unix
+  int64            EndTime = 4;    // 结束时间
+  string           Content = 5;    // 礼包内容
+  int32            Max = 6;        // 总个数
+  int32            Receive = 7;    // 领取个数
+  string           Code = 8;       // 礼包码
+  JybInfoAward     Award = 9;      // 礼包内东西
+  int32            CodeLen = 10;   // 礼包码长度 不能低于12位
+  int32            CodeType = 11;  // 礼包类型 1 通用 2 特殊
+}
+// 返回
+message SACreateJYB {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+
+//操作兑换码 删除 修改
+// [action] /api/Game/UpdateJYB
+message ASUpdateJYB {
+  string Platform = 1;    // 平台
+  string JYBID = 2;    // 礼包ID
+  int32 Opration = 3;    // 操作 1 删除
+}
+// 返回
+message SAUpdateJYB {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+//创建订单
+message ASCreatePayOrder {
+  int32 Snid = 1;//用户id
+  int32 Platform = 2;//平台id
+  int32 Price = 3;//订单金额
+  int32 Os = 4;//操作系统
+  int64 BeforeCoin = 5;//充值前钻石数量
+  string Ip = 6;//充值ip
+  string Ext = 7;//
+  string PackageTag = 8;//包标识
+  string DiviceId= 9;//设备id
+}
+message ReturnCPO {
+  string Url = 1;//链接
+  string Err = 2;//错误信息
+}
+message SACreatePayOrder {
+  TagCode Tag = 1; //错误码
+  ReturnCPO ReturnCPO = 2;
+}
+
+//创建交易订单game_srv/create_exchange_order
+message ASCreateExchangeOrder {
+  int32 Snid = 1;//用户id
+  string Platform = 2;//用户id
+  int32 Type = 3;//商品类型
+  int32 GoodsId = 4;//商品ID
+  int32 VCard = 5;//消耗V卡
+  string GoodsName = 6;//兑换物品名称
+  string UserName = 7;//兑换人姓名
+  string Mobile = 8;//兑换人手机号
+  string Comment = 9; //备注信息
+}
+
+message SACreateExchangeOrder {
+  TagCode Tag = 1; //错误码
+  ReturnCPO ReturnCPO = 2;
+}
+//获取交易订单game_srv/get_exchange_order
+message ASGetExchangeOrder{
+  int32 Snid = 1;//用户id
+  string Platform = 2;//平台id
+  int32 page = 3;
+}
+message ExchangeOrderInfo {
+  int32 id = 1;//订单id
+  int32 Type = 2;//类型
+  int32 Status = 3;//状态
+  int64 CreateTime = 4;//创建时间
+  int32 GoodsId = 5;  //商品ID
+  string Name   = 6;    // 名称
+  string Remark = 7;    // 订单备注
+}
+message SAGetExchangeOrder {
+  TagCode Tag = 1;//错误码
+  int32 Total = 2;//总数
+  int32 CurPage = 3;//当前页
+  int32 PageLimit = 4;//每页条数
+  int32 PageTotal = 5;//总页数
+  repeated ExchangeOrderInfo OrderList = 6;//订单数据
+}
+
+//兑换确认
+// [action] /api/Customer/UpExchangeStatus
+message ASUpExchangeStatus {
+  int32 Status = 1;//状态
+  int32 GoodsId = 2;//商品ID
+  int32 Snid = 3; //用户id
+  string Platform = 4;//平台id
+  string Name = 5;    //商品名称
+  int32  NeedNum = 6; //消耗V卡
+}
+// 返回
+message SAUpExchangeStatus {
+  TagCode Tag = 1; //错误码
+  string Msg = 2;  //错误信息(选填)
+}
+
+// /game_srv/get_exchange_shop
+//获取兑换商品信息 
+message ASGetExchangeShop{
+  string Platform = 1;//平台id
+  int32 Snid = 2;     //用户id
+}
+
+message SAGetExchangeShop{
+  TagCode Tag = 1;
+  repeated pb.ExchangeShop List = 2;
+}
+
+//登录rocket/game_srv_third/register_or_login
+message SARocketLogin {
+  int64 Snid = 1;//用户id
+  int64 Amount = 2;//用户金币
+  string Platform = 3;//用户平台
+}
+message ASRocketLogin{
+  int32 Tag = 1;//错误码
+  string Msg = 2;//返回信息
+  string Url = 3;//链接
+}
+//退出rocket/game_srv_third/login_out
+message SARocketLoginOut {
+  int64 Snid = 1;//用户id
+  string Platform = 2;//用户平台
+}
+message ASRocketLoginOut{
+  int32 Tag = 1;//错误码
+  int64 Amount = 2;
+  string Msg = 3;//返回信息
+}

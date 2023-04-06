@@ -1,0 +1,76 @@
+syntax = "proto3";
+package task;
+option go_package = ".;task";
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+}
+
+//任务消息id
+enum TaskPacketID {
+	PACKET_Task_ZERO = 0;                       // 弃用消息号
+	PACKET_CS_TASKLIST = 2400;
+	PACKET_SC_TASKLIST = 2401;
+	PACKET_SC_TASKCHG = 2402;
+	PACKET_SC_TACKCOMPLETE = 2403;
+	PACKET_SC_TASKDEL = 2404;
+	PACKET_CS_TACKDRAWPRIZE = 2405;
+	PACKET_SC_TACKDRAWPRIZE = 2406;
+}
+
+//任务数据
+message TaskData{
+	int32 Id = 1;				//任务ID
+	string Desc = 2;           //任务描述
+	int64 Count = 3;			//当前计数
+	int64 GoalCount = 4;       //目标计数
+	int32 CompletedTimes = 5;  //已完成次数
+	int32 LimitTimes = 6;		//接受任务的时间
+	int32 Status = 7;			//任务状态 0:进行中 1:已完成 2:奖励已领取 3:已过期
+	int32 Prizes = 8;			//奖励内容
+	repeated int32 GameFreeId = 9;      //游戏场次id
+}
+
+//任务列表
+//PACKET_CS_TASKLIST
+message CSTaskList{
+}
+
+//任务列表
+//PACKET_SC_TASKLIST
+message SCTaskList{
+    repeated TaskData Tasks = 1;
+}
+
+//任务进度改变
+//PACKET_SC_TASKCHG
+message SCTaskChg{
+    repeated TaskData Tasks = 1;
+}
+
+//任务完成
+//PACKET_SC_TACKCOMPLETE
+message SCTaskComplete{
+    int32 TaskId = 1;
+}
+
+//删除任务
+//PACKET_SC_TASKDEL
+message SCTaskDel{
+	repeated int32 TaskIds = 1;
+}
+
+//领取任务奖励
+//PACKET_CS_TACKDRAWPRIZE
+message CSTaskDrawPrize{
+    int32 TaskId = 1;
+}
+
+//PACKET_SC_TACKDRAWPRIZE
+message SCTaskDrawPrize{
+    int32 TaskId = 1;
+	OpResultCode OpCode = 2;//操作码
+	int32 Prize = 3;       //任务奖励
+	TaskData Data = 4;		//任务数据更新
+}

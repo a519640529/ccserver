@@ -1,0 +1,137 @@
+{
+  "netlib": {
+    "SrvInfo":{
+      "Name": "RankServer",
+      "Type":	15,
+      "Id": 1501,
+      "AreaID": 1,
+      "Banner": [
+        "=================",
+        "rank server",
+        "================="
+      ]
+    },
+
+    "IoServices": [
+      {
+        "Id": 1501,
+        "Type": 15,
+        "AreaId": 1,
+        "Name": "RankServer",
+        "Ip": "127.0.0.1",
+        "Port": 15001,
+        "MaxDone": 40000,
+        "MaxPend": 2000000,
+        "MaxPacket": 6553500,
+        "MaxConn": 200,
+        "RcvBuff": 4096000,
+        "SndBuff": 4096000,
+        "WriteTimeout": 300,
+        "ReadTimeout": 300,
+        "IsInnerLink": true,
+        "NoDelay": true,
+        "SupportFragment": true,
+        "AuthKey": "1234567890",
+        "FilterChain": ["session-filter-auth"],
+        "HandlerChain": ["session-srv-registe","srv-service-handler"]
+      },
+      {
+        "Id": 501,
+        "Type": 5,
+        "AreaId": 1,
+        "Name": "ManagerService",
+        "Ip": "127.0.0.1",
+        "Port": 3001,
+        "MaxDone": 20000,
+        "MaxPend": 20000,
+        "MaxPacket": 6553500,
+        "MaxConn": 100,
+        "RcvBuff": 819200,
+        "SndBuff": 819200,
+        "WriteTimeout": 300,
+        "ReadTimeout": 300,
+        "IsInnerLink": true,
+        "NoDelay": true,
+        "IsClient": true,
+        "IsAutoReconn": true,
+        "SupportFragment": true,
+        "AuthKey": "1234567890",
+        "FilterChain": ["session-filter-auth"],
+        "HandlerChain": ["session-srv-registe","srv-service-handler"]
+      }
+    ]
+  },
+
+  "module": {
+    "Options": {
+      "QueueBacklog": 1024,
+      "MaxDone": 1024,
+      "Interval": 100
+    }
+  },
+
+  "timer": {
+    "Options": {
+      "QueueBacklog": 1024,
+      "MaxDone": 1024,
+      "Interval": 100
+    }
+  },
+
+  "executor": {
+    "Options": {
+      "QueueBacklog": 1024,
+      "MaxDone": 1024,
+      "Interval": 0
+    },
+    "Worker": {
+      "WorkerCnt": 64,
+      "Options": {
+        "QueueBacklog": 1024,
+        "MaxDone": 1024,
+        "Interval": 0
+      }
+    }
+  },
+
+  "costum": {
+    "dbType": "mysql",
+    "connStr": "root:123456@tcp(127.0.0.1:3306)/ranking?charset=utf8mb4&parseTime=True&loc=Local",
+    "apiAddr": "",
+    "MgoRpcCliNet": "tcp",
+    "MgoRpcCliAddr": "127.0.0.1:8999",
+    "MgoRpcCliReconnInterV": 3,
+
+    "RabbitMQURL": "amqp://win88:123456@192.168.1.230:5672/win88lyk",
+    "RMQExchange": "win88lyk",
+    "RMQPublishBacklog":1024,
+    "etcdurl":[
+      "127.0.0.1:2379"
+    ],
+    "etcduser":"",
+    "etcdpwd":"",
+
+    "GameIdFilter": []
+  },
+
+  "webapi": {
+    "GameApiURL": "http://103.39.231.66:1099/api/game_srv/platform_config"
+  },
+
+  "tx": {
+    "TxSkeletonName": "github.com/idealeak/goserver.v3/srvlib/txcommskeleton"
+  },
+
+  "core": {
+    "MaxProcs": 4
+  },
+
+  "signal":{
+    "SupportSignal": true
+  },
+
+  "common":{
+    "AppId": "5c56d1644966f078bfb90c71",
+    "IsDevMode":false
+  }
+}

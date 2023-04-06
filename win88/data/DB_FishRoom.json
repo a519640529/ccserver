@@ -1,0 +1,74 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"RoomId": -1,
+			"Name": "试玩场",
+			"SumGold1": "30,80",
+			"SumGold2": "150,200",
+			"SumGold3": "150,300",
+			"SumGold4": "350,750",
+			"SumGold5": "60,100",
+			"BossCDTime": 360,
+			"LittleBossCDTime": 200,
+			"EnableBoss": "8003_20,8014_10",
+			"EnableLittleBoss": "8011_10,8012_10,8013_10"
+		},
+		{
+			"Id": 2,
+			"RoomId": 1,
+			"Name": "20元准入",
+			"SumGold1": "30,80",
+			"SumGold2": "150,200",
+			"SumGold3": "150,300",
+			"SumGold4": "350,750",
+			"SumGold5": "60,100",
+			"BossCDTime": 360,
+			"LittleBossCDTime": 200,
+			"EnableBoss": "8003_20,8014_10",
+			"EnableLittleBoss": "8011_10,8012_10,8013_10"
+		},
+		{
+			"Id": 3,
+			"RoomId": 2,
+			"Name": "50元准入",
+			"SumGold1": "30,80",
+			"SumGold2": "150,200",
+			"SumGold3": "150,300",
+			"SumGold4": "350,750",
+			"SumGold5": "60,100",
+			"BossCDTime": 360,
+			"LittleBossCDTime": 200,
+			"EnableBoss": "8003_20,8014_10",
+			"EnableLittleBoss": "8011_10,8012_10,8013_10"
+		},
+		{
+			"Id": 4,
+			"RoomId": 3,
+			"Name": "500元准入",
+			"SumGold1": "30,80",
+			"SumGold2": "150,200",
+			"SumGold3": "150,300",
+			"SumGold4": "350,750",
+			"SumGold5": "60,100",
+			"BossCDTime": 360,
+			"LittleBossCDTime": 200,
+			"EnableBoss": "8003_20,8014_10",
+			"EnableLittleBoss": "8011_10,8012_10,8013_10"
+		},
+		{
+			"Id": 5,
+			"RoomId": 4,
+			"Name": "5000元准入",
+			"SumGold1": "30,80",
+			"SumGold2": "150,200",
+			"SumGold3": "150,300",
+			"SumGold4": "350,750",
+			"SumGold5": "60,100",
+			"BossCDTime": 360,
+			"LittleBossCDTime": 200,
+			"EnableBoss": "8003_20,8014_10",
+			"EnableLittleBoss": "8011_10,8012_10,8013_10"
+		}
+	]
+}

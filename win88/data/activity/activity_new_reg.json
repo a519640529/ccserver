@@ -1,0 +1,14 @@
+{
+	"Id":1,
+	"Name":"新人注册领红包",
+	"Desc":"新人注册领红包",
+	"StartTime":"2018-02-05 12:00:00",
+	"EndTime":"2020-05-30 12:00:00",
+	"TaskIds":[1,2,3,4,5,6,7,8,9,10],
+	"IsDelTaskWhenEnd":false,
+	"IsDelActIdWhenEnd":false,
+	"Data":[
+		{"Name":"MaxNum", "IntVal":2000 },
+		{"Name":"AcceptRate", "IntArr":[1001,100,2001,20] }
+	]
+}

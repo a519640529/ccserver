@@ -1,0 +1,53 @@
+{
+	"Arr": [
+		{
+			"Id": 20700,
+			"Name": "Tienlen经典场",
+			"GameId": 207,
+			"GameDif": "207"
+		},
+		{
+			"Id": 20800,
+			"Name": "Tienlen娱乐场",
+			"GameId": 208,
+			"GameDif": "208"
+		},
+		{
+			"Id": 20900,
+			"Name": "Tienlen经典场(打到底）",
+			"GameId": 209,
+			"GameDif": "209"
+		},
+		{
+			"Id": 21000,
+			"Name": "Tienlen娱乐场(打到底）",
+			"GameId": 210,
+			"GameDif": "210"
+		},
+		{
+			"Id": 40100,
+			"Name": "欢乐捕鱼",
+			"GameId": 401,
+			"GameDif": "401"
+		},
+		{
+			"Id": 30600,
+			"Name": "水果拉霸",
+			"GameId": 306,
+			"GameDif": "306"
+		},
+		{
+			"Id": 30700,
+			"Name": "多财多福",
+			"GameId": 307,
+			"GameDif": "307"
+		},
+		{
+			"Id": 90100,
+			"Name": "小火箭",
+			"GameId": 901,
+			"GameMode": 4,
+			"GameDif": "901"
+		}
+	]
+}

@@ -1,0 +1,978 @@
+syntax = "proto3";
+package server;
+option go_package = ".;server";
+
+import "pbdata.proto";
+
+enum SSPacketID {
+  PACKET_SERVER_ZERO = 0;                       // 弃用消息号
+  PACKET_GB_CUR_LOAD = 1000;
+  PACKET_GB_STATE_SWITCH = 1001;
+  PACKET_SC_GATEINFO = 1002;
+
+  PACKET_SS_DICONNECT = 1004;
+  PACKET_MS_SRVCTRL = 1005;
+
+  PACKET_WG_SERVER_STATE = 1012;
+  PACKET_SG_BINDGROUPTAG = 1013;
+  PACKET_SS_CUSTOMTAG_MULTICAST = 1014;
+  //服务器组间的业务消息
+  PACKET_WG_CREATESCENE = 1101;
+  PACKET_WG_DESTROYSCENE = 1102;
+  PACKET_WG_PLAYERENTER = 1103;
+  PACKET_GW_PLAYERLEAVE = 1104;
+  PACKET_GW_BILLEDROOMCARD = 1105;
+  PACKET_GW_DESTROYSCENE = 1106;
+  PACKET_WG_PLAYERDROPLINE = 1107;
+  PACKET_WG_PLAYERREHOLD = 1108;
+  PACKET_GG_PLAYERSESSIONBIND = 1109;
+  PACKET_GG_PLAYERSESSIONUNBIND = 1110;
+  PACKET_WG_PLAYERRETURN = 1111;
+  PACKET_GR_REPLAYRECORD = 1112;
+  PACKET_GW_GAMEREC = 1113;
+  PACKET_WG_AUDIENCEENTER = 1114;
+  PACKET_GW_AUDIENCELEAVE = 1115;
+  PACKET_GW_SCENESTART = 1116;
+  PACKET_WR_INVITEROBOT = 1117;
+  PACKET_WG_AGENTKICKOUTPLAYER = 1118;
+  PACKET_WD_DATANALYSIS = 1119;
+  //PACKET_GW_PLAYERMATCHBILLED		= 1120;
+  PACKET_GW_CLUBBILLMONEY = 1121;
+  PACKET_WG_REBIND_SNID = 1122;
+  PACKET_WG_AUDIENCESIT = 1123;
+  PACKET_WG_RECHARGE = 1124;
+  PACKET_GW_SCENESTATE = 1125;
+  PACKET_WG_GRACE_DESTROYSCENE = 1126;
+  PACKET_GW_SCENEEND = 1127;
+  PACKET_GW_FISHRECORD = 1128;
+  PACKET_GW_PLAYERFORCELEAVE = 1129;
+  PACKET_GW_PLAYERWINSOCORE = 1130;
+  PACKET_GW_PLAYERBET = 1131;
+  PACKET_DW_ThirdRebateMessage = 1132;
+  PACKET_WD_ACKThirdRebateMessage = 1133;
+  PACKET_DW_ThirdRoundMessage = 1134;
+  PACKET_WR_INVITECREATEROOM = 1135;
+  PACKET_WR_LoginRec = 1136;
+  PACKET_WR_GameDetail = 1137;
+  PACKET_WR_PlayerData = 1138;
+  PACKET_WG_PlayerLEAVE = 1139;
+
+
+  PACKET_GN_PLAYERCARDS = 1500;
+  PACKET_GW_REBUILDSCENE = 1501;
+  PACKET_GW_PLAYERSTATE = 1502;
+  PACKET_GW_NEWNOTICE = 1503;
+  PACKET_GW_PLAYERSTATIC = 1504;
+  PACKET_WG_COINPOOLSETTING = 1505;
+  PACKET_WG_SETPLAYERBLACKLEVEL = 1506;
+  PACKET_GW_AUTORELIEVEWBLEVEL = 1507;
+  PACKET_GN_PLAYERPARAM = 1508;
+  PACKET_GW_SCENEPLAYERLOG = 1509;
+  PACKET_GW_SYNCPLAYERCOIN = 1510;
+  PACKET_WG_PlayerOnGameCount = 1514;
+  PACKET_GR_GameFreeData = 1515;
+  PACKET_WG_SyncPlayerSafeBoxCoin = 1516;
+  PACKET_WG_RESETCOINPOOL = 1517;
+  PACKET_WG_CLUB_MESSAGE = 1518;
+  PACKET_GW_GAMESTATELOG = 1519;
+  PACKET_GW_GAMESTATE = 1520;
+  PACKET_GW_JACKPOTLIST = 1521;
+  PACKET_GW_JACKPOTCOIN = 1522; //同步奖池
+  PACKET_GW_NICEIDREBIND = 1523;
+  PACKET_GW_PLAYERWINCOIN = 1524;
+  PACKET_GW_PLAYERAUTOMARKTAG = 1525;
+  PACKET_WG_INVITEROBENTERCOINSCENEQUEUE = 1526;
+  PACKET_WG_GAMEFORCESTART = 1527;
+  PACKET_WG_PROFITCONTROL_CORRECT = 1528;
+  PACKET_GW_CHANGESCENEEVENT = 1529;
+  PACKET_WT_PLAYERPAY = 1530;
+  PACKET_GW_PLAYERMATCHBILLED = 1531;
+  PACKET_GW_PLAYERMATCHGRADE = 1532;
+  PACKET_WG_PLAYERQUITMATCH = 1533;
+  PACKET_WG_SCENEMATCHBASECHANGE = 1534;
+  PACKET_SS_REDIRECTTOPLAYER = 1535;
+  PACKET_WG_INVITEMATCHROB = 1536;
+  PACKET_WG_GAMEJACKPOT = 1539;  //WorldSrv通知GameSrv转发奖池信息
+  PACKET_GW_GAMENEWBIGWINHISTORY = 1540;
+  PACKET_WG_PLAYERENTER_MINIGAME = 1541;
+  PACKET_WG_PLAYERLEAVE_MINIGAME = 1542;
+  PACKET_GW_PLAYERLEAVE_MINIGAME = 1543;
+  PACKET_GW_DESTROYMINISCENE = 1544;
+  PACKET_GR_DESTROYSCENE = 1545;
+  PACKET_WG_DTROOMINFO = 1546;
+  PACKET_GW_DTROOMINFO = 1547;
+  PACKET_WG_DTROOMRESULTS = 1548;
+  PACKET_GW_DTROOMRESULTS = 1549;
+  PACKET_WG_SINGLEADJUST = 1550;
+  PACKET_GW_ADDSINGLEADJUST = 1551;
+}
+
+//PACKET_SG_BINDGROUPTAG
+message SGBindGroupTag{
+  enum OpCode {
+    OpCode_Add = 0;//添加
+    OpCode_Del = 1;//删除
+  }
+  int64 Sid = 1;  //sessionid
+  OpCode Code = 2; //操作码
+  repeated string Tags = 3;//标记信息
+}
+
+//PACKET_SS_CUSTOMTAG_MULTICAST
+message SSCustomTagMulticast{
+  repeated string Tags = 1;
+  bytes RawData = 2;
+}
+
+message OpResultParam {
+  int64 ParamInt64 = 1;
+  string ParamString = 2;
+}
+
+//PACKET_GB_CUR_LOAD
+message ServerLoad {
+  int32 SrvType = 1;
+  int32 SrvId = 2;
+  int32 CurLoad = 3;
+}
+
+//PACKET_GB_STATE_SWITCH
+message ServerStateSwitch {
+  int32 SrvType = 1;
+  int32 SrvId = 2;
+}
+
+//PACKET_WG_SERVER_STATE
+message ServerState {
+  int32 SrvState = 1;
+}
+
+//PACKET_MS_SRVCTRL
+message ServerCtrl {
+  int32 CtrlCode = 1;
+  repeated OpResultParam Params = 2;
+}
+
+//PACKET_SC_NOTICE
+message ServerNotice {
+  string Text = 1;
+}
+
+//PACKET_WG_CREATESCENE
+message WGCreateScene {
+  int32 SceneId = 1;
+  int32 GameId = 2;
+  int32 GameMode = 3;
+  repeated int32 Params = 4;
+  int32 Creator = 5;
+  int32 Agentor = 6;
+  string ReplayCode = 7;
+  repeated int32 ParamsEx = 8;
+  int32 SceneMode = 9;
+  int32 HallId = 10;
+  string Platform = 11;
+  DB_GameFree DBGameFree = 12;
+  int32 GroupId = 13;
+  bool EnterAfterStart = 14;
+  int32 TotalOfGames = 15;
+  int32 Club = 16;    //俱乐部Id
+  string ClubRoomId = 17;
+  int32 ClubRoomPos = 18;
+  int32 ClubRate = 19;
+  int32 BaseScore = 20;
+  int32 PlayerNum = 21;
+}
+
+//PACKET_WG_DESTROYSCENE
+message WGDestroyScene {
+  int32 SceneId = 1;
+  bool IsCompleted = 2;
+  bool MatchStop = 3;
+}
+
+//PACKET_GW_DESTROYSCENE
+message GWDestroyScene {
+  int32 SceneId = 1;
+  bool IsCompleted = 2;
+}
+
+//PACKET_WG_GRACE_DESTROYSCENE
+message WGGraceDestroyScene {
+  repeated int32 Ids = 1;
+}
+message RebateTask {
+  bool RebateSwitch = 1;    //返利开关
+  repeated string RebateGameCfg = 2;  //已打开的游戏配置 gameid+gamemode
+}
+//PACKET_WG_PLAYERENTER
+//PACKET_WG_AUDIENCEENTER
+message WGPlayerEnter {
+  int64 Sid = 1;
+  int64 GateSid = 2;
+  int32 SceneId = 3;
+  bytes PlayerData = 4;
+  string AgentCode = 5;
+  int64 TakeCoin = 6;  //携带金币
+  bool IsLoaded = 7;    //加载完成
+  bool IsQM = 8;         //是否是全民推广用户
+  int64 ExpectLeaveCoin = 9;//期望离场时的金币[机器人用]
+  int32 ExpectGameTimes = 10;//期望进行的游戏局数[机器人用]
+  repeated PlayerIParam IParams = 11;
+  repeated PlayerSParam SParams = 12;
+  repeated PlayerCParam CParams = 13;
+  int32 SnId = 14;
+  bytes SingleAdjust = 15;//单控数据
+  int32 Pos = 16;
+  map<int32, int32> Items = 17;
+  repeated int32 MatchParams = 18;//比赛参数
+}
+
+//从观众席坐到座位
+//PACKET_WG_AUDIENCESIT
+message WGAudienceSit {
+  int32 SnId = 1;
+  int64 TakeCoin = 2; //携带金币
+  int32 SceneId = 3;
+  int32 Pos = 4;
+}
+
+//PACKET_WG_PLAYERRETURN
+message WGPlayerReturn {
+  int32 PlayerId = 1;
+  bool IsLoaded = 2;  //加载完成标记
+  int32 RoomId = 3;  //房间id
+  int64 EnterTs = 4; //进房时的时间
+}
+
+//PACKET_GW_PLAYERLEAVE
+//PACKET_GW_AUDIENCELEAVE
+message GWPlayerLeave{
+  int32 RoomId = 1;
+  int32 PlayerId = 2;
+  int32 Reason = 3;  //原因: 0:主动离开 1:被踢出 2:游戏已经开始
+  bytes PlayerData = 4;
+  int64 ReturnCoin = 5; //退还金币
+  int64 ServiceFee = 6; //服务费|税收
+  int32 GameTimes = 7;  //游戏次数
+  int64 GameCoinTs = 8;
+  int32 SelVip = 9;//VIP鱼炮的选择
+  int64 BetCoin = 10;  //投注金额
+  int32 WinTimes = 11;  //赢局
+  int32 LostTimes = 12;  //输局
+  int64 TotalConvertibleFlow = 13;  //流水
+  int64 ValidCacheBetTotal = 14;    //有效下注缓存
+  map<int32, int32> Items = 15;
+  int32 MatchId =16;//比赛场id
+  int64 CurIsWin = 17;//本局是否赢  负数：输  0：平局  正数：赢
+  bool MatchStop = 18;
+}
+
+//PACKET_WG_PLAYERDROPLINE
+message WGPlayerDropLine {
+  int32 Id = 1;
+  int32 SceneId = 2;
+}
+
+//PACKET_WG_PLAYERREHOLD
+message WGPlayerRehold {
+  int32 Id = 1;
+  int64 Sid = 2;
+  int32 SceneId = 3;
+  int64 GateSid = 4;
+}
+
+//PACKET_GW_BILLEDROOMCARD
+message GWBilledRoomCard {
+  int32 RoomId = 1;
+  repeated int32 SnId = 2;
+}
+
+//PACKET_GG_PLAYERSESSIONBIND
+message GGPlayerSessionBind {
+  int64 Sid = 1;
+  int32 SnId = 2;
+  int32 Vip = 3;
+  int64 CoinPayTotal = 4;
+  string Ip = 5;
+  string Platform = 6;
+}
+
+//PACKET_GG_PLAYERSESSIONUNBIND
+message GGPlayerSessionUnBind {
+  int64 Sid = 1;
+}
+
+message WGDayTimeChange {
+  int32 Minute = 1;
+  int32 Hour = 2;
+  int32 Day = 3;
+  int32 Week = 4;
+  int32 Month = 5;
+}
+
+message ReplayPlayerData {
+  string AccId = 1; //账号ID
+  string Platform = 2; //平台名称
+  string Pos = 3; //Pos
+  string Name = 4; //名字
+  int32 SnId = 5; //数字账号
+  int32 Head = 6; //头像
+  int32 Sex = 7; //性别
+  int64 Coin = 8; //金币
+}
+
+//录像回放相关
+message ReplayRecord{
+  int64 TimeStamp = 1;  //时间戳
+  int32 Pos = 2;      //位置相关 -1:标示广播消息，与位置无关
+  int32 PacketId = 3;  //包ID
+  bytes BinData = 4;    //包二进制数据
+  string StrData = 5;    //包字符串数据
+  int32 ExcludePos = 6;  //排除的位置
+}
+
+message ReplaySequene{
+  repeated ReplayRecord Sequenes = 1;
+}
+
+message GRReplaySequene {
+  string Name = 1;
+  ReplaySequene Rec = 2;
+  string Platform = 3;
+  string Channel = 4;
+  string Promoter = 5;
+  int32 ClubId = 6;
+  string ClubRoom = 7;
+  int32 GameFreeid = 8;
+  int32 RoomId = 9; //房间id
+  int32 GameId = 10; //游戏id
+  int32 RoomMode = 11; //游戏模式
+  int32 NumOfGames = 12; //当前第几局
+  int32 BankerPos = 13; //庄家位置
+  int32 SceneType = 14; //房间模式 0:房卡模式 1:钻石模式
+  string LogId = 15; //关联的牌局记录
+  repeated ReplayPlayerData Datas = 16; //玩家信息
+  int32 DatasVer = 17;
+}
+
+//PACKET_WR_LoginRec
+message WRLoginRec {
+  int32 SnId = 1; //
+  int32 RecType = 2; //记录类型
+  int64 RecTime = 3; //记录时间
+  bool IsBind = 4; //是否绑定
+
+  string City = 5; //城市
+  string Platform = 6; //平台id
+  string LogId = 7; //关联的登录记录
+}
+
+//PACKET_WR_GameDetail
+message WRGameDetail {
+  bytes GameDetail = 1; //
+}
+//PACKET_WR_PlayerData
+message WRPlayerData {
+  int64 Sid = 1;
+  bytes PlayerData = 2; //
+}
+
+
+//PACKET_WT_PlayerPay
+message WTPlayerPay {
+  bytes PlayerData = 1; //
+  int64 AddCoin = 2;
+}
+
+message PlayerGameRec{
+  int32 Id = 1;
+  string Name = 2;
+  int32 Head = 3;
+  int64 Coin = 4;
+  int32 Pos = 5;
+  repeated int32 OtherParams = 6;
+}
+//PACKET_GW_GAMEREC
+message GWGameRec {
+  int32 RoomId = 1;
+  repeated PlayerGameRec Datas = 2;
+  int32 NumOfGames = 3;
+  int32 GameTime = 4;
+  string ReplayCode = 5;
+}
+
+//PACKET_GW_SCENESTART
+message GWSceneStart {
+  int32 RoomId = 1;
+  int32 CurrRound = 2;
+  bool Start = 3;
+  int32 MaxRound = 4;
+}
+
+message PlayerCtx{
+  int32 SnId = 1;
+  int64 Coin = 2;
+}
+//该协议废弃掉,统一由
+//PACKET_GW_SCENEEND
+//message GWSceneEnd {
+//	int32 GameFreeId = 1;
+//	repeated PlayerCtx Players = 2;
+//}
+//PACKET_GW_SCFISHRECORD
+message FishRecord {
+  int32 FishId = 1;
+  int32 Count = 2;
+}
+message GWFishRecord {
+  int32 GameFreeId = 1;
+  int32 SnId = 2;
+  repeated FishRecord FishRecords = 3;
+}
+
+//场景状态
+//PACKET_GW_SCENESTATE
+message GWSceneState {
+  int32 RoomId = 1;
+  int32 CurrState = 2;
+  int32 Fishing = 3;
+}
+
+//PACKET_WR_INVITEROBOT
+message WRInviteRobot {
+  int32 RoomId = 1;
+  int32 Cnt = 2;
+  int32 MatchId = 3;
+  string Platform = 4;
+  bool IsMatch = 5;
+  bool NeedAwait = 6;
+}
+
+//PACKET_WR_INVITECREATEROOM
+message WRInviteCreateRoom {
+  int32 Cnt = 1;
+  int32 MatchId = 2;
+}
+
+//PACKET_WG_AGENTKICKOUTPLAYER
+message WGAgentKickOutPlayer {
+  int32 RoomId = 1;
+  int32 AgentId = 2;
+  int32 PlayerId = 3;
+  int64 AgentSid = 4;
+}
+
+//PACKET_WD_DATANALYSIS
+message WDDataAnalysis {
+  int32 DataType = 1;
+  bytes Data = 2;
+}
+
+message PlayerCard{
+  int32 Pos = 1;
+  repeated int32 Cards = 2;
+}
+
+message GNPlayerCards{
+  int32 SceneId = 1;
+  repeated PlayerCard PlayerCards = 2;
+  int32 NowRobotMode = 3;
+}
+message RobotData{
+  int64 TotalIn = 2;
+  int64 TotalOut = 3;
+  int64 CoinPayTotal = 4;
+  int64 CoinExchangeTotal = 5;
+  int32 Pos = 6;
+}
+message GNPlayerParam{
+  int32 SceneId = 1;
+  repeated RobotData Playerdata = 2;
+}
+
+//PACKET_GW_REBUILDSCENE
+//重建场景关系
+message GWRebuildScene{
+  repeated int32 SceneIds = 1;
+  repeated int32 PlayerIds = 2;
+}
+//PACKET_WG_REBIND_SNID 1122
+message WGRebindPlayerSnId{
+  int32 OldSnId = 1;
+  int32 NewSnId = 2;
+}
+//PACKET_GW_PLAYERSTATE
+message GWPlayerFlag{
+  int32 SnId = 1;
+  int32 RoomId = 2;
+  int32 Flag = 3;
+}
+
+//玩家操作返回
+//PACKET_WG_RECHARGE
+message WGHundredOp{
+  int32 snid = 1;    //玩家SNID
+  int32 OpCode = 2;    //操作码
+  repeated int64 Params = 3;    //操作参数
+}
+
+//系统广播
+message GWNewNotice{
+  string ch = 1;
+  string content = 2;
+  int64 start = 3;
+  int64 interval = 4;
+  int64 count = 5;
+  int64 msgtype = 6;
+  string platform = 7;
+  int32 priority = 8;
+  bool isrob = 9;
+}
+
+message PlayerStatics{
+  int32 SnId = 1;
+  int64 GameTimes = 2;
+  int64 TotalIn = 3;
+  int64 TotalOut = 4;
+  bool IsFoolPlayer = 5;
+  int64 LoseGameTimes = 6;
+  int64 WinGameTimes = 7;
+  int64 TotalSysIn = 8;
+  int64 TotalSysOut = 9;
+}
+
+message GWPlayerStatics{
+  int32 RoomId = 1;
+  repeated PlayerStatics Datas = 2;
+  int32 ClubId = 3;
+  int64 PumpTotalCoin = 4;
+}
+
+message WGResetCoinPool{
+  string Platform = 1;
+  int32 GameFreeId = 2;
+  int32 ServerId = 3;
+  int32 GroupId = 4;
+  int32 PoolType = 5;
+  int32 Value = 6;
+}
+
+message WGSetPlayerBlackLevel{
+  int32 SnId = 1;
+  int32 SceneId = 2;
+  int32 WBLevel = 3;
+  int64 WBCoinLimit = 4;
+  bool ResetTotalCoin = 5;
+  int32 MaxNum = 6;
+}
+
+message GWAutoRelieveWBLevel{
+  int32 SnId = 1;
+}
+//PACKET_GW_SCENEPLAYERLOG
+//通知world房间里都是谁跟谁打牌的，配桌用的数据
+message GWScenePlayerLog{
+  int32 GameId = 1;
+  int32 GameFreeId = 2;
+  repeated int32 Snids = 3;
+  repeated bool IsGameing = 4;
+}
+
+//PACKET_GW_PLAYERFORCELEAVE
+message GWPlayerForceLeave{
+  int32 RoomId = 1;
+  int32 PlayerId = 2;
+  int32 Reason = 3;  //原因: 0:主动离开 1:被踢出 2:游戏已经开始
+  int64 EnterTs = 4; //进场时时间
+}
+
+//PACKET_GW_PLAYERBET
+message PlayerBet {
+  int32 SnId = 1;//玩家id
+  int64 Bet = 2;//下注额(有效下注)
+  int64 Gain = 3;//输赢额,税前
+  int64 Tax = 4;//税收
+  int64 OtherTax = 5;//其他税收(比如:俱乐部额外扣税)
+  int64 Coin = 6;//当前身上余额
+  int64 FlowCoin = 7;//流水
+  int64 Lottery = 8;//彩金池增加金额
+  int32 Kind = 9;//牌型
+  repeated int32 Card = 10;//手牌
+  int64 GameCoinTs = 11;//最后帐变时间戳
+}
+message GWPlayerBet {
+  int32 GameFreeId = 1;//游戏场次id
+  int32 SceneId = 2; //房间id
+  string RecId = 3;//牌局id
+  int64 RobotGain = 4;  //机器人营收 机器人赢:正值 机器人输:负值
+  repeated PlayerBet PlayerBets = 5;//玩家下注数据
+}
+
+//PACKET_GW_PLAYERWINSOCORE
+message PlayerWinScore {
+  int32 SnId = 2;//玩家id
+  int64 WinScore = 3;//玩家输赢额,税后
+  int64 Gain = 4;//输赢额,税前
+  int64 Tax = 5;//税收
+  int64 Lottery = 6;//彩金池增加金额
+  int32 Kind = 7;//牌型
+  repeated int32 Card = 8;//手牌
+}
+message GWPlayerWinScore {
+  int32 GameFreeId = 1;//游戏场次id
+  repeated PlayerWinScore PlayerWinScores = 2;//玩家输赢数据
+  int64 RobotGain = 3;//机器人营收 机器人赢:正值 机器人输:负值
+  int32 SceneId = 4; //房间id
+  string RecId = 5;//牌局id
+}
+
+message WGPayerOnGameCount{
+  repeated int32 DTCount = 1;
+}
+
+message GRGameFreeData{
+  int32 RoomId = 1;
+  DB_GameFree DBGameFree = 2;
+}
+
+message WGSyncPlayerSafeBoxCoin{
+  int32 SnId = 1;
+  int64 SafeBoxCoin = 2;
+}
+//PACKET_WG_CLUB_MESSAGE
+message WGClubMessage {
+  int64 ClubId = 1;
+  repeated int32 SceneIds = 2;
+  int64 PumpCoin = 3;
+  DB_GameFree DBGameFree = 4;
+}
+
+//datasrv=>worldsrv用户在三方平台的流水信息
+message DWThirdRebateMessage {
+  uint64 Tag = 1;
+  int32 Snid = 2;
+  int64 AvailableBet = 3;
+  string Third = 4;
+  int32 Plt = 5;
+}
+message DWThirdRoundMessage {
+  uint64 Tag = 1;
+  int32 Snid = 2;
+  string Third = 3;
+  string InThirdGameid = 4;       //在三方内的游戏ID
+  string InThirdGameName = 5;     //在三方内的游戏名字，主要是FG来根据游戏名来区分
+  int32 OneroundMaxwin = 6;       //在一个时间段内一局最大的盈利
+  int32 AccRoundsInTime = 7;      //在一个时间段内累计局数
+  int32 ProfitCoinInTime = 8;    //在一个时间段内盈利总额
+  int32 BetCoinInTime = 9;    //在一个时间段内有效投注总额
+  int32 FlowCoinInTime = 10;    //在一个时间段内流水总额
+  int32 Platform = 11;        //平台id
+}
+
+//worldsrv=>datasrv确认信息
+message WDACKThirdRebateMessage {
+  uint64 Tag = 1;
+  int32 Result = 2;
+}
+
+//PACKET_GW_GAMESTATELOG
+message GWGameStateLog{
+  int32 SceneId = 1;
+  int32 GameLog = 2;
+  int32 LogCnt = 3;
+}
+//PACKET_GW_GAMESTATE
+message GWGameState{
+  int32 SceneId = 1;
+  int32 State = 2;
+  int64 Ts = 3;
+  int32 Sec = 4;
+  int32 BankerListNum = 5;//当前上庄列表数量
+}
+//PACKET_GW_JACKPOTLIST
+message GWGameJackList{
+  int32 SnId = 1;
+  int64 Coin = 2;
+  int32 RoomId = 3;
+  int32 JackType = 4;
+  int32 GameId = 5;
+  string Platform = 6;
+  string Channel = 7;
+  string Name = 8;
+}
+
+//PACKET_GW_JACKPOTCOIN
+message GWGameJackCoin{
+  repeated string Platform = 1;
+  repeated int64 Coin = 2;
+}
+//PACKET_GW_NICEIDREBIND
+message WGNiceIdRebind{
+  int32 User = 1;
+  int32 NewId = 2;
+}
+
+message PLAYERWINCOININFO{
+  int32 SnId = 1;
+  int32 GameFreeID = 2;
+  int32 WinCoin = 3;
+}
+
+//PACKET_GW_PLAYERWINCOIN
+message GWPLAYERWINCOIN{
+  repeated PLAYERWINCOININFO player = 1;
+}
+
+//PACKET_GW_PLAYERAUTOMARKTAG
+message GWPlayerAutoMarkTag{
+  int32 SnId = 1;
+  int32 Tag = 2;
+}
+//PACKET_WG_INVITEROBENTERCOINSCENEQUEUE
+message WGInviteRobEnterCoinSceneQueue{
+  string Platform = 1;
+  int32 GameFreeId = 2;
+  int32 RobNum = 3;
+}
+//PACKET_WG_GAMEFORCESTART
+message WGGameForceStart{
+  int32 SceneId = 1;
+}
+
+message ProfitControlGameCfg{
+  int32 GameFreeId = 1;
+  int32 AutoCorrectRate = 2;
+  int32 ManualCorrectRate = 3;
+  bool UseManual = 4;
+  bool DownPool = 5;//是否降低水池
+}
+
+message ProfitControlPlatformCfg{
+  string Platform = 1;
+  repeated ProfitControlGameCfg GameCfg = 2;
+}
+
+//PACKET_WG_PROFITCONTROL_CORRECT
+message WGProfitControlCorrect{
+  repeated ProfitControlPlatformCfg Cfg = 1;
+}
+//PACKET_GW_CHANGESCENEEVENT
+message GWChangeSceneEvent {
+  int32 SceneId = 1;
+}
+
+message PlayerIParam {
+  int32 ParamId = 1;
+  int64 IntVal = 2;
+}
+
+message PlayerSParam{
+  int32 ParamId = 1;
+  string StrVal = 2;
+}
+
+message PlayerCParam {
+  string StrKey = 1;
+  string StrVal = 2;
+}
+
+message PlayerMatchCoin {
+  int32 SnId = 1;
+  int32 Coin = 2;
+}
+
+//PACKET_GW_PLAYERMATCHBILLED
+message GWPlayerMatchBilled{
+  int32 SceneId = 1;
+  int32 MatchId = 2;
+  repeated PlayerMatchCoin Players = 3;
+  int32 WinPos = 4;
+}
+
+//PACKET_GW_PLAYERMATCHGRADE
+message GWPlayerMatchGrade{
+  int32 SceneId = 1;
+  int32 MatchId = 2;
+  int32 NumOfGame = 3;
+  int32 SpendTime = 4;
+  string GameLogId = 5;
+  repeated PlayerMatchCoin Players = 6;
+}
+
+//玩家退赛
+//PACKET_WG_PLAYERQUITMATCH
+message WGPlayerQuitMatch{
+  int32 SnId = 1;  //玩家ID
+  int32 SceneId = 2;  //房间ID
+  int32 MatchId = 3;  //比赛ID
+}
+
+//比赛房间底分变化
+//PACKET_WG_SCENEMATCHBASECHANGE
+message WGSceneMatchBaseChange{
+  repeated int32 SceneIds = 1;  //房间ID
+  int32 BaseScore = 2;  //当前底分
+  int32 OutScore = 3;  //出局分数
+  int32 RestNum = 4;    //剩余人数
+  int32 NextTs = 5;    //下次刷新时间
+}
+
+//PACKET_SS_REDIRECTTOPLAYER
+message SSRedirectToPlayer{
+  int32 SnId = 1;      //玩家id
+  int32 SceneId = 2;  //场景id
+  int32 PacketId = 3; //包id
+  bytes Data = 4;      //包内容
+}
+
+//PACKET_WG_INVITEMATCHROB
+message WGInviteMatchRob{
+  string Platform = 1;
+  int32 MatchId = 2;
+  int32 RobNum = 3;
+  bool NeedAwait = 4;
+}
+
+message GameInfo{
+  int32 GameId = 1;    //游戏id
+  int32 GameFreeId = 2;  //游戏GameFeeId
+  int32 GameType = 3;    //游戏类型
+}
+
+//PACKET_WG_GAMEJACKPOT
+message WGGameJackpot{
+  int64 Sid = 1;
+  int64 GateSid = 2;
+  string Platform = 3;
+  repeated GameInfo Info = 4;
+}
+
+// 大奖记录信息
+message BigWinHistoryInfo{
+  string SpinID = 1;      // 操作id
+  int64 CreatedTime = 2;  // 时间
+  int64 BaseBet = 3;      // 单条线下注（底注）
+  int64 PriceValue = 4;   // 大奖赢分
+  string UserName = 5;    // 昵称
+  bool IsVirtualData = 6; // 是否为虚拟数据
+  int64 TotalBet = 7;     // 总下注
+  repeated int32 Cards = 8;//牌型 
+}
+//PACKET_GW_GAMENEWBIGWINHISTORY
+message GWGameNewBigWinHistory{
+  int32 SceneId = 1;
+  BigWinHistoryInfo BigWinHistory = 2; //最新一条爆奖记录
+}
+
+//PACKET_WG_PLAYERENTER_MINIGAME
+message WGPlayerEnterMiniGame {
+  int64 Sid = 1;
+  int64 GateSid = 2;
+  int32 SnId = 3;
+  int32 SceneId = 4;
+  bytes PlayerData = 5;
+  int64 TakeCoin = 6;  //携带金币
+  bool IsQM = 7;         //是否是全民推广用户
+  int64 ExpectLeaveCoin = 8;//期望离场时的金币[机器人用]
+  int32 ExpectGameTimes = 9;//期望进行的游戏局数[机器人用]
+  bytes SingleAdjust = 10;//单控数据
+}
+
+//PACKET_WG_PLAYERLEAVE_MINIGAME
+message WGPlayerLeaveMiniGame {
+  int64 Sid = 1;
+  int64 GateSid = 2;
+  int32 SnId = 3;
+  int32 SceneId = 4;
+}
+
+//PACKET_WG_PlayerLEAVE
+message WGPlayerLeave {
+  int32 SnId = 1;
+}
+
+//PACKET_GW_PLAYERLEAVE_MINIGAME
+message GWPlayerLeaveMiniGame{
+  int32 SceneId = 1;
+  int32 GameFreeId = 2;
+  int32 SnId = 3;
+  int32 Reason = 4;  //原因: 0:主动离开 1:被踢出 2:游戏已经开始
+  bytes PlayerData = 5;
+}
+
+//PACKET_GW_DESTROYMINISCENE
+message GWDestroyMiniScene {
+  int32 SceneId = 1;
+}
+
+//PACKET_GR_DESTROYSCENE
+message GRDestroyScene{
+  int32 SceneId = 1; //场景id
+}
+
+//失效的机器人账号
+message RWAccountInvalid {
+  string Acc = 1;
+}
+//PACKET_WG_DTROOMINFO
+message WGDTRoomInfo{
+  string DataKey = 1;
+  int32 RoomId = 2;
+}
+
+message PlayerDTCoin{
+  string NickName = 1;
+  int32 Snid = 2;
+  int32 DCoin = 3;
+  int32 TCoin = 4;
+  int32 NCoin = 5;
+  int64 Totle = 6;
+  int32 DDCoin = 7;
+  int32 TDCoin = 8;
+}
+message EResult {
+  string Index = 1;
+  int32 Result = 2;
+}
+//PACKET_GW_DTROOMINFO
+message GWDTRoomInfo{
+  string DataKey = 1;
+  int32 RoomId = 2;
+  int32 DCoin = 3;
+  int32 TCoin = 4;
+  int32 NCoin = 5;
+  repeated PlayerDTCoin Players = 6;
+  int32 Onlines = 7;
+  int32 LeftTimes = 8;
+  int64 CoinPool = 9;
+  int32 NumOfGames = 10;
+  int32 LoopNum = 11; // 循环局数
+  repeated EResult Results = 12; // 结算控制
+  int32 DDCoin = 13; // 百家乐 闲对子
+  int32 TDCoin = 14; // 百家乐 庄对子
+}
+//PACKET_WG_DTROOMRESULTS
+message WGRoomResults{
+  int32 RoomId = 1;
+  string Webuser = 2;
+  string Results = 3;
+  string DataKey = 4;
+}
+//PACKET_GW_DTROOMRESULTS
+message GWRoomResults{
+  string DataKey = 1;
+  int32 Code = 2; // 0 成功 1 重复设置 2 局数错误 3 未知错误
+  string Msg = 3; // 描述信息
+}
+//PACKET_GW_ADDSINGLEADJUST
+message GWAddSingleAdjust{
+  int32 SnId = 1;
+  string Platform = 2;
+  int32 GameFreeId = 3;
+}
+//PACKET_WG_SINGLEADJUST
+message WGSingleAdjust{
+  int32 SceneId = 1;
+  int32 Option = 2;
+  bytes PlayerSingleAdjust = 3;
+}

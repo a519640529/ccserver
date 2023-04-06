@@ -1,0 +1,7 @@
+{
+  "Name": "gamer",
+  "Passwd": "123$654",
+  "Addr": "192.168.10.240",
+  "RemoteDir": "/home/gamer/win88",
+  "LocalDir": "E:\\gocode\\trunk\\src\\games.yol.com\\win88"
+}

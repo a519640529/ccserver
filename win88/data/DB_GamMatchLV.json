@@ -1,0 +1,469 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"Star": [
+				1,
+				5
+			],
+			"Name": "玄铁I",
+			"Star2": 1,
+			"AwardType1": 1,
+			"Number1": 10000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 2,
+			"Star": [
+				6,
+				10
+			],
+			"Name": "玄铁II",
+			"Star2": 6,
+			"AwardType1": 1,
+			"Number1": 15000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 3,
+			"Star": [
+				11,
+				15
+			],
+			"Name": "玄铁III",
+			"Star2": 11,
+			"AwardType1": 1,
+			"Number1": 20000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 4,
+			"Star": [
+				16,
+				20
+			],
+			"Name": "玄铁IV",
+			"Star2": 16,
+			"AwardType1": 1,
+			"Number1": 25000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 5,
+			"Star": [
+				21,
+				25
+			],
+			"Name": "玄铁V",
+			"Star2": 21,
+			"AwardType1": 1,
+			"Number1": 30000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 6,
+			"Star": [
+				26,
+				30
+			],
+			"Name": "青铜I",
+			"Star2": 26,
+			"AwardType1": 1,
+			"Number1": 35000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 7,
+			"Star": [
+				31,
+				35
+			],
+			"Name": "青铜II",
+			"Star2": 31,
+			"AwardType1": 1,
+			"Number1": 40000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 8,
+			"Star": [
+				36,
+				40
+			],
+			"Name": "青铜III",
+			"Star2": 36,
+			"AwardType1": 1,
+			"Number1": 45000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 9,
+			"Star": [
+				41,
+				45
+			],
+			"Name": "青铜IV",
+			"Star2": 41,
+			"AwardType1": 1,
+			"Number1": 50000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 10,
+			"Star": [
+				46,
+				50
+			],
+			"Name": "青铜V",
+			"Star2": 46,
+			"AwardType1": 1,
+			"Number1": 55000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 11,
+			"Star": [
+				51,
+				55
+			],
+			"Name": "白银I",
+			"Star2": 51,
+			"AwardType1": 1,
+			"Number1": 60000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 12,
+			"Star": [
+				56,
+				60
+			],
+			"Name": "白银II",
+			"Star2": 51,
+			"AwardType1": 1,
+			"Number1": 65000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 13,
+			"Star": [
+				61,
+				65
+			],
+			"Name": "白银III",
+			"Star2": 51,
+			"AwardType1": 1,
+			"Number1": 70000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 14,
+			"Star": [
+				66,
+				70
+			],
+			"Name": "白银IV",
+			"Star2": 51,
+			"AwardType1": 1,
+			"Number1": 75000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 15,
+			"Star": [
+				71,
+				75
+			],
+			"Name": "白银V",
+			"Star2": 51,
+			"AwardType1": 1,
+			"Number1": 80000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 16,
+			"Star": [
+				76,
+				80
+			],
+			"Name": "黄金I",
+			"Star2": 56,
+			"AwardType1": 1,
+			"Number1": 85000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 17,
+			"Star": [
+				81,
+				85
+			],
+			"Name": "黄金II",
+			"Star2": 56,
+			"AwardType1": 1,
+			"Number1": 90000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 18,
+			"Star": [
+				86,
+				90
+			],
+			"Name": "黄金III",
+			"Star2": 56,
+			"AwardType1": 1,
+			"Number1": 95000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 19,
+			"Star": [
+				91,
+				95
+			],
+			"Name": "黄金IV",
+			"Star2": 56,
+			"AwardType1": 1,
+			"Number1": 100000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 20,
+			"Star": [
+				96,
+				100
+			],
+			"Name": "黄金V",
+			"Star2": 56,
+			"AwardType1": 1,
+			"Number1": 105000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 21,
+			"Star": [
+				101,
+				105
+			],
+			"Name": "铂金I",
+			"Star2": 76,
+			"AwardType1": 1,
+			"Number1": 110000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 22,
+			"Star": [
+				106,
+				110
+			],
+			"Name": "铂金II",
+			"Star2": 76,
+			"AwardType1": 1,
+			"Number1": 115000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 23,
+			"Star": [
+				111,
+				115
+			],
+			"Name": "铂金III",
+			"Star2": 76,
+			"AwardType1": 1,
+			"Number1": 120000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 24,
+			"Star": [
+				116,
+				120
+			],
+			"Name": "铂金IV",
+			"Star2": 76,
+			"AwardType1": 1,
+			"Number1": 125000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 25,
+			"Star": [
+				121,
+				125
+			],
+			"Name": "铂金V",
+			"Star2": 76,
+			"AwardType1": 1,
+			"Number1": 130000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 26,
+			"Star": [
+				126,
+				130
+			],
+			"Name": "钻石I",
+			"Star2": 101,
+			"AwardType1": 1,
+			"Number1": 135000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 27,
+			"Star": [
+				131,
+				135
+			],
+			"Name": "钻石II",
+			"Star2": 101,
+			"AwardType1": 1,
+			"Number1": 140000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 28,
+			"Star": [
+				136,
+				140
+			],
+			"Name": "钻石III",
+			"Star2": 101,
+			"AwardType1": 1,
+			"Number1": 145000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 29,
+			"Star": [
+				141,
+				145
+			],
+			"Name": "钻石IV",
+			"Star2": 101,
+			"AwardType1": 1,
+			"Number1": 150000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 30,
+			"Star": [
+				146,
+				150
+			],
+			"Name": "钻石V",
+			"Star2": 101,
+			"AwardType1": 1,
+			"Number1": 155000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001
+		},
+		{
+			"Id": 31,
+			"Star": [
+				151,
+				155
+			],
+			"Name": "斗神1星-斗神19星",
+			"Star2": 126,
+			"AwardType1": 1,
+			"Number1": 1000000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001,
+			"Number3": 2000
+		},
+		{
+			"Id": 32,
+			"Star": [
+				156,
+				160
+			],
+			"Name": "斗神20星-斗神49星",
+			"Star2": 131,
+			"AwardType1": 1,
+			"Number1": 2000000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001,
+			"Number3": 5000
+		},
+		{
+			"Id": 33,
+			"Star": [
+				161,
+				9999
+			],
+			"Name": "斗神50星-斗神9999星",
+			"Star2": 136,
+			"AwardType1": 1,
+			"Number1": 5000000,
+			"AwardType2": 2,
+			"AwardType3": 3,
+			"AwardId3": 30001,
+			"Number3": 10000
+		}
+	]
+}

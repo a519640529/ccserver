@@ -1,0 +1,478 @@
+{
+	"Arr": [
+		{
+			"Id": 1,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMax": 2000,
+			"RateAdd": 300
+		},
+		{
+			"Id": 2,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 2000,
+			"PoolMax": 4000,
+			"RateAdd": 600
+		},
+		{
+			"Id": 3,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 4000,
+			"PoolMax": 6000,
+			"RateAdd": 900
+		},
+		{
+			"Id": 4,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 6000,
+			"PoolMax": 8000,
+			"RateAdd": 1200
+		},
+		{
+			"Id": 5,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 8000,
+			"PoolMax": 10000,
+			"RateAdd": 1500
+		},
+		{
+			"Id": 6,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 10000,
+			"PoolMax": 12000,
+			"RateAdd": 1800
+		},
+		{
+			"Id": 7,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 12000,
+			"PoolMax": 14000,
+			"RateAdd": 2100
+		},
+		{
+			"Id": 8,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 14000,
+			"PoolMax": 16000,
+			"RateAdd": 2400
+		},
+		{
+			"Id": 9,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 16000,
+			"PoolMax": 18000,
+			"RateAdd": 2700
+		},
+		{
+			"Id": 10,
+			"SceneType": 1,
+			"PoolType": 1,
+			"PoolMin": 18000,
+			"PoolMax": 20000,
+			"RateAdd": 3000
+		},
+		{
+			"Id": 11,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMax": 5000,
+			"RateAdd": 200
+		},
+		{
+			"Id": 12,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 5000,
+			"PoolMax": 10000,
+			"RateAdd": 400
+		},
+		{
+			"Id": 13,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 10000,
+			"PoolMax": 15000,
+			"RateAdd": 600
+		},
+		{
+			"Id": 14,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 15000,
+			"PoolMax": 20000,
+			"RateAdd": 800
+		},
+		{
+			"Id": 15,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 20000,
+			"PoolMax": 25000,
+			"RateAdd": 1000
+		},
+		{
+			"Id": 16,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 25000,
+			"PoolMax": 30000,
+			"RateAdd": 1200
+		},
+		{
+			"Id": 17,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 30000,
+			"PoolMax": 35000,
+			"RateAdd": 1400
+		},
+		{
+			"Id": 18,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 35000,
+			"PoolMax": 40000,
+			"RateAdd": 1600
+		},
+		{
+			"Id": 19,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 40000,
+			"PoolMax": 45000,
+			"RateAdd": 1800
+		},
+		{
+			"Id": 20,
+			"SceneType": 1,
+			"PoolType": 2,
+			"PoolMin": 45000,
+			"PoolMax": 100000000,
+			"RateAdd": 2000
+		},
+		{
+			"Id": 21,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMax": 8000,
+			"RateAdd": 300
+		},
+		{
+			"Id": 22,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 8000,
+			"PoolMax": 16000,
+			"RateAdd": 600
+		},
+		{
+			"Id": 23,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 16000,
+			"PoolMax": 24000,
+			"RateAdd": 900
+		},
+		{
+			"Id": 24,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 24000,
+			"PoolMax": 32000,
+			"RateAdd": 1200
+		},
+		{
+			"Id": 25,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 32000,
+			"PoolMax": 40000,
+			"RateAdd": 1500
+		},
+		{
+			"Id": 26,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 40000,
+			"PoolMax": 48000,
+			"RateAdd": 1800
+		},
+		{
+			"Id": 27,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 48000,
+			"PoolMax": 56000,
+			"RateAdd": 2100
+		},
+		{
+			"Id": 28,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 56000,
+			"PoolMax": 64000,
+			"RateAdd": 2400
+		},
+		{
+			"Id": 29,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 64000,
+			"PoolMax": 72000,
+			"RateAdd": 2700
+		},
+		{
+			"Id": 30,
+			"SceneType": 2,
+			"PoolType": 1,
+			"PoolMin": 72000,
+			"PoolMax": 80000,
+			"RateAdd": 3000
+		},
+		{
+			"Id": 31,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMax": 20000,
+			"RateAdd": 200
+		},
+		{
+			"Id": 32,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 20000,
+			"PoolMax": 40000,
+			"RateAdd": 400
+		},
+		{
+			"Id": 33,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 40000,
+			"PoolMax": 60000,
+			"RateAdd": 600
+		},
+		{
+			"Id": 34,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 60000,
+			"PoolMax": 80000,
+			"RateAdd": 800
+		},
+		{
+			"Id": 35,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 80000,
+			"PoolMax": 100000,
+			"RateAdd": 1000
+		},
+		{
+			"Id": 36,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 100000,
+			"PoolMax": 120000,
+			"RateAdd": 1200
+		},
+		{
+			"Id": 37,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 120000,
+			"PoolMax": 140000,
+			"RateAdd": 1400
+		},
+		{
+			"Id": 38,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 140000,
+			"PoolMax": 160000,
+			"RateAdd": 1600
+		},
+		{
+			"Id": 39,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 160000,
+			"PoolMax": 180000,
+			"RateAdd": 1800
+		},
+		{
+			"Id": 40,
+			"SceneType": 2,
+			"PoolType": 2,
+			"PoolMin": 180000,
+			"PoolMax": 100000000,
+			"RateAdd": 2000
+		},
+		{
+			"Id": 41,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMax": 20000,
+			"RateAdd": 300
+		},
+		{
+			"Id": 42,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 20000,
+			"PoolMax": 40000,
+			"RateAdd": 600
+		},
+		{
+			"Id": 43,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 40000,
+			"PoolMax": 60000,
+			"RateAdd": 900
+		},
+		{
+			"Id": 44,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 60000,
+			"PoolMax": 80000,
+			"RateAdd": 1200
+		},
+		{
+			"Id": 45,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 80000,
+			"PoolMax": 100000,
+			"RateAdd": 1500
+		},
+		{
+			"Id": 46,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 100000,
+			"PoolMax": 120000,
+			"RateAdd": 1800
+		},
+		{
+			"Id": 47,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 120000,
+			"PoolMax": 140000,
+			"RateAdd": 2100
+		},
+		{
+			"Id": 48,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 140000,
+			"PoolMax": 160000,
+			"RateAdd": 2400
+		},
+		{
+			"Id": 49,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 160000,
+			"PoolMax": 180000,
+			"RateAdd": 2700
+		},
+		{
+			"Id": 50,
+			"SceneType": 3,
+			"PoolType": 1,
+			"PoolMin": 180000,
+			"PoolMax": 200000,
+			"RateAdd": 3000
+		},
+		{
+			"Id": 51,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMax": 50000,
+			"RateAdd": 200
+		},
+		{
+			"Id": 52,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 50000,
+			"PoolMax": 100000,
+			"RateAdd": 400
+		},
+		{
+			"Id": 53,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 100000,
+			"PoolMax": 150000,
+			"RateAdd": 600
+		},
+		{
+			"Id": 54,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 150000,
+			"PoolMax": 200000,
+			"RateAdd": 800
+		},
+		{
+			"Id": 55,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 200000,
+			"PoolMax": 250000,
+			"RateAdd": 1000
+		},
+		{
+			"Id": 56,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 250000,
+			"PoolMax": 300000,
+			"RateAdd": 1200
+		},
+		{
+			"Id": 57,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 300000,
+			"PoolMax": 350000,
+			"RateAdd": 1400
+		},
+		{
+			"Id": 58,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 350000,
+			"PoolMax": 400000,
+			"RateAdd": 1600
+		},
+		{
+			"Id": 59,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 400000,
+			"PoolMax": 450000,
+			"RateAdd": 1800
+		},
+		{
+			"Id": 60,
+			"SceneType": 3,
+			"PoolType": 2,
+			"PoolMin": 450000,
+			"PoolMax": 100000000,
+			"RateAdd": 2000
+		}
+	]
+}

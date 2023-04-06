@@ -1,0 +1,369 @@
+syntax = "proto3";
+package fishing;
+option go_package = ".;fishing";
+//操作结果
+enum OpResultCode {
+    OPRC_Sucess = 0; //成功
+    OPRC_Error = 1; //失败
+    OPRC_CoinNotEnough = 1056;  //钱不够
+}
+//捕鱼
+enum FIPacketID {
+    FISHING_ZERO = 0;                       // 弃用消息号
+    FISHING_SC_ROOMINFO = 5000;    //房间信息
+    FISHING_CS_OP = 5001;          //玩家操作（客户-》服务）
+    FISHING_SC_OP = 5002;          //玩家操作（服务-》客户）
+    FISHING_SC_ROOMSTATE = 5003;   //房间状态
+    FISHING_SC_SEATS = 5004;//座位信息
+    FISHING_SC_SYNCFISH = 5006;//刷鱼
+    FISHING_SC_FISHERENTER = 5007;//同步屏幕上的鱼
+    FISHING_CS_LOADCOMPLETE = 5008;//客户端数据装载完毕
+    FISHING_SC_FIRE = 5009;
+    FISHING_SC_FIREHIT = 5010;
+    FISHING_SC_FIREPOWER = 5011;
+    FISHING_CS_FREEZE = 5012;
+    FISHING_SC_FREEZE = 5013;
+    FISHING_CS_FISHVIEW = 5014;
+    FISHING_SC_FISHVIEW = 5015;
+    FISHING_CS_FISHTARGET = 5016;
+    FISHING_SC_FISHTARGET = 5017;
+    FISHING_SC_SELVIP = 5018;
+    FISHING_SC_ENTER = 5019;
+    FISHING_SC_LEAVE = 5020;
+    FISHING_SC_FISHDEL = 5022;
+    FISHING_SC_JACKPOTFISHDEL = 5023;
+    FISHING_CS_LOOKLOCKFISH = 5024;
+    FISHING_SC_LOOKLOCKFISH = 5025;
+    FISHING_SC_PRANACHANGE = 5026; // 能量炮变化
+    FISHING_CS_REALYPRANA  = 5027; // 放置能量炮炮台
+    FISHING_SC_REALYPRANA  = 5028; // 放置能量炮炮台
+    FISHING_CS_FIREPRANA = 5029;   // 发射能量炮
+    FISHING_SC_FIREPRANA = 5030;   // 发射能量炮
+    FISHING_SC_JACKPOTPOOLCHANGE = 5031; // jackpot变化
+    FISHING_SC_JACKPOTCOIN = 5032; // 爆奖
+    FISHING_SC_RETPRANACOIN = 5033; // 客户端显示使用
+    FISHING_SC_REBINDAGENT = 5034;  //重新绑定机器人
+    FISHING_SC_FIREMISS = 5035;     //攻击未命中(可能鱼不存在)
+    FISHING_SC_SCROBOTBEHAVIOR = 5036;  // 通知前端变更机器人行为
+    FISHING_SC_SCSYNCFISHCOIN = 5037;  // 同步财神鱼金额
+    FISHING_SC_NEWSYNCFISH = 5038 ;
+    FISHING_SC_TREASURECHESTEVENT = 5039; // 龙王夺宝相关事件处理机
+    FISHING_SC_SYNCFISHHP = 5040; // 天天捕鱼同步鱼血条
+    FISHING_SC_POWERSTATE = 5041 ; // 同步玩家得炮台状态
+}
+message FishingPlayerData {
+    string Name = 1;   //名字
+    int32 SnId = 2;    //账号
+    int32 Head = 3;    //头像
+    int32 Sex = 4;     //性别
+    int64 Coin = 5;    //金币
+    int32 Pos = 6;     //座位位置
+    int32 Flag = 7;    //二进制标记
+    string Params = 8; //其他数据 如:ip 等
+    string City = 9;   //城市
+    int32 HeadOutLine = 10;  //头像框
+    int32 VIP = 11;
+    int32 SelVip = 12; //选择的VIP鱼炮
+    int32 Power = 13;
+    bool IsRobot = 14;    //0 正常玩家 1 机器人
+    int32 AgentParam = 15; //IsRobot=0 代理的机器人ID; IsRobot=1 代理发炮的真人ID;
+    int32 TargetSel = 16;  //瞄准
+    int32 AutoFishing = 17;//自动
+    int32 FireRate = 18;  //倍速
+    int32 PranaPercent = 19;  //能量炮蓄池
+    int32 NiceId = 20;
+    repeated int32 RobotSnIds = 21; //代理的机器人们
+}
+//房间信息
+message SCFishingRoomInfo {
+    int32 RoomId = 1;      //房间id
+    int32 Creator = 2;     //创建者SnId
+    int32 GameId = 3;      //游戏id
+    int32 RoomMode = 4;    //游戏模式
+    repeated int32 Params = 5;      //规则参数
+    int32 NumOfGames = 6;  //当前第几局
+    repeated int32 Cards = 7;       //转盘数据
+    int32 State = 8;       //房间当前状态
+    int32 TimeOut = 9;     //等待剩余时间 单位:毫秒
+    int32 DisbandGen = 10; //解散申请
+    int32 AgentId = 11;    //代开房者
+    repeated int32 MatchParams = 12; //比赛参数
+    int32 SceneType = 13;  //房间模式 1:初级模式 3:高级模式
+    repeated FishingPlayerData Players = 14; //房间内的玩家信息
+    int32 GameFreeId = 15;
+    int32 FrozenTick = 16; //冰冻时间
+    int64 JackpotPool = 17; //奖金池
+}
+//玩家操作
+//开炮 OpCode:0 Params:{炮火的X方向,炮火的Y方向,子弹编号,子弹倍率}
+//命中 OpCode:1 params:{子弹编号,鱼ID,鱼ID,鱼ID,鱼ID,鱼ID,鱼ID,鱼ID}
+//切换倍率 OpCode:2 Params:{每一击金币数量}
+//切换VIP鱼炮 OpCode:3 Params:{VIP}
+//机器人开炮 OpCode:4 Params:{机器人ID,炮火的X方向,炮火的Y方向,子弹编号,子弹倍率}
+//机器人命中 OpCode:5 params:{机器人ID,子弹编号,鱼ID,鱼ID,鱼ID,鱼ID,鱼ID,鱼ID,鱼ID}
+//切后台 OpCode:6
+//切前台 OpCode:7
+//自动 OpCode:8 params:{自动}
+//瞄准 OpCode:9 params:{瞄准}
+//倍速 OpCode:10 params:{倍速}
+//机器人瞄准 OpCode:11 params:{机器人ID,瞄准}
+
+message CSFishingOp {
+    int32 OpCode = 1; //操作码
+    repeated int64 Params = 2; //操作参数
+}
+message SCFishingOp {
+    int32 OpCode = 1; //操作码
+    repeated int64 Params = 2; //操作参数
+    OpResultCode OpRetCode = 3;		//返回错误码
+    int32 SnId = 4;
+}
+
+//FISHING_SC_FIRE
+message SCFire {
+    int32 Snid = 1;
+    int32 X = 2;//炮火的方向
+    int32 Y = 3;//炮火的方向
+    int32 Bulletid = 4; //子弹ID
+    int32 Power = 5; //子弹倍率
+	int64 CurrentPlayerCoin = 6; //当前玩家的金币
+
+}
+//FISHING_SC_FIREHIT
+message SCFireHit{
+    int32 Snid = 1;
+    repeated int32 FishId = 2;  //鱼ID
+    repeated int32 Coin = 3;    //获得的金币
+    repeated int32 Item = 4;    //获得的道具
+    int32 Money = 5;   //获得的钻石
+    int64 Ts = 6;      //时间戳
+    int32 Event = 7;   //事件ID
+    int32 EventFish = 8;   //事件鱼
+	int64 CurrentPlayerCoin = 9; //当前玩家的金币
+	int32 EventCoin = 10;  //事件鱼自身的金币(用户弹暴富累加用)
+	int32 Power = 11;  //炮倍
+}
+
+//FISHING_SC_TREASURECHESTEVENT
+message SCTreasureChestEvent {
+    int32 Snid = 1; // 玩家ID
+    repeated int32 Reward = 2; // 对应奖励倍数集合
+    int64 CurrentPlayerCoin = 3; //当前玩家的金币
+}
+
+//FISHING_SC_FIREMISS
+message SCFireMiss{
+    int32 FishId = 1;  //鱼id
+    int32 Rate = 2;    //击杀概率,-1表示鱼不存在
+}
+
+//FISHING_SC_FIREPOWER
+message SCFirePower{
+    int32 Snid = 1;
+    int32 Power = 2;//每一击金币数量
+    bool RobitFire = 3;//机器人能否开火
+    int32 TargetPower = 4;//机器人目标倍率
+}
+//FISHING_SC_SELVIP
+message SCSelVip{
+    int32 Snid = 1;
+    int32 Vip = 2;//选择的VIP鱼炮
+}
+//房间状态
+message SCFishingRoomState {
+    int32 State = 1;       //房间当前状态
+    int32 SubState = 2;    //房间当前子状态
+    repeated int32 Params = 3;      //状态参数
+}
+//座位数据
+message SCFishingSeats {
+    repeated FishingPlayerData Data = 1; //房间当前状态
+}
+//进入房间
+message SCfishingEnter{
+    FishingPlayerData Data = 1; //新用户
+}
+//退出房间
+message SCfishingLeave{
+    int32 SnId = 1; //用户
+}
+//fishid定义：policyid*1000000 + DB_Policyx.Id*100 + 单行的自增长id
+message SCSyncRefreshFish {
+    int32 PolicyId = 1; //
+    int32 TimePoint = 2;
+    int32 RandomSeed = 3; //当前随机种子
+}
+
+message SyncRefreshFishInfo {
+    int32 TemplateId = 1; //  需要更新鱼的ID 用于在配置表中 查询具体数据  例如 ： 7004，7005，7006
+    int32 Num = 2;        //  当前这类鱼需要更新的数量
+}
+
+
+message SCNewSyncRefreshFish {
+    int32 PolicyId = 1; // 当前对用的场景策略ID
+    repeated SyncRefreshFishInfo info = 2 ;  // 需要更新的鱼的信息
+    int32 LatestID = 3;
+    int32 RandomSeed = 4; //当前随机种子
+}
+
+
+//FISHING_SC_FISHERENTER
+message FishInfo {
+    int32 FishID = 1;
+    int32 Path = 2;
+    int32 PolicyId = 3;
+    int32 BirthTime = 4;
+    int32 HpRatio = 5;    //当前血条比例 需要除以100显示
+}
+//FISHING_CS_LOADCOMPLETE
+message CSLoadComplete {
+}
+message SCFishesEnter {
+     int32 PolicyId = 1;
+     repeated FishInfo Fishes = 2;
+     int32 IceSec = 3; //冰冻时间(秒)
+     int32 TimeTick = 4;
+}
+//冻结 FISHING_CS_FREEZE
+message CSFreeze {
+}
+message SCFreeze {
+    int32 SnId = 1; //
+    int32 FishId = 2;//0：道具冰冻 非0：冰冻鱼ID
+}
+//屏幕中的鱼 FISHING_CS_FISHVIEW
+message CSFishView {
+    repeated int32 Fishs = 1;       //事件触发后收集的鱼
+    string Sign = 2;       //标记
+    int32 EventFish = 3;   //事件鱼
+    int32 SnId = 4;        //玩家SnId
+}
+message SCFishView {
+    int32 FishID = 1;//鱼类型 0:所有的鱼 非0:固定ID类型的鱼
+    int32 Sign = 2;//回传标记
+}
+//瞄准
+message CSFishTarget{
+    int32 FishId = 1;
+    int32 RobotId = 2;
+}
+message SCFishTarget{
+    int32 SnId = 1;
+    int32 FishId = 2;
+}
+
+message PlayerPowerState {
+    int32 Snid = 1;   // 玩家ID
+    int32 State = 2;  // 炮台状态
+    int32 Num = 3;    // 炮台剩余数量
+}
+
+// 更新当前玩家炮台状态
+message SCPowerState {
+    repeated PlayerPowerState PowerState  = 1;
+}
+
+// 鱼已经死亡返回鱼分 FISHING_SC_FishDel
+message SCFishDel{
+    int32 FishId = 1;
+    int32 Coin = 2; // 返回发炮金币
+    int64 CurrentPlayerCoin = 3; //当前玩家的金币v
+    int32 Snid = 4;
+}
+
+// 通知客户端该条鱼是奖金鱼 FISHING_SC_JACKPOTFishDel
+message SCJackpotFish{
+    repeated int32 FishIds = 1;
+}
+
+//  FISHING_CS_LOOKLOCKFISH
+message CSLookLockFish{
+
+}
+
+//  FISHING_SC_LOOKLOCKFISH
+message SCLookLockFish{
+    repeated int32 FishId = 1;
+    repeated int32 FishIdNum = 2;
+}
+
+// FISHING_SC_PRANACHANGE 通知客户端能量炮蓄池变化
+message SCSendReadyPrana{
+    int32 SnId = 1;
+    int32 Percent = 2;
+}
+
+//  FISHING_CS_REALYPRANA  = 5027; // 放置能量炮炮台
+message CSReadyPrana{
+    int32 SnId = 1;
+    int32 X = 2;
+    int32 Y = 3;
+}
+//    FISHING_SC_REALYPRANA  = 5028; // 放置能量炮炮台
+message SCReadyPrana{
+    int32 SnId = 1;
+    OpResultCode OpRetCode = 2;		//返回错误码
+    int32 X = 3;
+    int32 Y = 4;
+}
+//    FISHING_CS_FIREPRANA = 5029;   // 发射能量炮
+message CSFirePrana{
+    int32 SnId = 1;
+    repeated int32 FishIds = 2; // 碰撞的鱼
+    int32 X = 3;
+    int32 Y = 4;
+}
+//    FISHING_SC_FIREPRANA = 5030;   // 发射能量炮
+message SCFirePrana{
+    int32 SnId = 1;
+    OpResultCode OpRetCode = 2;
+    int32 X = 3;
+    int32 Y = 4;
+}
+
+// FISHING_SC_JACKPOTCOIN = 5032
+message SCJackpotCoin{
+    int32 SnId = 1;
+    int32 Coin = 2;
+    int32 JackpotLevel = 3;
+    string Name = 4;
+}
+
+// FISHING_SC_JACKPOTPOOLCHANGE = 5031; // 奖池变化
+message SCJackpotPool{
+   int64 Coin = 1;
+}
+
+// FISHING_SC_RETPRANACOIN
+message SCRetPranaCoin{
+   int32 SnId = 1;
+   int64 Coin  = 2;
+}
+
+//FISHING_SC_REBINDAGENT
+message SCReBindAgent{
+    int32 PlayerSnid = 1;  //真实玩家snid
+    int32 RobSnid = 2;     //对应机器人snid
+}
+
+
+message SCRobotBehavior{
+    int32 Code = 1 ; // 机器人行为ID 0:停止开炮
+    int32 RobotId = 2; //机器人ID
+}
+
+//FISHING_SC_SCSYNCFISHCOIN
+message SCSyncFishCoin{
+    int32 FishId = 1;  //鱼id
+    int64 Coin = 2;    //鱼奖金
+}
+
+//FISHING_SC_SYNCFISHHP
+message FishHpInfo {
+    int32 FishID = 1;
+    int32 HpRatio = 2;    //当前血条比例 需要除以100显示
+}
+message SCSyncFishHp{
+    repeated FishHpInfo HpInfo = 1; //鱼的血量
+}
